@@ -42,7 +42,6 @@ jQuery(document).ready(function($) {
 			mode = 'post';
 		}
 
-		mode = 'random'
 
 		switch(mode) {
 			case 'random':
