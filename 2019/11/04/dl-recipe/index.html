@@ -1,0 +1,889 @@
+<!--
+	作者：Sariay
+	时间：2018-09-25
+	描述：There may be a bug, but don't worry, QiLing(器灵) says that it can work normally!
+-->
+<!DOCTYPE html>
+<html class="html-loading">
+		
+
+<head>
+	<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <title>
+    
+      翻译：A Recipe for Training Neural Networks | cowarder-Blog
+    
+  </title>
+  <meta name="author" content="cowarder">
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+	<!-- favicon -->
+  <link rel="shortcut icon" href="/img/favicon.ico">
+
+  <!-- css -->
+  <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/Annie.css">
+  
+  <!-- jquery -->
+	<script src="/js/jquery.min.js"></script>
+
+  <!-- leancloud -->
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+<script src="/js/leancloud.js"></script>
+</head>
+	<body>
+		<!-- Preloader -->
+
+	<div id="preloader">
+		<div class="pre-container">
+			
+				<div class="spinner">
+					<div class="double-bounce1"></div>
+					<div class="double-bounce2"></div>
+				</div>
+						
+		</div>
+	</div>
+
+
+<!-- header -->
+<header class="fixbackground" data-img-mode="normal" data-normal-src="/img/7.jpg" data-random-max="110" data-random-src="https://sariay.github.io/Random-img/">
+	<div class="mask">
+		<!-- Logo and navigation -->
+		<div class="h-header">
+			<div id="logo">
+				<a href="/">
+						
+						<img src="/img/logo.png" alt="Logo">
+					
+				</a>
+			</div>
+			
+			<div id="navigation-show">
+				<ul>
+	
+		<li class="menu-home">
+			<a href="/" class="menu-item-home">主页</a>
+		</li>
+	
+		<li class="menu-archive">
+			<a href="/archives" class="menu-item-archive">归档</a>
+		</li>
+	
+		<li class="menu-categories">
+			<a href="/categories" class="menu-item-categories">分类</a>
+		</li>
+	
+		<li class="menu-tags">
+			<a href="/tags" class="menu-item-tags">标签</a>
+		</li>
+	
+		<li class="menu-about">
+			<a href="/about" class="menu-item-about">关于</a>
+		</li>
+	
+		<li class="menu-gallery">
+			<a href="/gallery" class="menu-item-gallery">相册</a>
+		</li>
+	
+
+	
+		<li class="menu-search">
+			<a href="javascript:;" class="popup-trigger">搜索</a>
+		</li>
+	
+</ul>
+			</div>				
+		</div>
+
+		<!-- motto -->
+		<div class="h-body">	
+			
+				<p class="motto"></p>
+			
+		</div>
+		
+		<!-- others: such as time... -->			
+		<div class="h-footer">
+			<a href="javascript:;" id="read-more"><i class="fa fa-angle-double-down" aria-hidden="true"></i>
+			</a>
+
+			
+				<!-- 
+	This is only a demo, please go to "https://time.is" to set your city time! 
+-->
+<style type="text/css">
+	.header-date {
+		font-size: 1.6rem;
+		color: #fff;
+		position: absolute;
+		bottom: 5px;
+		right: 1rem;
+		writing-mode: tb-rl;
+	}	
+	
+	.header-date a {
+		border-bottom: none;
+	}
+
+	@media only screen and (max-width: 768 ) {
+		.header-date {
+			font-size: 1rem;
+		}			
+	}
+</style>
+<div class="header-date">
+	<a href="https://time.is/Beijing" target="_blank" id="time_is_link" rel="nofollow noopener" ></a>
+	<span id="Beijing_z43d"></span>
+</div>
+<script src="//widget.time.is/zh.js"></script>
+<script>
+	time_is_widget.init({
+		Beijing_z43d:{
+			template:"DATE", 
+			date_format:"year年 monthname dnum日"
+		}
+	});
+</script>
+			
+		</div>
+	</div>
+</header>
+
+<div id="navigation-hide">
+	<!-- Progress bar -->
+	<div id="progress-bar"></div>
+
+	<!-- Progress percent -->
+	<div id="progress-percentage"><h1>0.0%</h1></div>
+
+	<div class="toc-switch"><span class="switch-button">目录</span></div>
+
+	<!-- Page title -->
+	<p>
+		
+			当前文章&nbsp;:&nbsp;《翻译：A Recipe for Training Neural Networks》
+		
+	</p>
+
+	<!-- Nav trigger for navigation-H-->
+	<a class="nav-trigger"><span></span></a>
+</div>
+
+<!-- Navigation in div(id="navigation-H") -->
+<nav class="nav-container" id="cd-nav">
+	<div class="nav-header">
+		<h3>Navigation</h3>
+		<a href="javascript:;" class="nav-close"></a>
+	</div>
+	<div class="nav-body">
+		<ul>
+	
+		<li class="menu-home">
+			<a href="/" class="menu-item-home">主页</a>
+		</li>
+	
+		<li class="menu-archive">
+			<a href="/archives" class="menu-item-archive">归档</a>
+		</li>
+	
+		<li class="menu-categories">
+			<a href="/categories" class="menu-item-categories">分类</a>
+		</li>
+	
+		<li class="menu-tags">
+			<a href="/tags" class="menu-item-tags">标签</a>
+		</li>
+	
+		<li class="menu-about">
+			<a href="/about" class="menu-item-about">关于</a>
+		</li>
+	
+		<li class="menu-gallery">
+			<a href="/gallery" class="menu-item-gallery">相册</a>
+		</li>
+	
+
+	
+		<li class="menu-search">
+			<a href="javascript:;" class="popup-trigger">搜索</a>
+		</li>
+	
+</ul>
+	</div>
+	<div class="nav-footer">
+		<ul>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-github"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-weibo"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-pinterest"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-instagram"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-twitter"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="/atom.xml" target="_blank">
+				<i class="fa fa-rss"></i>
+			</a>
+		</li>
+			
+</ul>
+
+	</div>
+</nav>
+			
+		<!--main-->
+		<main>
+			<!--
+	时间：2018-11-17
+	描述：
+		插件名称：katelog.min.js
+		插件作者：KELEN
+		插件来源: https://github.com/KELEN/katelog
+-->
+
+	
+		<div class="layout-toc">
+			<div id="layout-toc">
+				<div class="k-catelog-list" id="catelog-list" data-title="文章目录"></div>
+			</div>
+		</div>
+
+		
+		<script src="/plugin/toc/katelog.min.js"></script>
+
+		
+	 
+
+<div class="layout-post">
+	<div id="layout-post">
+	<div class="article-title">
+		<i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+		
+	<a href="/2019/11/04/dl-recipe/" itemprop="url">
+		翻译：A Recipe for Training Neural Networks
+	</a>
+
+	</div>
+
+	<div class="article-meta">
+		<span>
+			<i class="fa fa-calendar"></i>
+			
+
+
+	发布于
+
+	<a href="/2019/11/04/dl-recipe/" itemprop="url">
+		<time datetime="2019-11-03T16:41:36.000Z" itemprop="datePublished">
+	  		2019-11-04
+	  </time>
+	</a>
+	&nbsp;
+
+
+
+
+
+			
+
+
+
+
+	更新于
+
+	<a href="/2019/11/04/dl-recipe/" itemprop="url">
+		<time datetime="2019-11-03T16:41:36.000Z" itemprop="dateUpdated">
+	  		2019-11-04
+	  </time>
+	</a> 
+
+
+
+		</span>
+		<span>
+			<i class="fa fa-tags"></i>
+			
+	
+		<a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class=" ">
+			深度学习
+		</a>
+	
+		
+		</span>
+		
+		
+
+
+
+	</div>
+
+	<div class="article-content" id="article-content">
+		<p>原文链接：<a href="http://karpathy.github.io/2019/04/25/recipe/" target="_blank" rel="noopener">A Recipe for Training Neural Networks</a></p>
+<h3 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h3><p>&emsp; 几周之前我发了一条推特<a href="https://twitter.com/karpathy/status/1013244313327681536?lang=en" target="_blank" rel="noopener">“最常见的神经网络错误”</a>，其中列出了几条在训练神经网络过程中常见的陷阱。这条推特比我预想的得到了更多的关注。很明显，很多人都亲身经历过”我们的网络能够work”与”我们的网络实现了state of the art的效果”之间的巨大性能差异。</p>
+<p>&emsp; 所以我觉得如果将这条推特通过博客的形式来延伸一下应该很有趣。但是我并不打算列举出那些常见的错误，我想更加深层次的探讨一下如何去避免这些错误（或者迅速修正他们）。</p>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><h4 id="1-熟悉你的数据"><a href="#1-熟悉你的数据" class="headerlink" title="1.熟悉你的数据"></a>1.熟悉你的数据</h4><p>&emsp; 构建神经网络的第一步不是去写代码，而是充分的观察你的数据，这一步至关重要。我通常喜欢花费大量时间（小时为单位）来浏览数据样本，从而了解他们的分布规律并寻找数据中可能存在的模式。幸运的是，人类的大脑是非常擅长做这类工作的。通过浏览样本，可能这次我发现数据中包含重复样本，下一次我就能发现损坏的图像/标签。同时我还会寻找数据中的不平衡和偏差问题。通常，我会按照自己的方法将数据分类，这暗示了我们最终要探索的各种数据中的结构。例如：</p>
+<p>&emsp; 仅仅采用局部特征就已经足够或者还需要全局上下文信息？<br>&emsp; 数据中会有多少种变化并且各自呈现出什么形式？<br>&emsp; 哪些变化是虚假的并通过预处理可以过滤掉？<br>&emsp; 空间位置是否重要或者我们希望将其平均池化？<br>&emsp; 数据中的细节信息有多重要？<br>&emsp; 我们能够将图像下采样到什么程度？<br>&emsp; 噪声标签数据有多少？</p>
+<p>&emsp; 除此之外，由于神经网络是数据集的压缩版本，你可以通过可视化网络预测结果来判断其来源，也就是说，如果网络预测结果与数据中观察到的现象不一致，那么就说明可能存在问题。</p>
+<p>&emsp; 一旦通过对数据的观察有了一定的感觉，就可以根据你的想法通过写一些简单的代码来搜索/过滤/排序数据，并可以可视化他们的分布以及沿任意轴向的离群值。离群值几乎总是能揭露在数据质量或者数据预处理中存在的问题</p>
+<h4 id="2-设立一个端到端的训练-评估框架-构建一个基础的baseline"><a href="#2-设立一个端到端的训练-评估框架-构建一个基础的baseline" class="headerlink" title="2.设立一个端到端的训练/评估框架+构建一个基础的baseline"></a>2.设立一个端到端的训练/评估框架+构建一个基础的baseline</h4><p>&emsp; 既然我们充分了解了我们的数据，那是不是就意味着可以开始利用ASPP、FPN、ResNet等网络来进行训练了呢？答案是“NO“。接下来一步是建立一个完整的训练/评估框架，并通过一系列的实验来确保框架的正确性。在这个阶段，最好是选择一些比较简单的模型，例如线性回归，或者是一个非常小的卷积网络。我们将要训练这个模型、可视化损失值、利用模型作出预测，并且利用明确的假设来进行一系列的消融实验。</p>
+<p><strong>Tips &amp; tricks:</strong></p>
+<ul>
+<li>​    <strong><em>固定随机数种子</em></strong>   一定要采取固定随机数种子的方法，这能够保证两次运行代码能够获得同样的结果，对于实验的复现十分重要</li>
+</ul>
+<ul>
+<li><strong><em>简化</em></strong>   确保不要在这个阶段采取一些不必要的fancy trick。比如关闭数据增强。数据增强是一种正则化策略，但是在这个阶段引入可能会带来一些愚蠢的bug</li>
+</ul>
+<ul>
+<li><strong><em>在评估过程中添加有效数据</em></strong>    当绘制验证阶段的损失值的时候，需要对整个验证数据集进行评估，而不是仅仅针对一个batch数据进行评估。我们追求的是准确性，为了确保我们的方法是明智的，有时就需要放弃部分时间效率</li>
+</ul>
+<ul>
+<li><strong><em>确保loss的初始值是正确的</em></strong>   保证损失变量拥有一个正确的初始值。比如，如果正确的初始化了最后一层，应该在初始化时为softmax设置 -log(1/n_classes)。可以为L2回归，Huber损失等导出同样的默认值</li>
+</ul>
+<ul>
+<li><strong><em>初始化</em></strong>   正确地初始化网络的最后一层。例如当你的回归目标是一些均值为50的值，那就应该将最后的偏差设置为50。如果数据不平衡，例如pos:neg的值为1:10，那就应该在logit上面设置偏差，使得网络预测初始化为0.1。正确设置这些参数将加快收敛速度并且避免了在网络训练的初期网络仅仅学习偏差的问题（hockey stick）</li>
+</ul>
+<ul>
+<li><strong><em>人为基线</em></strong>   监控评价指标而不是损失值，这些指标是人为可解释的并且可检查的(例如准确率)，尽可能评估自己设定的评价指标并在模型之间比较。</li>
+</ul>
+<ul>
+<li><strong><em>输入无关的baseline</em></strong>   训练一个输入无关的baseline（最简单的方法是将所有的输入值设置为0），这样要比实际插入数据而不将数据清零时候的效果要差。本质上是说：你的模型完全学会了从输入数据中提取信息了吗？</li>
+</ul>
+<ul>
+<li><strong><em>在小的batch上面过拟合</em></strong>   在只有少量数据的batch上面过拟合。为了这样做，我们需要增加我们模型的容量（例如添加更多的层数）并确保我们可以获取最低loss值。我也喜欢可视化预测值和真实值，确保最终它们之间能够完美的拟合，从而得到最低的loss值。如果不能够在小batch上面实现过拟合，就无法进行下一阶段</li>
+</ul>
+<ul>
+<li><strong><em>在数据传入网络之前可视化</em></strong>   可视化数据的最佳位置应当是在 output = model(input) 代码段之前。也就是说，如果你想准确可视化网络的输入内容，将原始数据张量和标签编码为可视化数据，这是唯一的可靠来源。我已经记不清这种方法曾多少次节省了我的时间并且揭露了在预处理阶段和数据增强阶段存在的问题</li>
+</ul>
+<ul>
+<li><strong><em>可视化预测动态信息</em></strong>   我喜欢在训练过程中利用固定的测试数据来可视化模型的预测结果。“动态信息”指的是这些预测结果在训练过程中如何变化，这可以在训练过程中给你更好的intuition。很多时候，如果网络以某种方式一直在摆动，这就意味着网络很难去适应你的数据，这其实揭露的是模型的不稳定性。有些时候，过高或者过低的学习率也会造成这种抖动现象</li>
+</ul>
+<ul>
+<li><strong><em>利用backprop传播来绘制依赖关系图</em></strong>   深度学习的代码中经常包含复杂的、向量化的和广播操作。我曾几次遇到的常见bug是，人们会弄错view和permute/transpose之间操作的区别，这样就在无意中搞混了批处理数据的维度。最让人难受的是，即便你这样搞错了，但是你的模型还是能够表现的很好，因为模型自己会学习去忽略这些问题。解决这个问题的方法之一是将loss设置为很小的值，例如将loss设置为样本i输出的总和，然后运行backprop过程达到输入数据，确保只在第i个样本上得到非0的梯度。同样的策略可以应用在模型方面，比如保证t时刻的模型仅仅依赖于1到t-1时刻的模型。更一般的情况下，梯度会提供给你各变量与神经网络依赖关系的信息，这在调试过程中是非常有用的。</li>
+</ul>
+<ul>
+<li><strong><em>泛化特定的代码</em></strong>   这意味着去编写一些更加泛化的代码，但是我经常看见一些人在一开始就尝试写一些“泛化”的代码，这无异于“没有金刚钻，还揽瓷器活”。我喜欢针对我现在在做的事情编写一些更加特殊化的代码，首先应该是使得代码能够跑起来，下一步才是提高它的泛化性能。一般这种情况适应于向量化代码，我总是先会写出一个完整的循环版本，然后针对每个循环逐次将代码向量化。</li>
+</ul>
+<h4 id="3-过拟合"><a href="#3-过拟合" class="headerlink" title="3.过拟合"></a>3.过拟合</h4><p>&emsp; 到现在，我们已经充分了解了我们的数据，并且建立了一个端到端的训练评估系统。给定任意模型，我们能够计算我们相信的度量指标。同时我们还拥有一个输入无关的baseline，几个基础的baseline。接下来就可以迭代一个好的模型了</p>
+<p>&emsp; 我采用的寻找好的模型的方法分为两个阶段：第一个阶段是选取一个足够大的模型确保其能够针对数据做到过拟合，第二个阶段是对模型正则化。这样做的原因是：如果我们的模型不能够实现一个很低的错误率，那就可能预示着其中存在一些问题或者错误的设置。</p>
+<p><strong>Tips &amp; tricks:</strong></p>
+<ul>
+<li><strong><em>选择一个模型</em></strong>   为了达到一个较低的训练损失，应该为给定数据选择一个正确的模型结构。我的第一点建议是：<strong>别逞能</strong>。很多人上来就跟疯了一样像堆乐高似得往网络中加入各种模块，在早期一定要克制这种行为，我建议大家首先查找最相关的文献，然后将文献中最简单的结构复制粘贴到网络中，以实现良好的性能。例如在做图片分类任务的时候，直接复制粘提ResNet-50来运行就可以了</li>
+</ul>
+<ul>
+<li><strong><em>Adam是安全的优化器</em></strong>   在构建baseline的早期阶段，我喜欢采用Adam优化，并且将学习率设置为3e-4。就我的经验来说，Adam对于超参数具有更高的宽容度，包括设置的不好的学习率。对于卷积网络，一个精心调试的SGD达到的性能几乎总是优于Adam，但是最优学习率所在的区域相对更加狭窄（难以调节）并且针对特定的问题会有所变化（注意，如果你用的是RNN结构或者是类似的序列模型的话，更加应该采用RNN）</li>
+</ul>
+<ul>
+<li><strong><em>一次只复杂化一个方面</em></strong>   如果你有多个改进策略要应用到模型当中，我建议你一个一个的插入其中，并且保证每次都能使得模型获得预期的效果提升。一个有效的策略是，首先在较小的图片中实验，然后再应用到较大的图片中。</li>
+</ul>
+<ul>
+<li><strong><em>不要相信学习率衰减默认值</em></strong>   如果你要在现有的任务上复用来自其他任务的代码，一定要小心学习率衰减的设置。不但需要针对不同的问题设置不同的学习率衰减调度策略，调度策略还需要根据当前epoch来调整，因为随着数据量的不同，调度策略变化的范围就会很大。例如，ImageNet每30个epoch降低10倍，如果你不是在训练ImageNet，你一般不会这样设置。如果不小心调整代码，可能学习率就会过早的趋于0，导致模型无法收敛。在我的日常工作中，我一般会将学习率设置为一个常数，不采用学习率衰减，直到最后才会对其进行调整。</li>
+</ul>
+<h4 id="4-正则化"><a href="#4-正则化" class="headerlink" title="4.正则化"></a>4.正则化</h4><p>&emsp; 理想情况下，到目前为止，我们已经有了一个至少在训练数据集上面表现良好的模型。接下来就应该是正则化操作了。通过牺牲一些训练集上面的准确率来获得验证集上准确率的提高。</p>
+<p><strong>Tips &amp; tricks:</strong></p>
+<ul>
+<li><strong><em>获取更多的数据</em></strong>   首先，当前最好并且最流行的正则化网络模型方法就是扩充训练数据。耗费大量的工程周期来从小数据集中压榨模型效果是一个常见的错误，而你原本可以通过收集更多的数据来达到同样的效果。据我所知，增加训练数据几乎是无限提高神经网络性能的唯一保证方法（另外一个是ensemble）</li>
+</ul>
+<ul>
+<li><strong><em>数据增强</em></strong>   尝试一些更加随意的数据增强手段</li>
+</ul>
+<ul>
+<li><strong><em>预训练</em></strong>   如果你有足够多的数据，预训练一般不会使你的模型效果更差</li>
+</ul>
+<ul>
+<li><strong><em>坚持使用监督学习</em></strong>   不要对无监督学习保太大期望。据我所知，无监督学习在现代计算机视觉任务上面并没有取得好的效果（即便是Bert在NLP任务上面取得了好的效果，但是可能只是由于文本的重复性特性和更高的信噪比）</li>
+</ul>
+<ul>
+<li><strong><em>更小的输入维度</em></strong>   删除可能包含虚假信号的特征。如果数据集很小，则添加任何虚假信号都有可能过拟合。同样的，如果底层细节不重要，那么可以尝试输入较小的图像。</li>
+</ul>
+<ul>
+<li><strong><em>更小的模型体积</em></strong>   很多情况下，你可以利用先验知识的限制来降低模型的体积。例如，过去常常在backbone的最上层采用一个全连接网络，但是如今却被简单的平均池化所代替，从而消除了大量的参数。</li>
+</ul>
+<ul>
+<li><strong><em>更小的batch size</em></strong>   由于batch normalization中的归一化，更小的batch size一定程度上对应更强的正则化。因为batch上面的经验均值/标准差更近似于全局的均值/标准差，小的batch会带来更大的抖动</li>
+</ul>
+<ul>
+<li><strong><em>dropout</em></strong>   对卷积采用2维dropout，但是在采用dropout的时候要注意，因为在有batch norm的时候，<a href="https://arxiv.org/abs/1801.05134" target="_blank" rel="noopener">dropout表现的不好</a> </li>
+</ul>
+<ul>
+<li><strong><em>权重衰减</em></strong> 增加权重衰减惩罚</li>
+</ul>
+<ul>
+<li><strong><em>early stopping</em></strong>   通过验证集损失的变化来停止训练，避免过拟合</li>
+</ul>
+<ul>
+<li><strong><em>尝试采用更大的模型</em></strong>   我在最后才提这一点，因为我在实验中确实会发现更大的模型会导致过拟合，但是由于有了early stopping策略，大的模型往往会比小的模型效果好，所以我将其放在early stopping后面</li>
+</ul>
+<p>&emsp; 最后，为了证明你训练的是一个合理的分类器，我喜欢可视化网络第一层的权重，确保在这一层你能够获得一些有意义的图像边缘信息。如果在第一层就显得杂乱无章的话，可能就意味着出现了某些问题。同样，内部激活函数输出内容有时也会展现出来一些奇怪的现象，对应着预示了一些问题。</p>
+<h4 id="5-调整"><a href="#5-调整" class="headerlink" title="5.调整"></a>5.调整</h4><p>&emsp; 现在，你应该为了降低验证集上的损失值，而陷入了探索广阔的模型空间的循环之中。在这一步有几点建议：</p>
+<ul>
+<li><strong><em>随机的网络搜索</em></strong>   当需要调整大量超参数的时候，采用网络搜索能够保证所有设置的覆盖范围，但是一定要记住最好是采用<a href="http://jmlr.csail.mit.edu/papers/volume13/bergstra12a/bergstra12a.pdf" target="_blank" rel="noopener">随机网格搜索</a>。直观上来讲，神经网络针对一部分超参数更加敏感。如果参数a更加重要而改变参数b的值没有影响，那么你宁愿进行多次采样而不是在固定点上采样</li>
+</ul>
+<ul>
+<li><strong><em>超参数优化</em></strong>   有很多精美的贝叶斯超参数优化工具，我的一些朋友也反映这些工具很好用</li>
+</ul>
+<h4 id="6-进一步提高模型效果"><a href="#6-进一步提高模型效果" class="headerlink" title="6.进一步提高模型效果"></a>6.进一步提高模型效果</h4><p>&emsp; 即便你已经找到了最好的模型结构，并且设置好了最佳的超参数，你仍可以采用一些其他的trick来提高模型的效果</p>
+<ul>
+<li><strong><em>ensemble</em></strong>   模型融合能够保证在任何任务上面大约能够获得2%的提升。如果你不能承担在测试阶段进行模型融合的计算量，可以尝试<a href="https://arxiv.org/abs/1503.02531" target="_blank" rel="noopener">知识蒸馏</a></li>
+<li><strong><em>让模型持续训练</em></strong>   当验证集上面的损失值不再降低的时候，人们往往倾向于停止训练。根据我的经验，网络可以保持长期训练。有一次我在休冬假的时候，忘记关掉网络，它就一直训练，当我休完假回来之后，发现它达到了state of the art的效果</li>
+</ul>
+<h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><p>&emsp; 当你读到这里的时候，你已经具备了成功的所有因素：你对技术、数据集、问题有了很深的理解，你已经建立起了完整的训练/评估结构，并对其准确性抱有很高的信心。并且你已经探索了更加复杂的模型，并通过上述步骤获得了性能上面的提升。现在该去读paper，做实验，创造你自己的SOTA模型了。祝好！</p>
+	
+	</div>
+	
+	<div id="current-post-cover" data-scr="/img/60.jpg"></div>
+
+	<!-- relate post, comment...-->
+	<div class="investment-container">
+		<div class="investment-header">
+			<div class="investment-title-1">
+				<div class="on">相关文章</div>
+				<div>评论</div>
+				<div>分享</div>
+			</div>
+			<div class="investment-title-2">	            
+				
+	<span>
+		<a href="javascript: window.scrollTo(0, 0);">返回顶部</a>
+		
+		
+			<a href="/2019/10/29/Gradient-Accumulation/" title="梯度累加(Gradient Accumulation)" rel="next">
+				下一篇&raquo;
+			</a>
+			
+	</span>
+
+
+      		
+			</div>	
+		</div>
+		
+		<div class="investment-content">
+			<div class="investment-content-list">
+				
+
+<div class="relate-post">
+	
+		<ul>
+			
+					<li>
+						<div class="relate-post-text">
+							<a class="relate-post-title" href="/2019/10/29/Gradient-Accumulation/" title="梯度累加(Gradient Accumulation)">
+								梯度累加(Gradient Accumulation)			
+							</a>
+							<p class="relate-post-date">
+								<i class="fa fa-calendar"></i>
+								十月 29日, 2019				
+							</p>
+							<p class="relate-post-content">
+								&emsp;  我们在训练神经网络的时候，超参数batch size的大小会对最终的模型效果产生很大的影响。一定条件下，batch size设置的越大，模型就会越稳定。batch size的值通常设置在 8-32 之间，但是当我们做一...
+							</p>
+						</div>
+
+						<div class="relate-post-cover">
+							<a href="/2019/10/29/Gradient-Accumulation/" title="梯度累加(Gradient Accumulation)">				
+								
+								<img class="lazy" src="/img/placeholder.jpg" data-src="/img/60.jpg" alt="梯度累加(Gradient Accumulation)"/>
+							</a>
+						</div>
+					</li>											
+			
+			
+		</ul>
+	
+</div>	
+			</div>
+			<div class="investment-content-list">
+				<div class="layout-comment">
+
+	
+
+		
+
+			<!-- I don't know !!!-->
+			<div>Please check the comment setting in config.yml of hexo-theme-Annie!</div>
+			
+		
+		
+	
+
+</div>
+			</div>
+			<div class="investment-content-list">
+				<div class="layout-share">
+	
+	
+
+		
+			
+			<!-- socialShare share -->
+			<div class="social-share"></div>
+
+<!--  css & js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+			
+		
+		
+	
+</div>
+
+
+			</div>
+		</div>	
+	</div>
+	</div>
+</div>
+
+
+
+	<!-- leancloud -->
+	<!--
+	时间：2018-11-27
+	描述：
+		文章访问量：visitors
+		文章喜欢量：likes	
+		文章排行榜：topNPost
+		其他得说明：
+			01-Cookie相关的函数 
+				https://blog.csdn.net/somehow1002/article/details/78511541（Author：somehow1002）
+			02-visitors相关的函数 
+				https://blog.csdn.net/u013553529/article/details/63357382（Author：爱博客大伯）
+				https://notes.doublemine.me/2015-10-21-为NexT主题添加文章阅读量统计功能.html（Author：夏末）
+			03-topNPost相关的函数
+				https://hoxis.github.io/hexo-next-read-rank.html（Author：hoxis）
+			04-likes相关的函数，
+				参考了01 & 02进行简单的设计与实现
+-->
+
+
+	
+
+
+<!-- show math formula -->
+
+
+
+	 
+	<script src="/plugin/clipboard/clipboard.js"></script>
+	<script>
+		// Copy code !
+	    function codePreprocessing() {
+	        $("#article-content .highlight").each(function() {
+
+	            $(this).wrap('<div id="post-code"></div>');
+
+	        })
+
+	        $("#article-content #post-code").each(function() {
+
+	            $(this).prepend('<nav class="copy-nav"><span><i class="code-language"></i></span></nav>');
+
+	        })
+
+	        $("#article-content .copy-nav").each(function() {
+	            var temp = $(this).next().attr('class'),
+	                language = ((temp.length > 9) && (temp != null)) ? temp.substr(10) : "none"; //why 9? Need to check language?
+
+	            $(this).find('.code-language').text(language);
+
+	            $(this).append('<span class="copy-btn"><i class="fa fa-copy" aria-hidden="true"></i></span>');
+
+	        });
+	    }
+
+		function codeCopy() {
+		    $('#article-content #post-code').each(function(i) {
+		        var codeCopyId = 'codeCopy-' + i;
+
+		        var codeNode = $(this).find('.code'),
+		            copyButton = $(this).find('.copy-btn');
+
+		        codeNode.attr('id', codeCopyId);
+		        copyButton.attr('data-clipboard-target-id', codeCopyId);
+		    })
+
+		    
+			var clipboard = new ClipboardJS('.copy-btn', {
+					target: function(trigger) {
+						return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+					}
+		      	});
+
+			//pure js
+			function showTooltip(elem, msg) {		   
+				elem.setAttribute('aria-label', msg);
+				elem.setAttribute('class', 'copy-btn copy-status');
+				setTimeout(function() {
+					elem.setAttribute('class', 'copy-btn');
+				}, 2000);
+			}
+
+			clipboard.on('success', function(e) {
+			    e.clearSelection();
+			    console.info('Action:', e.action);		   
+			    console.info('Trigger:', e.trigger);
+			    showTooltip(e.trigger, 'Copied!');
+			    
+			});
+			clipboard.on('error', function(e) {
+			    console.error('Action:', e.action);
+			    console.error('Trigger:', e.trigger);
+			});
+		
+
+		}
+
+		if ($('.layout-post').length) {
+		    codePreprocessing();
+		    codeCopy();
+		} 
+	</script>
+
+
+
+
+
+<link rel="stylesheet" href="/plugin/fancybox/jquery.fancybox.css">
+<script src="/plugin/fancybox/jquery.fancybox.js"></script>
+
+<script type="text/javascript">
+	var titleID = $('.article-title a'),
+		imageID = $('.article-content img'),
+		videoID = $('.article-content video');
+
+	var postTitle = titleID.text() ? titleID.text() : "No post title!";
+
+	imageID.each(function() {
+		var imgPath = $(this).attr('src'),
+			imgTitle = $(this).attr('alt') ? $(this).attr('alt') : "No image description!";
+
+		//给每个匹配的<img>元素打包, 即添加父元素<a>
+		$(this).wrap('<a data-fancybox="gallery" data-caption=" 《 ' + postTitle + ' 》 ' + imgTitle + ' "  href=" ' + imgPath + ' "> </a>');
+	});
+
+	videoID.each(function() {
+		var videoPath = $(this).attr('src');
+
+		//给每个匹配的<img>元素打包, 即添加父元素<a>
+		$(this).wrap('<a data-fancybox href=" ' + videoPath + ' "> </a>');
+	});
+	//TODO：支持html5 video
+
+	if($('#layout-post').length) {
+		$('[data-fancybox="gallery"]').fancybox({
+			loop: true,
+			buttons: [
+				"zoom",
+				"share",
+				"slideShow",
+				"fullScreen",
+				//"download",
+				"thumbs",
+				"close"
+			],
+			protect: false
+		});
+	}
+</script>
+		</main>
+
+		<!--footer-->
+		<footer>
+	<div class="social">
+		<ul>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-github"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-weibo"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-pinterest"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-instagram"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="http://github.com/" target="_blank">
+				<i class="fa fa-twitter"></i>
+			</a>
+		</li>
+	
+		<li>
+			<a href="/atom.xml" target="_blank">
+				<i class="fa fa-rss"></i>
+			</a>
+		</li>
+			
+</ul>
+
+	</div>
+		
+	<div class="copyright">
+		<p>
+			 
+				&copy;2017 - 2019, content by cowarder. All Rights Reserved.
+			
+			
+			
+
+	<!-- busuanzi -->
+	<!-- busuanzi -->
+
+		
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	
+
+		<span id="busuanzi_container_page_pv">
+	  		本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+		</span>
+
+	
+
+
+
+
+		</p>
+		<p>
+			<a href="http://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a> Theme <a href="https://github.com/Sariay/hexo-theme-Annie" title="Annie" target="_blank" rel="noopener">Annie</a> by Sariay.
+			<a href="javascript:zh_tran('s');" class="zh_click" id="zh_click_s">简体</a> 
+			<a href="javascript:zh_tran('t');" class="zh_click" id="zh_click_t">繁體</a>				
+		</p>
+	</div>		
+</footer>
+		
+	<!-- set '1' to show motto in all pages! -->
+
+	<script src="/plugin/motto/motto.js"></script>
+	
+	<script type="text/javascript">
+		$(".motto").html( getMingYanContent() );
+	</script>	
+
+
+
+
+	<!--
+	时间：2018-10-3
+	描述：
+		插件名称：hexo-generator-search-zip
+		插件来源: https://github.com/SuperKieran/hexo-generator-search-zip
+		代码参考：https://github.com/SuperKieran/TKL/blob/master/layout/_partial/search.ejs(Include: js & css)	
+-->
+<div class="popup search-popup local-search-popup" >
+	<div class="local-search-container">
+		<span class="popup-btn-close">
+      		ESC
+   		</span>
+		<div class="local-search-header">
+			<div class="input-prompt">				
+			</div>
+			<input autocomplete="off" placeholder="Search..." type="text" id="local-search-input">
+		</div>
+		<div class="local-search-body">
+			<div id="local-search-output"></div>
+		</div>
+		<div class="local-search-footer">
+			<div class="topN-post">				
+				
+								
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="/plugin/search/ziploader.js"></script>
+<script src="/plugin/search/search.js"></script>
+
+<script type="text/javascript">
+	var search_path = 'search.json',
+		zip_Path = '/search.zip',
+		version_Path = '/searchVersion.txt',
+		input_Trigger = 'auto',
+		top_N = '2';
+
+	themeLocalSearch({
+		search_path, 
+		zip_Path, 
+		version_Path, 
+		input_Trigger, 
+		top_N
+	});
+</script>
+
+
+<!-- love effect -->
+
+	<script src="/plugin/love/love.js"></script>
+
+
+<!-- back to top -->
+
+	
+	<div id="totop">
+  		<a href="javascript:;"  name="TOTOP" class="fa fa-arrow-up" ></a>
+	</div>
+
+
+
+
+<!-- site analysis -->
+
+
+	<!-- site-analysis -->
+	
+
+	
+	
+	
+	
+ 
+
+<script src="/plugin/vibrant/vibrant.js"></script>
+<script src="/plugin/chinese/chinese.js"></script>
+<script src="/plugin/imgLazyLoader/yall.min.js"></script>
+<script src="/plugin/imgResize/jquery.resizeimagetoparent.min.js"></script>
+<script src="/plugin/nicescroll/jquery.nicescroll.js"></script>
+<script src="/js/resizediv.js"></script>
+<script src="/js/main.js"></script>
+	</body>	
+</html>
