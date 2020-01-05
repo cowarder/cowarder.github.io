@@ -134,6 +134,44 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/12/10/bayes-optim/" target="_self">
+          <img src="/img/bayes.png" srcset="undefined" alt="贝叶斯优化" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/12/10/bayes-optim/">
+        <p class="h4 index-header">贝叶斯优化</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">深度学习或者机器学习中一个老生常谈的问题就是调参，许多机器学习算法工程师经常戏称自己为“炼丹工程师”，调参过程也就变成了“炼丹”。何谓炼丹？如何调配出一副“仙药”只能靠尝试不同的配方，根据最终的效果(会不会吃死人)来进行改进。
+然后大家渐渐感觉这种炼丹方法不太行。太上老君这种老头为什么能炼金丹？主要是他活得太久，尝试的错误太多，经验也就渐渐积累起来了，放到算法工程师身上情况同样适应，经验丰富的调参手往往一发入魂，新手就是摸着石头过河，难以估计深浅。所以，大家都开始渐渐地意识到自动化调参的必要性，对于个人来说，可以节省大量的时间，去做更多更加有意义的事情(学习)。对公司来说，如果能够实现自动化超参数调整的话，就不必雇佣经验丰富的算法工程师来做相关工作，大大节省了人力成本。
+目前来讲，主流的自动调参算法有Grid Search(网格搜索)、Random Search(随机搜索)、Bayesian Optimization(贝叶斯优化)。随机搜索是最简单的调参算法，但是由于是随机的，往往效果不稳定，波动比较大。网格搜索需要人为定义搜索空间，并且对所有参数进行组合，仍然依赖经验，搜索的时间成本</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-10&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0">深度学习</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2019/11/30/two-stage-detection/" target="_self">
           <img src="/img/faster-RCNN.png" srcset="undefined" alt="两阶段目标检测算法" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -339,7 +377,7 @@ In contrast to prevalent methods [8], [9], [1], [2] that use pyramids of images 
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -348,7 +386,7 @@ In contrast to prevalent methods [8], [9], [1], [2] that use pyramids of images 
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
           <label data-error="x" data-success="v"
-                 for="local-search-input">keyword</label>
+                 for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
@@ -485,6 +523,32 @@ In contrast to prevalent methods [8], [9], [1], [2] that use pyramids of images 
   </script>
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
 
 
 
