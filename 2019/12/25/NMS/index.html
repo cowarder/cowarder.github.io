@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="cowarder">
   <meta name="keywords" content="">
-  <title>Category ~ cowarder</title>
+  <title>NMS(非极大值抑制算法) ~ cowarder</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -36,7 +36,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -96,7 +96,7 @@
 </nav>
 
     <div class="view intro-2" id="background"
-         style="background: url('/img/default.png')no-repeat center center;
+         style="background: url('/img/sub_main_page.jpg')no-repeat center center;
            background-size: cover;
            background-attachment: fixed;">
       <div class="full-bg-img">
@@ -106,6 +106,34 @@
               
             </span>
 
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Wednesday, December 25th 2019, 3:56 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    520 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      2 分钟
+                  </span>&nbsp;
+                
+
+                
+              </p>
             
           </div>
 
@@ -117,22 +145,113 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h3 id="什么是NMS算法？"><a href="#什么是NMS算法？" class="headerlink" title="什么是NMS算法？"></a>什么是NMS算法？</h3><p>非极大值抑制NMS(Non-maximum Suppression)算法是目标检测任务中一个不可或缺的模块，目标检测的任务是输入一幅图片，利用不同大小、不同尺寸的矩形框找出图片中对应的目标物体。</p>
+<center>
+<img src="/2019/12/25/NMS/od.png" srcset="undefined" height="300"> 
+</center>
+
+<p>但是在实际的检测过程中，我们的检测算法往往会针对一个目标物体，框出许多检测框。</p>
+<center>
+<img src="/2019/12/25/NMS/multi-od.png" srcset="undefined" height="300"> 
+</center>
+
+<p>但是我们最终对于每个物体实例，最理想的情况下只需要保留一个最佳的边界框，这就应用到了我们的NMS算法。NMS算法通过选定一个得分(confidence score)最高的边界框，过滤掉(抑制)与其相近的其他边界框，并给出相应框对应的类别。</p>
+<center>
+<img src="/2019/12/25/NMS/NMS.png" srcset="undefined"> 
+</center>
+
+<h3 id="NMS算法的流程"><a href="#NMS算法的流程" class="headerlink" title="NMS算法的流程"></a>NMS算法的流程</h3><blockquote>
+<ol>
+<li>输入：边界框集合$\textbf{B}$，对应的IOU阈值$\textbf{T}$</li>
+<li>新建一个空的集合$\textbf{D}$，用于保存最终的结果</li>
+<li>将$\textbf{B}$中的边界框按照得分由高到低排序</li>
+<li>选取$\textbf{B}$中得分最高的边界框$\textbf{m}$，放到$\textbf{D}$中</li>
+<li>计算$\textbf{B}$中剩余边界框与$\textbf{m}$的IOU值，IOU大于$\textbf{T}$的从$\textbf{B}$中拿出过滤掉</li>
+<li>重复步骤4-5，直到$\textbf{B}$为空</li>
+<li>输出：最终保留的边界框集合$\textbf{D}$</li>
+</ol>
+</blockquote>
+<p>这里我们利用YOLOV3里面的NMS实现来进一步说明NMS算法的具体运行过程。</p>
+<pre><code class="python">def nms(boxes, nms_thresh):
+      # boxes是我们预测的边界框的集合，nms_thresh对应的NMS算法的阈值
+    res = []
+    # 将预测的张量转换为numpys matrix数据格式
+    for box in boxes:
+        temp = []
+        for item in box:
+            if torch.is_tensor(item):
+                item = float(item.cpu().data.numpy())
+            temp.append(item)
+        res.append(temp)
+    boxes = res
+    conf = np.zeros(len(boxes))
+    for i in range(len(boxes)):
+        conf[i] = boxes[i][4]
+    sortIndex = list(reversed(np.argsort(conf)))
+    out_boxes = []
+    for i in range(len(sortIndex)):
+        box_i = boxes[sortIndex[i]]
+        if box_i[4] &gt; 0:
+            out_boxes.append(box_i)
+            for j in range(i+1, len(sortIndex)):
+                box_j = boxes[sortIndex[j]]
+                iou = cal_iou(box_i, box_j)
+                if iou &gt; nms_thresh:
+                    box_j[4] = 0    # 置信度置为0，就是过滤掉对应的边界框
+    return np.array(out_boxes)</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
                 
-
-
-
-
-              </div>
-            </div>
+                  <a class="hover-with-bg" href="/tags/object%20detection">object detection</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -197,6 +316,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -237,7 +361,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Category&nbsp;",
+        "NMS(非极大值抑制算法)&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

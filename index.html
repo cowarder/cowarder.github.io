@@ -134,6 +134,63 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/12/25/NMS/" target="_self">
+          <img src="/img/nms.png" srcset="undefined" alt="NMS(非极大值抑制算法)" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/12/25/NMS/">
+        <p class="h4 index-header">NMS(非极大值抑制算法)</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">什么是NMS算法？非极大值抑制NMS(Non-maximum Suppression)算法是目标检测任务中一个不可或缺的模块，目标检测的任务是输入一幅图片，利用不同大小、不同尺寸的矩形框找出图片中对应的目标物体。
+
+ 
+
+
+但是在实际的检测过程中，我们的检测算法往往会针对一个目标物体，框出许多检测框。
+
+ 
+
+
+但是我们最终对于每个物体实例，最理想的情况下只需要保留一个最佳的边界框，这就应用到了我们的NMS算法。NMS算法通过选定一个得分(confidence score)最高的边界框，过滤掉(抑制)与其相近的其他边界框，并给出相应框对应的类别。
+
+ 
+
+
+NMS算法的流程
+
+输入：边界框集合$\textbf{B}$，对应的IOU阈值$\textbf{T}$
+新建一个空的集合$\textbf{D}$，用于保存最终的结果
+将$\textbf{B}$中的边界框按照得分由高到低排序
+选取$\textbf{B}$中得分最高的边界框$\textbf{m}$，放到$\textbf{D}$中
+计算$\textbf{B}$中剩余边界框与$\textbf{m}$的IOU值，IOU大于$\textbf{T</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-25&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/object%20detection">object detection</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2019/12/10/bayes-optim/" target="_self">
           <img src="/img/bayes.png" srcset="undefined" alt="贝叶斯优化" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -377,7 +434,7 @@ In contrast to prevalent methods [8], [9], [1], [2] that use pyramids of images 
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -386,7 +443,7 @@ In contrast to prevalent methods [8], [9], [1], [2] that use pyramids of images 
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
           <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
+                 for="local-search-input">keyword</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
