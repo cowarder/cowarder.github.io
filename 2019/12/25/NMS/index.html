@@ -120,7 +120,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    520 字
+                    1.3k 字
                   </span>&nbsp;
                 
 
@@ -128,7 +128,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      2 分钟
+                      5 分钟
                   </span>&nbsp;
                 
 
@@ -154,12 +154,12 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <h3 id="什么是NMS算法？"><a href="#什么是NMS算法？" class="headerlink" title="什么是NMS算法？"></a>什么是NMS算法？</h3><p>非极大值抑制NMS(Non-maximum Suppression)算法是目标检测任务中一个不可或缺的模块，目标检测的任务是输入一幅图片，利用不同大小、不同尺寸的矩形框找出图片中对应的目标物体。</p>
+            <h3 id="什么是NMS算法？"><a href="#什么是NMS算法？" class="headerlink" title="什么是NMS算法？"></a>什么是NMS算法？</h3><p>非极大值抑制NMS(Non-maximum Suppression)算法是目标检测任务中一个不可或缺的模块，目标检测的任务是输入一幅图片，利用不同大小、不同尺寸的边界框找出图片中对应的目标物体。</p>
 <center>
 <img src="/2019/12/25/NMS/od.png" srcset="undefined" height="300"> 
 </center>
 
-<p>但是在实际的检测过程中，我们的检测算法往往会针对一个目标物体，框出许多检测框。</p>
+<p>但是在实际的检测过程中，我们的检测算法往往会针对一个目标物体，框出许多边界框。</p>
 <center>
 <img src="/2019/12/25/NMS/multi-od.png" srcset="undefined" height="300"> 
 </center>
@@ -169,7 +169,7 @@
 <img src="/2019/12/25/NMS/NMS.png" srcset="undefined"> 
 </center>
 
-<h3 id="NMS算法的流程"><a href="#NMS算法的流程" class="headerlink" title="NMS算法的流程"></a>NMS算法的流程</h3><blockquote>
+<h3 id="NMS算法实现"><a href="#NMS算法实现" class="headerlink" title="NMS算法实现"></a>NMS算法实现</h3><blockquote>
 <ol>
 <li>输入：边界框集合$\textbf{B}$，对应的IOU阈值$\textbf{T}$</li>
 <li>新建一个空的集合$\textbf{D}$，用于保存最终的结果</li>
@@ -208,6 +208,42 @@
                 if iou &gt; nms_thresh:
                     box_j[4] = 0    # 置信度置为0，就是过滤掉对应的边界框
     return np.array(out_boxes)</code></pre>
+<h3 id="NMS算法的缺点"><a href="#NMS算法的缺点" class="headerlink" title="NMS算法的缺点"></a>NMS算法的缺点</h3><blockquote>
+<ol>
+<li><p>NMS算法会将相邻的两个边界框强制归零，如果两个边界框都是ground truth，就会将其中一个置信度相对较低的真实边界框过滤掉。</p>
+<center>
+<img src="/2019/12/25/NMS/soft-nms.png" srcset="undefined" height="300"> 
+</center>
+
+<p>如图所示，我们对两匹马利用检测算法分别得到了两个边界框，它们的置信度分别是0.95和0.8，红色的边界框与绿色的边界框之间的重合度非常高，这样我们很难设定一个正确的阈值。</p>
+</li>
+<li><p>NMS算法的阈值需要人为设定。这个过程需要根据模型以及数据进行调整，才能够获得一个相对良好的设定，这个过程是十分耗费时间的。</p>
+</li>
+<li><p>NMS算法一般只能在CPU上面运行，运行效率低。</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="NMS算法的改进版本"><a href="#NMS算法的改进版本" class="headerlink" title="NMS算法的改进版本"></a>NMS算法的改进版本</h3><h4 id="Soft-NMS"><a href="#Soft-NMS" class="headerlink" title="Soft-NMS"></a>Soft-NMS</h4><p>Soft-NMS的改进思路很简单，原始的NMS算法在算法实现的第五步时，对于IOU值大于阈值的边界框直接将其置信度得分置为0，可以将其视为是一个hard的NMS版本，而Soft-NMS并不是直接将其置为0，而是利用一个置信度衰减函数，降低其置信度得分，这样的话，如果有两个真实边界框，即便是它们之间的IOU值非常高，也不会将其中一个直接过滤掉，而是降低其得分，最终仍然可能被预测为真实值。</p>
+<p>$M$表示当前选择的得分最高的边界框，$b_i$表示剩余的边界框。</p>
+<p>传统的NMS算法置信度更新策略：</p>
+<p>$$ s_i=\begin{cases} s_i &amp; iou(M, b_i)&lt;N_t  \  0 &amp;  iou(M, b_i)\ge N_t \end{cases} $$</p>
+<p>Soft-NMS置信度衰减函数1：</p>
+<p>$$s_i=\begin{cases}s_i &amp;iou(M, b_i)&lt;N_t \ s_i(1-iou(M, b_i)) &amp; iou(M, b_i)\ge N_t \end{cases}$$</p>
+<p>Soft-NMS置信度衰减函数2:</p>
+<p>$$s_i = s_ie^{-\frac{iou(M, b_i)^2}{\sigma}}$$</p>
+<p>第一个衰减函数是非连续的，第二个版本的是连续的。连续函数可以避免一些突变情况的发生。</p>
+<h4 id="Adaptive-NMS"><a href="#Adaptive-NMS" class="headerlink" title="Adaptive-NMS"></a>Adaptive-NMS</h4><p>Adaptive-NMS算法对行人检测领域进行了探讨，行人检测领域两个ground truth更加容易出现overlap的情况，对Soft-NMS又进行了优化，出发点是根据图像人群的不同密度，人群密集的地方NMS算法应该设置一个较大的阈值，在阈值稀疏的地方NMS的阈值就应该较小。</p>
+<center>
+<img src="/2019/12/25/NMS/adaptive-nms.png" srcset="undefined" height="300"> 
+</center>
+
+<p>作者利用一个CNN网络，针对每个边界框，我们能够利用网络求出边界框位置对应的密度$d_M$，$N_t$仍然是我们预先设定好的阈值，阈值$N_M$取$N_t$和$d_M$的最大值，如果IOU值小于$N_M$，就是传统的NMS，而如果IOU值大于$N_M$，就利用Adaptive NMS的衰减函数来更新置信度得分。</p>
+<p>$$N_M:= max(N_t, d_m)$$</p>
+<p>$$s_i=\begin{cases}s_i, &amp;iou(M, b_i)&lt;N_M \ s_if(1-iou(M, b_i)), &amp; iou(M, b_i)\ge N_M \end{cases}$$</p>
+<p><strong>参考资料</strong><br>1.<a href="https://zhuanlan.zhihu.com/p/70771042" target="_blank" rel="noopener">Detection基础模块之（三）NMS及变体</a></p>
+<p>2.<a href="https://www.zhihu.com/question/279810883/answer/762880189" target="_blank" rel="noopener">目标检测领域NMS（非极大值抑制）的改进算法有哪些？</a></p>
+<p>3.<a href="https://towardsdatascience.com/non-maximum-suppression-nms-93ce178e177c" target="_blank" rel="noopener">Non-maximum Suppression (NMS)</a></p>
+<p>4.<a href="https://blog.csdn.net/qq_37014750/article/details/89222334" target="_blank" rel="noopener">文阅读：Adaptive NMS: Refining Pedestrian Detection in a Crowd</a></p>
 
             <hr>
           </div>
@@ -234,7 +270,7 @@
     <div class="d-none d-lg-block col-lg-2 toc-container">
       
   <div id="toc">
-    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
     <div id="tocbot"></div>
   </div>
 
@@ -267,7 +303,7 @@
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -276,7 +312,7 @@
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
           <label data-error="x" data-success="v"
-                 for="local-search-input">keyword</label>
+                 for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
