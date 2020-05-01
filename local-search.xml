@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>参数初始化</title>
+    <link href="undefined2020/01/07/param-init/"/>
+    <url>2020/01/07/param-init/</url>
+    
+    <content type="html"><![CDATA[<p>深度学习中的网络初始化指的是在训练网络之前，对每个节点的权重和偏置进行初始化的过程，一个参数的初始化关系到网络是否能够训练出好的结果以及模型收敛的速度。本文简要介绍两种常见的参数初始化方法的推导过程及原理。</p><h3 id="Xavier初始化"><a href="#Xavier初始化" class="headerlink" title="Xavier初始化"></a>Xavier初始化</h3><p>神经网络做的任务无非是将原本的样本稳定映射为它的类别，也就是将样本空间映射为类别空间，如果样本空间和类别空间差距过大，例如类别空间特别稠密，样本空间特别稀疏，那么在类别空间得到的用于反向传播的误差丢给样本空间之后就会变得微不足道，反之，如果类别空间特别稀疏，样本空间特别稠密，在类别空间得到的误差丢给样本空间之后会造成爆炸性的影响，导致模型梯度爆炸，无法收敛。因此，我们需要让类别空间和样本空间之间的分布差异不要太大，也就是它们之间的方差尽可能相等，这就是Xavier初始化的出发点。</p><p>对于 y. = wx ，假设有：<br>$$Var(Y) = Var(w_iX)=Var(w_i)*Var(X)+E^2(X)*Var(w_i)+E^2(w_i)*Var(X)\qquad(1)$$</p><p>当$X, w_i$都符合均值为0的正态分布时，$E(X),E(w_i)$均为0，公式进一步简化为：</p><p>$$Var(Y)=Var(w_i)*Var(X)\qquad(2)$$</p><p>该层共有$n_i$个神经元，则有：</p><p>$$Var(Y)=n_{i}*Var(w_i)*Var(X)\qquad(3)$$</p><p>如果想$Var(x)=Var(Y)$，则需要满足：</p><p>$$n_i*Var(w_i)=1\qquad(4)$$</p><p>$$Var(w_i)=\frac{1}{n_i}\qquad(5)$$</p><p>考虑到反向传播时$n_{i+1}$与$n_i$不相等的情况，取它们的平均：</p><p>$$Var(w_i)=\frac{2}{n_i+n_{i+1}}\qquad(6)$$</p><p>至此，我们得到了使得输入与输出方差相等时参数需要满足的条件。假设参数$w$在$[a,b]$区间内满足均匀分布的话，需要满足：</p><p>$$E=\frac{a+b}{2}=0\qquad(7)$$</p><p>$$Var=\frac{(b-a)^2}{12}=\frac{2}{n_i+n_{i+1}}\qquad(8)$$</p><p>解得Xavier均匀分布：</p><p>$$w \sim U[-\frac{\sqrt{6}}{\sqrt{n_{in}+n_{out}}},\frac{\sqrt{6}}{\sqrt{n_{in}+n_{out}}}]\qquad(9)$$</p><p>Xavier正态分布：</p><p>$$w \sim N[mean=0, std=\frac{\sqrt{2}}{\sqrt{n_{in}+n_{out}}}]\qquad(10)$$</p><p>Xavier初始化方法存在的缺点：</p><p>Xavier方法的推导过程基于两点假设。</p><p>(1) 激活函数是线性的，并不适应于ReLU，sigmoid等非线性激活函数</p><p>(2) 激活函数是关于0对称的，不适应于ReLU，sigmoid等不是关于0对称的激活函数</p><h3 id="Kaiming初始化"><a href="#Kaiming初始化" class="headerlink" title="Kaiming初始化"></a>Kaiming初始化</h3><p>由于Xavier初始化存在的问题，使得它对于在应用ReLU激活函数的模型中表现不佳，因此需要进行修改。这样的话就需要满足每一层输入向量方差相似，每一层的输出向量对应方差相似。</p><p>由于应用了不是关于0对称的激活函数ReLU，公式(1)中的$E(X)$不再为0，因此公式(2)改为：</p><p>$$Var(Y)=Var(w_i)*Var(X)+E^2(X)*Var(w_i)\qquad(11)$$</p><p>考虑到多个神经元：</p><p>$$Var(Y)=n_i*(Var(w_i)*Var(X)+E^2(X)*Var(w_i))\qquad(12)$$</p><p>进一步化简：</p><p>$$Var(Y)=n_i*(Var(w_i)*(E(X^2)-E^2(X))+E^2(X)*Var(w_i))\qquad(13)$$</p><p>$$Var(Y)=n_i*Var(w_i)*E(X^2)\qquad(14)$$</p><p>考虑到每一层的分布，i表示层标记，更改公式(14)为：</p><p>$$Var(Y_i)=n_i*Var(w_i)*E(X_i^2)\qquad(15)$$</p><p>公式(15)中的$E(X_i^2)=Var(X_i)$只有在$X_i$具有0均值的时候才会成立，但是由于$X_i$是由ReLU函数得来的，所以并不成立，$X_i=max(0, Y_{i-1})$。但是如果我们让$w_{i-1}$关于0是对称的，并且偏差$b_{i-1}$为0，这时$Y_{i-1}$均值就会是0，并且关于0对称，这样的话我们就会有：</p><p>$$E(X_i^2)=\frac{1}{2}Var(Y_{i-1})\qquad(16)$$</p><p>公式(15)就可以修改为：</p><p>$$Var(Y_i)=\frac{1}{2}*n_i*Var(w_i)*Var(Y_{i-1})\qquad(17)$$</p><p>如果要满足$Var(Y_i)=Var(Y_{i-1})$，则需要：</p><p>$$\frac{1}{2}n_i*Var(w_i)=1\qquad(18)$$</p><p>$$Var(w_i)=\frac{2}{n_i}\qquad(19)$$</p><p>最终得到前向传播初始化方法:</p><p>$$w \sim N[mean=0, std=\frac{\sqrt{2}}{\sqrt{n_{in}}}]\qquad(20)$$</p><p>反向传播初始化方法：</p><p>$$w \sim N[mean=0, std=\frac{\sqrt{2}}{\sqrt{n_{out}}}]\qquad(21)$$</p><p><strong>参考资料</strong><br>1.<a href="https://zhuanlan.zhihu.com/p/27919794" target="_blank" rel="noopener">深度前馈网络与Xavier初始化原理</a></p><p>2.<a href="https://zhuanlan.zhihu.com/p/40175178" target="_blank" rel="noopener">关于参数初始化的若干问题以及Xavier、He初始化推导</a></p><p>3.<a href="https://pytorch.org/docs/stable/nn.init.html?highlight=kaiming#" target="_blank" rel="noopener">torch.nn.init</a></p><p>4.<a href="https://cloud.tencent.com/developer/article/1437995" target="_blank" rel="noopener">一文详解深度学习参数初始化(weights initializer)策略</a></p><p>5.<a href="https://www.cnblogs.com/shine-lee/p/11908610.html" target="_blank" rel="noopener">网络权重初始化方法总结（下）：Lecun、Xavier与He Kaiming</a></p><p>6.<a href="https://www.researchgate.net/publication/215616968_Understanding_the_difficulty_of_training_deep_feedforward_neural_networks" target="_blank" rel="noopener">Xavier init</a></p><p>7.<a href="https://arxiv.org/abs/1502.01852" target="_blank" rel="noopener">Kaiming init</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>深度学习</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>NMS(非极大值抑制算法)</title>
     <link href="undefined2019/12/25/NMS/"/>
     <url>2019/12/25/NMS/</url>

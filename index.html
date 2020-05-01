@@ -134,6 +134,45 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/01/07/param-init/" target="_self">
+          <img src="/img/kaiming.png" srcset="undefined" alt="参数初始化" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/07/param-init/">
+        <p class="h4 index-header">参数初始化</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">深度学习中的网络初始化指的是在训练网络之前，对每个节点的权重和偏置进行初始化的过程，一个参数的初始化关系到网络是否能够训练出好的结果以及模型收敛的速度。本文简要介绍两种常见的参数初始化方法的推导过程及原理。
+Xavier初始化神经网络做的任务无非是将原本的样本稳定映射为它的类别，也就是将样本空间映射为类别空间，如果样本空间和类别空间差距过大，例如类别空间特别稠密，样本空间特别稀疏，那么在类别空间得到的用于反向传播的误差丢给样本空间之后就会变得微不足道，反之，如果类别空间特别稀疏，样本空间特别稠密，在类别空间得到的误差丢给样本空间之后会造成爆炸性的影响，导致模型梯度爆炸，无法收敛。因此，我们需要让类别空间和样本空间之间的分布差异不要太大，也就是它们之间的方差尽可能相等，这就是Xavier初始化的出发点。
+对于 y. = wx ，假设有：$$Var(Y) = Var(w_iX)=Var(w_i)*Var(X)+E^2(X)*Var(w_i)+E^2(w_i)*Var(X)\qquad(1)$$
+当$X, w_i$都符合均值为0的正态分布时，$E(X),E(w_i)$均为0，公式进一步简化为</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-07&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0">深度学习</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2019/12/25/NMS/" target="_self">
           <img src="/img/nms.png" srcset="undefined" alt="NMS(非极大值抑制算法)" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -434,7 +473,7 @@ In contrast to prevalent methods [8], [9], [1], [2] that use pyramids of images 
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -443,7 +482,7 @@ In contrast to prevalent methods [8], [9], [1], [2] that use pyramids of images 
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
           <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
+                 for="local-search-input">keyword</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>

@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="cowarder">
   <meta name="keywords" content="">
-  <title>贝叶斯优化 ~ cowarder</title>
+  <title>参数初始化 ~ cowarder</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -111,7 +111,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Tuesday, December 10th 2019, 10:29 pm
+                  Tuesday, January 7th 2020, 12:45 pm
                 </p>
               
 
@@ -120,7 +120,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.6k 字
+                    1.2k 字
                   </span>&nbsp;
                 
 
@@ -154,49 +154,57 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>深度学习或者机器学习中一个老生常谈的问题就是调参，许多机器学习算法工程师经常戏称自己为“炼丹工程师”，调参过程也就变成了“炼丹”。何谓炼丹？如何调配出一副“仙药”只能靠尝试不同的配方，根据最终的效果(会不会吃死人)来进行改进。</p>
-<p>然后大家渐渐感觉这种炼丹方法不太行。太上老君这种老头为什么能炼金丹？主要是他活得太久，尝试的错误太多，经验也就渐渐积累起来了，放到算法工程师身上情况同样适应，经验丰富的调参手往往一发入魂，新手就是摸着石头过河，难以估计深浅。所以，大家都开始渐渐地意识到自动化调参的必要性，对于个人来说，可以节省大量的时间，去做更多更加有意义的事情(学习)。对公司来说，如果能够实现自动化超参数调整的话，就不必雇佣经验丰富的算法工程师来做相关工作，大大节省了人力成本。</p>
-<p>目前来讲，主流的自动调参算法有Grid Search(网格搜索)、Random Search(随机搜索)、Bayesian Optimization(贝叶斯优化)。随机搜索是最简单的调参算法，但是由于是随机的，往往效果不稳定，波动比较大。网格搜索需要人为定义搜索空间，并且对所有参数进行组合，仍然依赖经验，搜索的时间成本也高，甚至可能出现组合爆炸的现象。贝叶斯优化算法可以采用比较少的观测结果就能够得到一组比较好的超参数组合，因此，贝叶斯优化是目前最好的超参数调节算法(猜的)。</p>
-<h4 id="贝叶斯优化适应的场景"><a href="#贝叶斯优化适应的场景" class="headerlink" title="贝叶斯优化适应的场景"></a>贝叶斯优化适应的场景</h4><blockquote>
-<p>1.模型训练的时间和计算成本非常高。神经网络动辄几百MB的模型参数量。<br>2.优化的目标函数没有导数信息。非凸问题无法利用求导优化。</p>
-</blockquote>
-<h4 id="贝叶斯优化算法"><a href="#贝叶斯优化算法" class="headerlink" title="贝叶斯优化算法"></a>贝叶斯优化算法</h4><p>首先，我们需要定义我们的优化目标。假设我们需要优化的函数f(x)，我们的优化目标就是</p>
-<p>$$x*=argmax \space f(x)$$</p>
-<p>贝叶斯优化是一个序列优化问题。假设我们已经获得了t-1个贝叶斯优化的iteration，我们就获得了一组观察序列 $D_{t-1}$={$(x_1, y_1), (x_2, y_2), (x_3, y_3)…(x_{t-1}, y_{t-1})$} ，这里的x代表的就是我们模型的参数(可以理解为神经网络中的超参)。然后，我们需要根据高斯过程计算前t-1个点的后验分布概率选择第t组超参数$x_t$，不断迭代直到找到最优解。</p>
-<p>那么我们是根据什么去选择这个$x_t$的呢？这也是贝叶斯优化中一个核心问题：如何在每一个iteration里面选择最佳的$x_t$。这就引出了acquisition function的概念。</p>
-<h5 id="acquisition-function"><a href="#acquisition-function" class="headerlink" title="acquisition function"></a>acquisition function</h5><p>我们用函数$\alpha(x)$表示acquisition function:  $$x_t = arg max  \space \alpha_t(x)$$</p>
-<p>我们在设计acquisition function的时候最重要的一点就是要考虑exploration-exploitation tradeoff：我们在选择下一个点$x_t$的时候，既要去尝试我们之前没有尝试的点(exploration)，又要使得取得的点的f(x)的值尽可能大(exploitation)，我们可以分别利用高斯过程的posterior mean和posterior variance来表示exploitation和exploration。mean越大，越符合我们的优化目标，代表我们模型的效果越好，exploitation越大。variance越大，代表我们函数的uncertainty越大，我们就更加可能达到最优值。</p>
-<h4 id="贝叶斯优化的实例"><a href="#贝叶斯优化的实例" class="headerlink" title="贝叶斯优化的实例"></a>贝叶斯优化的实例</h4><p>1.在只有三个初始样本的情况下我们计算出每个点的均值和方差</p>
-<center>
-<img src="/2019/12/10/bayes-optim/pic1.png" srcset="undefined">
-</center>
-
-<p>图片中红色的点表示我们实际的观测值，蓝色的线表示真实数据分布，黑色虚线表示我们利用三个点和高斯过程得出的预测结果(后验概率分布)。可以看到中间的点均值和方差都相对来说比较大，也就对应了我们之前提到的exploration和exploitation之间的一个tradeoff。如何权衡exploration和exploitation取决于我们还要进行多少次iteration，如果我们只能再进行1个iteration，那就应该关注exploitation，选择均值大的点。如果我们还有1000次iteration可以进行，就可以关注exploration，去探索更多的参数，寻求全局最优的点。</p>
-<p>2.接下来在原来的图下面添加acquisition function函数曲线，acquisiton function有很多种，最简单的就是posterior mean和posterior variance之间的一个加权和，也就是<a href="https://arxiv.org/abs/0912.3995" target="_blank" rel="noopener">GP-UCB</a>方法，它的acquisition function形式是:</p>
-<center>
-<img src="/2019/12/10/bayes-optim/equation.svg" srcset="undefined">
-</center>
-
-<p>选择使得acquisition function值最大的对应参数，利用这个点对应的参数来训练模型，得到模型对应的f(x)值，样本数变成了4个。</p>
-<center>
-<img src="/2019/12/10/bayes-optim/pic2.png" srcset="undefined">
-</center>
-
-<p>3.重新计算超参数之间的后验概率分布和acquisition function</p>
-<center>
-<img src="/2019/12/10/bayes-optim/pic3.png" srcset="undefined">
-</center>
-
-<p>4.通过不断重复上述步骤，我们能够在样本很少的情况下模拟数据的真实分布(图中的黑色虚线)</p>
-<center>
-<img src="/2019/12/10/bayes-optim/pic4.png" srcset="undefined">
-</center>
-
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>本文分析了超参数优化中的贝叶斯方法，从贝叶斯方法的基本概念到具体流程进行了详细的阐述，贝叶斯优化方法中的高斯过程本文没有详细阐述，但是本文最后的链接中会有相关链接，感兴趣的可以进行延伸阅读。</p>
-<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p>为什么没有一种调参方法被大规模采用？</p>
-<p>1.最主要的原因还是时间成本太高，包括最近比较火的NAS，动辄几百个小时的训练时间，虽然实现了自动化，但是这样效率真的提高了吗？</p>
-<p>2.即便是实现了自动化调参，调出来的参数效果也不一定比人工经验设定的参数效果好，综合成本是否真的降低了？</p>
-<p><strong>参考资料</strong><br>1.<a href="https://zhuanlan.zhihu.com/p/76269142" target="_blank" rel="noopener">贝叶斯优化/Bayesian Optimization</a><br>2.<a href="https://zhuanlan.zhihu.com/p/29779000" target="_blank" rel="noopener">贝叶斯优化: 一种更好的超参数调优方式</a><br>3.<a href="https://krasserm.github.io/2018/03/19/gaussian-processes/" target="_blank" rel="noopener">Gaussian processes</a><br>4.<a href="https://www.jiqizhixin.com/articles/2019-02-12-3" target="_blank" rel="noopener">看得见的高斯过程：这是一份直观的入门解读</a><br>5.<a href="https://arxiv.org/abs/0912.3995" target="_blank" rel="noopener">Gaussian Process Optimization in the Bandit Setting: No Regret and Experimental Design</a><br>6.<a href="http://papers.nips.cc/paper/4522-practical-bayesian-optimization" target="_blank" rel="noopener">Practical Bayesian Optimization of Machine Learning Algorithms</a></p>
+            <p>深度学习中的网络初始化指的是在训练网络之前，对每个节点的权重和偏置进行初始化的过程，一个参数的初始化关系到网络是否能够训练出好的结果以及模型收敛的速度。本文简要介绍两种常见的参数初始化方法的推导过程及原理。</p>
+<h3 id="Xavier初始化"><a href="#Xavier初始化" class="headerlink" title="Xavier初始化"></a>Xavier初始化</h3><p>神经网络做的任务无非是将原本的样本稳定映射为它的类别，也就是将样本空间映射为类别空间，如果样本空间和类别空间差距过大，例如类别空间特别稠密，样本空间特别稀疏，那么在类别空间得到的用于反向传播的误差丢给样本空间之后就会变得微不足道，反之，如果类别空间特别稀疏，样本空间特别稠密，在类别空间得到的误差丢给样本空间之后会造成爆炸性的影响，导致模型梯度爆炸，无法收敛。因此，我们需要让类别空间和样本空间之间的分布差异不要太大，也就是它们之间的方差尽可能相等，这就是Xavier初始化的出发点。</p>
+<p>对于 y. = wx ，假设有：<br>$$Var(Y) = Var(w_iX)=Var(w_i)*Var(X)+E^2(X)*Var(w_i)+E^2(w_i)*Var(X)\qquad(1)$$</p>
+<p>当$X, w_i$都符合均值为0的正态分布时，$E(X),E(w_i)$均为0，公式进一步简化为：</p>
+<p>$$Var(Y)=Var(w_i)*Var(X)\qquad(2)$$</p>
+<p>该层共有$n_i$个神经元，则有：</p>
+<p>$$Var(Y)=n_{i}*Var(w_i)*Var(X)\qquad(3)$$</p>
+<p>如果想$Var(x)=Var(Y)$，则需要满足：</p>
+<p>$$n_i*Var(w_i)=1\qquad(4)$$</p>
+<p>$$Var(w_i)=\frac{1}{n_i}\qquad(5)$$</p>
+<p>考虑到反向传播时$n_{i+1}$与$n_i$不相等的情况，取它们的平均：</p>
+<p>$$Var(w_i)=\frac{2}{n_i+n_{i+1}}\qquad(6)$$</p>
+<p>至此，我们得到了使得输入与输出方差相等时参数需要满足的条件。假设参数$w$在$[a,b]$区间内满足均匀分布的话，需要满足：</p>
+<p>$$E=\frac{a+b}{2}=0\qquad(7)$$</p>
+<p>$$Var=\frac{(b-a)^2}{12}=\frac{2}{n_i+n_{i+1}}\qquad(8)$$</p>
+<p>解得Xavier均匀分布：</p>
+<p>$$w \sim U[-\frac{\sqrt{6}}{\sqrt{n_{in}+n_{out}}},\frac{\sqrt{6}}{\sqrt{n_{in}+n_{out}}}]\qquad(9)$$</p>
+<p>Xavier正态分布：</p>
+<p>$$w \sim N[mean=0, std=\frac{\sqrt{2}}{\sqrt{n_{in}+n_{out}}}]\qquad(10)$$</p>
+<p>Xavier初始化方法存在的缺点：</p>
+<p>Xavier方法的推导过程基于两点假设。</p>
+<p>(1) 激活函数是线性的，并不适应于ReLU，sigmoid等非线性激活函数</p>
+<p>(2) 激活函数是关于0对称的，不适应于ReLU，sigmoid等不是关于0对称的激活函数</p>
+<h3 id="Kaiming初始化"><a href="#Kaiming初始化" class="headerlink" title="Kaiming初始化"></a>Kaiming初始化</h3><p>由于Xavier初始化存在的问题，使得它对于在应用ReLU激活函数的模型中表现不佳，因此需要进行修改。这样的话就需要满足每一层输入向量方差相似，每一层的输出向量对应方差相似。</p>
+<p>由于应用了不是关于0对称的激活函数ReLU，公式(1)中的$E(X)$不再为0，因此公式(2)改为：</p>
+<p>$$Var(Y)=Var(w_i)*Var(X)+E^2(X)*Var(w_i)\qquad(11)$$</p>
+<p>考虑到多个神经元：</p>
+<p>$$Var(Y)=n_i*(Var(w_i)*Var(X)+E^2(X)*Var(w_i))\qquad(12)$$</p>
+<p>进一步化简：</p>
+<p>$$Var(Y)=n_i*(Var(w_i)*(E(X^2)-E^2(X))+E^2(X)*Var(w_i))\qquad(13)$$</p>
+<p>$$Var(Y)=n_i*Var(w_i)*E(X^2)\qquad(14)$$</p>
+<p>考虑到每一层的分布，i表示层标记，更改公式(14)为：</p>
+<p>$$Var(Y_i)=n_i*Var(w_i)*E(X_i^2)\qquad(15)$$</p>
+<p>公式(15)中的$E(X_i^2)=Var(X_i)$只有在$X_i$具有0均值的时候才会成立，但是由于$X_i$是由ReLU函数得来的，所以并不成立，$X_i=max(0, Y_{i-1})$。但是如果我们让$w_{i-1}$关于0是对称的，并且偏差$b_{i-1}$为0，这时$Y_{i-1}$均值就会是0，并且关于0对称，这样的话我们就会有：</p>
+<p>$$E(X_i^2)=\frac{1}{2}Var(Y_{i-1})\qquad(16)$$</p>
+<p>公式(15)就可以修改为：</p>
+<p>$$Var(Y_i)=\frac{1}{2}*n_i*Var(w_i)*Var(Y_{i-1})\qquad(17)$$</p>
+<p>如果要满足$Var(Y_i)=Var(Y_{i-1})$，则需要：</p>
+<p>$$\frac{1}{2}n_i*Var(w_i)=1\qquad(18)$$</p>
+<p>$$Var(w_i)=\frac{2}{n_i}\qquad(19)$$</p>
+<p>最终得到前向传播初始化方法:</p>
+<p>$$w \sim N[mean=0, std=\frac{\sqrt{2}}{\sqrt{n_{in}}}]\qquad(20)$$</p>
+<p>反向传播初始化方法：</p>
+<p>$$w \sim N[mean=0, std=\frac{\sqrt{2}}{\sqrt{n_{out}}}]\qquad(21)$$</p>
+<p><strong>参考资料</strong><br>1.<a href="https://zhuanlan.zhihu.com/p/27919794" target="_blank" rel="noopener">深度前馈网络与Xavier初始化原理</a></p>
+<p>2.<a href="https://zhuanlan.zhihu.com/p/40175178" target="_blank" rel="noopener">关于参数初始化的若干问题以及Xavier、He初始化推导</a></p>
+<p>3.<a href="https://pytorch.org/docs/stable/nn.init.html?highlight=kaiming#" target="_blank" rel="noopener">torch.nn.init</a></p>
+<p>4.<a href="https://cloud.tencent.com/developer/article/1437995" target="_blank" rel="noopener">一文详解深度学习参数初始化(weights initializer)策略</a></p>
+<p>5.<a href="https://www.cnblogs.com/shine-lee/p/11908610.html" target="_blank" rel="noopener">网络权重初始化方法总结（下）：Lecun、Xavier与He Kaiming</a></p>
+<p>6.<a href="https://www.researchgate.net/publication/215616968_Understanding_the_difficulty_of_training_deep_feedforward_neural_networks" target="_blank" rel="noopener">Xavier init</a></p>
+<p>7.<a href="https://arxiv.org/abs/1502.01852" target="_blank" rel="noopener">Kaiming init</a></p>
 
             <hr>
           </div>
@@ -350,7 +358,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "贝叶斯优化&nbsp;",
+        "参数初始化&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
