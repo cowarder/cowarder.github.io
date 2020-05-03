@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="cowarder">
   <meta name="keywords" content="">
-  <title>Archive ~ cowarder</title>
+  <title>论文阅读《Delving Deep into Rectifiers Surpassing Human-Level Performance on ImageNet Classification》 ~ cowarder</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -36,7 +36,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -96,7 +96,7 @@
 </nav>
 
     <div class="view intro-2" id="background"
-         style="background: url('/img/default.png')no-repeat center center;
+         style="background: url('/img/sub_main_page.jpg')no-repeat center center;
            background-size: cover;
            background-attachment: fixed;">
       <div class="full-bg-img">
@@ -106,6 +106,34 @@
               
             </span>
 
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Wednesday, January 15th 2020, 10:08 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    502 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      1 分钟
+                  </span>&nbsp;
+                
+
+                
+              </p>
             
           </div>
 
@@ -117,47 +145,88 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">8 posts in total.</p>
-  <hr>
-  
-    
       
-      <p class="h5">2019</p>
-    
-    <a href="/2019/11/30/two-stage-detection/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">两阶段目标检测算法</span>
-      <span style="float: right;">11-30</span>
-    </a>
-  
-    
-    <a href="/2019/11/21/anchor/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">目标检测中的Anchor</span>
-      <span style="float: right;">11-21</span>
-    </a>
-  
-    
-    <a href="/2019/11/04/dl-recipe/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">翻译：A Recipe for Training Neural Networks</span>
-      <span style="float: right;">11-04</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>最近抽空看了一下何凯明2015年的文章<a href="https://arxiv.org/abs/1502.01852" target="_blank" rel="noopener">《Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification》</a>，这篇文章里面主要分为两个部分，第一部分作者提出了PReLU激活函数，第二部分提出了Kaiming参数初始化方法，关于Kaiming初始化，我们已经在上一篇文章中做了推倒，这里不再赘述。PReLU方法为ReLU方法的改进版本，因此，本文不仅仅局限于这篇文章，而是借此对几种常见的激活函数进行探讨</p>
+<h3 id="Sigmoid函数和Tanh函数"><a href="#Sigmoid函数和Tanh函数" class="headerlink" title="Sigmoid函数和Tanh函数"></a>Sigmoid函数和Tanh函数</h3><p>在神经网络发展初期，Sigmoid函数和Tanh函数是最常见的激活函数，它们的函数图像如下图所示：</p>
+<center>
+<img src="/2020/01/15/activation/sigtan.png" srcset="undefined">
+</center>
 
-              </div>
-            </div>
+<p>其中蓝色的线表示Tanh函数，绿色的线表示Sigmoid函数，可以看到，Tanh激活函数实际上相当于Sigmoid函数的平移</p>
+<p>$$Sigmoid:f(z)=\frac{1}{1+e^{-z}}$$</p>
+<p>$$Tanh:f(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}}$$</p>
+<p>但是在研究过中发现，Sigmoid函数和Tanh函数作激活函数都会导致梯度消失的情况出现，这是因为两者的导数在z取很大或者很小的时候，都会趋于0，导致梯度为0因此出现了梯度消失的情况。</p>
+<h3 id="ReLU函数及其改进"><a href="#ReLU函数及其改进" class="headerlink" title="ReLU函数及其改进"></a>ReLU函数及其改进</h3><p>由于Sigmoid函数和Tanh函数存在梯度消失的问题，因此ReLU函数应运而生：</p>
+<center>
+<img src="/2020/01/15/activation/relu.png" srcset="undefined" width="300" ">
+</center>
+
+<p>$$ReLU:f(z)=maz(0,z)$$</p>
+<p>ReLU函数主要有三个优点：</p>
+<blockquote>
+<p>1.减少了计算量。Sigmoid和Tanh函数都需要计算指数函数，计算复杂度高，但是ReLU只需要一个阈值即可</p>
+<p>2.ReLU可以有效的解决梯度消失的问题</p>
+<p>3.ReLU的单边抑制提供了网络的稀疏表达能力</p>
+</blockquote>
+<p>但是同样的，ReLU也有其局限性，由于负梯度在经过ReLU单元时被置为0，因此可能出现神经元死亡的问题，实际训练过程中，如果学习率设置的过大，会导致一定比例的神经元不可逆死亡，进而参数梯度无法更新，训练失效。</p>
+<p>为了解决ReLU存在的神经元死亡的问题，提出了Leaky ReLU，Leaky ReLU负半轴是一个斜率为a的线形导数，一般来讲是一个比较小的数值，这样既可以保证单边抑制，又可以保证负半轴梯度不至于完全丢失，但是这个a值需要人为去调整，比较难以选择</p>
+<center>
+<img src="/2020/01/15/activation/leaky.png" srcset="undefined" width="500" ">
+</center>
+
+<p>在何凯明的这篇文章中提出了PReLU的概念，因为在实际实验中发现，ReLU和Leaky ReLU之间的性能差异非常微小，所以考虑到可能是a值设定的问题，PReLU让网络自己去学习a的取值，将a添加到反向传播过程中，实际应用过程中只需要计算损失函数关于a的导数即可，而且作者让不同channel共享参数，这样在计算过程中，每一层只添加了一个额外的参数，对计算量的影响可以忽略不计</p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E8%AE%BA%E6%96%87">论文</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -222,6 +291,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -262,7 +336,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Archive&nbsp;",
+        "论文阅读《Delving Deep into Rectifiers Surpassing Human-Level Performance on ImageNet Classification》&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

@@ -133,6 +133,45 @@
   <div class="row mb-4 mx-auto">
     
     
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/15/activation/">
+        <p class="h4 index-header">论文阅读《Delving Deep into Rectifiers Surpassing Human-Level Performance on ImageNet Classification》</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">最近抽空看了一下何凯明2015年的文章《Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification》，这篇文章里面主要分为两个部分，第一部分作者提出了PReLU激活函数，第二部分提出了Kaiming参数初始化方法，关于Kaiming初始化，我们已经在上一篇文章中做了推倒，这里不再赘述。PReLU方法为ReLU方法的改进版本，因此，本文不仅仅局限于这篇文章，而是借此对几种常见的激活函数进行探讨
+Sigmoid函数和Tanh函数在神经网络发展初期，Sigmoid函数和Tanh函数是最常见的激活函数，它们的函数图像如下图所示：
+
+
+
+
+其中蓝色的线表示Tanh函数，绿色的线表示Sigmoid函数，可以看到，Tanh激活函数实际上相当于Sigmoid函数的平移
+$$Sigmoid:f(z)=\frac{1}{1+e^{-z}}$$
+$$Tanh:f(z)=\frac{e^z-e^{-z}}{e^z+e^{-z}}$$
+但是在研究过中发现，Sigmoid函数和Tanh函数作</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-15&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E8%AE%BA%E6%96%87">论文</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
       <div class="col-12 col-md-4 m-auto">
         <a href="/2020/01/07/param-init/" target="_self">
           <img src="/img/kaiming.png" srcset="undefined" alt="参数初始化" class="img-fluid rounded z-depth-3 index-thumbnails">
@@ -473,7 +512,7 @@ In contrast to prevalent methods [8], [9], [1], [2] that use pyramids of images 
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -482,7 +521,7 @@ In contrast to prevalent methods [8], [9], [1], [2] that use pyramids of images 
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
           <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
+                 for="local-search-input">keyword</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
