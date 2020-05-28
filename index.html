@@ -134,6 +134,45 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/02/11/cvpr2020/" target="_self">
+          <img src="/img/cvpr2020.png" srcset="undefined" alt="cvpr2020" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/11/cvpr2020/">
+        <p class="h4 index-header">cvpr2020</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">这篇文章主要对CVPR2020中涉及到的目标检测的文章做一个简短总结，提炼总体文章思路，以备查阅。
+《Few-Shot Object Detection with Attention-RPN and Multi-Relation Detector》
+小样本学习的文章。目标检测需要大量标注工作，利用少量标注样本训练模型得到更好的效果在一些任务上面更加需要。文章中主要有两点贡献，首先作者提出了一个新的网络（带有注意力机制的RPN和多关系检测器的小样本目标检测网络），在不用重新训练和微调的情况下检测新的物体，第二点贡献在于设计了一个新的数据集(FSOD)，其中包括1000个类别，每个类别只有很少的图片，利用这个数据集，模型相较于COCO数据集上面进行训练，取得了更好的效果。在few-shot learning任务中，我们一般将带有标签的图片称为support image，等待分割的图片称为query image，注意力机制RPN通过关注给定的支持类别来过滤掉其他类别的对象建议，然后多关系检测器将查询建议与支持图像进行匹配。
+《Bridging the Gap Between Anchor-b</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-11&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/object%20detection">object detection</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/01/28/mobile/" target="_self">
           <img src="/img/mobilenet.png" srcset="undefined" alt="MobileNet" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
