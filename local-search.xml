@@ -4,6 +4,44 @@
   
   
   <entry>
+    <title>Batch Normalization</title>
+    <link href="undefined2020/03/04/batch-norm/"/>
+    <url>2020/03/04/batch-norm/</url>
+    
+    <content type="html"><![CDATA[<p>这篇文章来回顾一下深度学习网络模型中常见的操作:Batch Normalization。<a href="https://arxiv.org/pdf/1502.03167.pdf" target="_blank" rel="noopener">Batch Normalization</a>是在2015年由Szegedy提出的。主要是解决神经网络中存在的Interval Covariate Shift问题。除了回顾batch normalization有关原理，本文也会介绍几种常见的对于Batch Normalization的改进。</p><h4 id="Interval-Covariate-Shift"><a href="#Interval-Covariate-Shift" class="headerlink" title="Interval Covariate Shift"></a>Interval Covariate Shift</h4><p>在Batch Normalization出现之前，训练一个层数较多的神经网络模型是十分困难的，经常出现不收敛的情况，其中重要的原因是，神经网络涉及到很多层的叠加，每一层的参数变化会导致上层输出的改变，经过层层叠加，底层即便是一个微小的波动，也会导致上层输入特征的巨大变化，这就使得上层参数需要不断改变去适应由底层传来的特征，为了使得模型能够收敛，我们需要更加仔细地选择学习率、权重初始化、尽可能选择更好的参数更新策略。</p><p>在统计机器学习中一个经典假设是源空间(source domain)和目标空间(target domain)的数据分布是一致的。而covariate shift就是分布不一致假设之下的一个分支问题。概括来讲，对于神经网络的各层输出，由于它们经过了层内操作作用，其分布与各层输入信号分布不同，而且会随着网络深度的增加而增大，这就是interval covariate shift的含义。</p><h4 id="BN的具体流程"><a href="#BN的具体流程" class="headerlink" title="BN的具体流程"></a>BN的具体流程</h4><center><img src="/2020/03/04/batch-norm/bn.png" srcset="undefined" width="400"></center>假设我们每个batch有m个样本，首先我们需要计算m个样本的均值和方差，利用均值和方差进行标准化后，再利用$\gamma$和$\beta$进行缩放和平移，如果仅仅是对每一层进行标准化的话，可能会降低每层网络的表达能力，以sigmoid函数为例，sigmoid函数分为饱和区和非饱和区，而标准化之后的数据会将数据映射到非饱和区，使得其仅仅具有线性表达能力，因此BN中加入了平移和缩放操作来缓解这个问题。<pre><code class="python">import numpy as npdef Batchnorm(x, gamma, beta, bn_param):    # x_shape:[B, C, H, W]    running_mean = bn_param[&#39;running_mean&#39;]    running_var = bn_param[&#39;running_var&#39;]    results = 0.    eps = 1e-5    x_mean = np.mean(x, axis=(0, 2, 3), keepdims=True)    x_var = np.var(x, axis=(0, 2, 3), keepdims=True0)    x_normalized = (x - x_mean) / np.sqrt(x_var + eps)    results = gamma * x_normalized + beta    # 因为在测试时是单个图片测试，这里保留训练时的均值和方差，用在后面测试时用    running_mean = momentum * running_mean + (1 - momentum) * x_mean    running_var = momentum * running_var + (1 - momentum) * x_var    bn_param[&#39;running_mean&#39;] = running_mean    bn_param[&#39;running_var&#39;] = running_var    return results, bn_param</code></pre><h4 id="BN的缺陷"><a href="#BN的缺陷" class="headerlink" title="BN的缺陷"></a>BN的缺陷</h4><p>BN依赖于batch大小的选择，如果太小会造成模型的不稳定，实验表明，ResNet在ImageNet数据集上进行训练，batch size从16降到8之后性能会有明显的下降，因此BN在以下两种情况下不适应。</p><p>1.batch非常小。有时受限于计算资源，不得不选择一个较小的batch size，这时使用BN可能不会造成性能提升。</p><p>2.RNN。由于RNN是一个动态的网络结构，同一个batch中的样本长短不一，因此每个batch的统计量不稳定，使得BN无法正确使用。</p><h4 id="BN的改进"><a href="#BN的改进" class="headerlink" title="BN的改进"></a>BN的改进</h4><h5 id="Layer-Normalization"><a href="#Layer-Normalization" class="headerlink" title="Layer Normalization"></a><a href="https://arxiv.org/pdf/1607.06450v1.pdf" target="_blank" rel="noopener">Layer Normalization</a></h5><p>Layer Normalization就是针对BN的不足提出的，BN可以看作是一种纵向的归一化，而LN可以看作是一种横向的归一化，LN针对单个训练样本进行训练，不依赖于其他数据，因此可以避免BN受batch size影响的情况出现，可以应用于小batch数据上面。</p><center><img src="/2020/03/04/batch-norm/layer.png" srcset="undefined"></center><p>对于四维图像数据(B, C, H, W)来说，BN进行归一化的时候使用的均值和方差形状都为(1, C, 1, 1)，也就是说每一个channel保留一个值，在B、H、W上面求均值。而对于LN来讲，均值和方差形状为(B, 1, 1, 1)，即batch中的每个样本都有一个固定的值来对其进行归一化，在C、H、W、上面求均值。</p><pre><code class="python">def Layernorm(x, gamma, beta):    # x_shape:[B, C, H, W]    results = 0.    eps = 1e-5    x_mean = np.mean(x, axis=(1, 2, 3), keepdims=True)    x_var = np.var(x, axis=(1, 2, 3), keepdims=True0)    x_normalized = (x - x_mean) / np.sqrt(x_var + eps)    results = gamma * x_normalized + beta    return results</code></pre><h5 id="Instance-Normalization"><a href="#Instance-Normalization" class="headerlink" title="Instance Normalization"></a><a href="https://arxiv.org/pdf/1607.08022.pdf" target="_blank" rel="noopener">Instance Normalization</a></h5><p>IN最初应用于图像的风格迁移，作者发现，在生成模型中，feature map的各个channel的均值和方差会影响最终生成图像的风格，因此需要对HW进行归一化，加速模型收敛，并且保持每个样本之间的独立性，IN同样也是不受batch size影响的，均值和方差为(B, C, 1, 1)</p><pre><code class="python">def Instancenorm(x, gamma, beta):    # x_shape:[B, C, H, W]    results = 0.    eps = 1e-5    x_mean = np.mean(x, axis=(2, 3), keepdims=True)    x_var = np.var(x, axis=(2, 3), keepdims=True0)    x_normalized = (x - x_mean) / np.sqrt(x_var + eps)    results = gamma * x_normalized + beta    return results</code></pre><h5 id="Group-Normalization"><a href="#Group-Normalization" class="headerlink" title="Group Normalization"></a><a href="https://arxiv.org/pdf/1803.08494.pdf" target="_blank" rel="noopener">Group Normalization</a></h5><center><img src="/2020/03/04/batch-norm/gn.png" srcset="undefined"></center><p>主要是针对BN中小batch效果差的问题，GN将channel方向分group，每个group内做归一化，计算(C//G)*H*W的均值，同样的，GN与batch size无关，不受约束。</p><pre><code class="python">def GroupNorm(x, gamma, beta, G=16):    # x_shape:[B, C, H, W]    results = 0.    eps = 1e-5    x = np.reshape(x, (x.shape[0], G, x.shape[1]/16, x.shape[2], x.shape[3]))    x_mean = np.mean(x, axis=(2, 3, 4), keepdims=True)    x_var = np.var(x, axis=(2, 3, 4), keepdims=True0)    x_normalized = (x - x_mean) / np.sqrt(x_var + eps)    results = gamma * x_normalized + beta    return results</code></pre>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>深度学习</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Poly-YOLO</title>
+    <link href="undefined2020/02/25/poly-yolo/"/>
+    <url>2020/02/25/poly-yolo/</url>
+    
+    <content type="html"><![CDATA[<p>论文阅读：<a href="https://arxiv.org/abs/2005.13243" target="_blank" rel="noopener">POLY-YOLO: HIGHER SPEED, MORE PRECISE DETECTION AND INSTANCE SEGMENTATION FOR YOLOV3</a></p><h3 id="什么是Poly-YOLO"><a href="#什么是Poly-YOLO" class="headerlink" title="什么是Poly-YOLO"></a>什么是Poly-YOLO</h3><p>简言之，Poly-YOLO是YOLOv3的一个改进版本，产生的实际效果与Mask-RCNN相似，但是Poly-YOLO更快。文章作者声称Poly-YOLO相较于YOLOv3速度更快，同时mAP提升40%。Poly-YOLO的轻量级版本-Poly-YOLO lite，与YOLOv3具有相似的精度，但是模型大小仅为三分之一，而速度为两倍，因此更加适应于嵌入式设备。<a href="https://gitlab.com/irafm-ai/poly-yolo" target="_blank" rel="noopener">代码</a></p><h3 id="YOLOv3中存在的问题"><a href="#YOLOv3中存在的问题" class="headerlink" title="YOLOv3中存在的问题"></a>YOLOv3中存在的问题</h3><p>本文从分析YOLOv3论文中存在的两个问题，进而进行改进。</p><p>（问题1）标签重写(label rewriting)。在预处理阶段，经常出现label被另外一个label重写的情况，这样就会导致一些正样本没有标签，模型也就不会被训练去检测它们，因此会对性能产生很大影响。以YOLOv3为例，其有三个scale，分别对应检测大、中、小尺寸的物体，每个scale的feature map被划分为s*s的grid，如果两个ground truth的中心落在同一个scale中grid的一个cell，这样就会出现label rewriting的问题。实际上这是YOLOv1中出现的问题，YOLOv3中引入了anchor的概念，每个cell预测三个不同尺寸的anchor，原文应该表述为：如果两个ground truth的中心落在同一个scale中grid的一个cell，并且由同一个size的anchor负责预测，这样就会出现label writing的问题，详细可参考YOLOv3中Darknet YOLO网络层计算损失函数的<a href="https://github.com/cowarder/yolov3_voc/blob/c321b6b3bf6ab3f737ecf106ca3931b588e84adb/Darknet.py#L35" target="_blank" rel="noopener">过程</a></p><p>（问题2）锚分布(anchor distribution)。YOLOv3对三个不同的scale的feature map分别设定了三个不同尺寸的anchor，高层特征anchor较大，感受野较大，负责预测大物体，底层特征anchor较小，感受野较小，负责预测小物体。每一个ground truth根据其尺寸选择对应的scale的anchor，但是这样有一个前提假设，就是anchor大小的分布需要符合正态分布，而对于大多数都是小物体的数据集，或者大多数都是大物体的数据集，所有的预测结果都会集中在其中的某一层，另外两层就会underused，</p><h3 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h3><p>问题1:问题1可以通过增加feature map缩放系数s来解决，s增加意味着grid中cell数目的增加，这样的话两个ground truth落在同一个cell中的概率就会变得很小，理想情况下s=1，及每个像素点代表一个cell，但是考虑到计算量的问题，肯定不能取1，只能找一个小于1的值。</p><p>问题2:可以采用两种策略解决，第一种是为三个尺度划分感受野，利用两个阈值分隔它们，然后利用k-means根据阈值计算聚类中心，缺点是将数据驱动问题转换为问题驱动问题，只能在固定的尺度上面检测对应的目标，而不是全尺度，这样会浪费网络。第二种是创建一种新的结构，只有一个输出，但是同时融合了三个尺度的特征，这样融合后的结果同时处理所有尺寸的anchor，这样anchor的尺寸仍然是数据驱动的。</p><h3 id="Poly-YOLO结构"><a href="#Poly-YOLO结构" class="headerlink" title="Poly-YOLO结构"></a>Poly-YOLO结构</h3><p>原来的FPN结构被替换为hypercolumn结构，融合不同层次的特征，作者进一步改进，将hypercolumn结构改进为stairstep技术，标准的hypercolumn输入所有层的特征，将他们resize为同样大小进行融合。而stairstep首先将最小的upsample为次小的，两者进行融合为新的最小特征，重复过程，最终得到融合后的特征图。这样并没有增加计算负担，但是在精度上面却有所提高。</p><center><img src="/2020/02/25/poly-yolo/stairstep.png" srcset="undefined" height="200">  <div>    Illustration of the standard hypercolumn scheme (left) and the hypercolumn with stairstep (right).  </div></center><p>Poly-YOLO于YOLOv3结构上面的对比：</p><center><img src="/2020/02/25/poly-yolo/structure.png" srcset="undefined" height="300">  <div>    Comparison of YOLOv3 and Poly-YOLO architectures  </div></center><p>Poly-YOLO在原有的backbone上面也有所改进，将原来的Darknet53改进为SE-Darknet-53，取得了更高的精度，作者减少了backbone中filter的数目，因此Poly-YOLO相较于YOLOv3具有更好的速度，即便输出feature map是原有的四倍。</p><h3 id="多边形边框"><a href="#多边形边框" class="headerlink" title="多边形边框"></a>多边形边框</h3><p>Poly-YOLO通过灵活定义一定数量的点来定义物体的多边形框，多边形框的点，顶点在归一化的极坐标空间中进行处理，这样使得网络不依赖于对象大小的一般形状进行训练。</p><center><img src="/2020/02/25/poly-yolo/poly.png" srcset="undefined" height="200"></center>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>论文</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>cvpr2020</title>
     <link href="undefined2020/02/11/cvpr2020/"/>
     <url>2020/02/11/cvpr2020/</url>

@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="cowarder">
   <meta name="keywords" content="">
-  <title>贝叶斯优化 ~ cowarder</title>
+  <title>Poly-YOLO ~ cowarder</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -111,7 +111,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Tuesday, December 10th 2019, 10:29 pm
+                  Tuesday, February 25th 2020, 10:03 am
                 </p>
               
 
@@ -120,7 +120,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.6k 字
+                    1.1k 字
                   </span>&nbsp;
                 
 
@@ -128,7 +128,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      5 分钟
+                      4 分钟
                   </span>&nbsp;
                 
 
@@ -154,49 +154,35 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>深度学习或者机器学习中一个老生常谈的问题就是调参，许多机器学习算法工程师经常戏称自己为“炼丹工程师”，调参过程也就变成了“炼丹”。何谓炼丹？如何调配出一副“仙药”只能靠尝试不同的配方，根据最终的效果(会不会吃死人)来进行改进。</p>
-<p>然后大家渐渐感觉这种炼丹方法不太行。太上老君这种老头为什么能炼金丹？主要是他活得太久，尝试的错误太多，经验也就渐渐积累起来了，放到算法工程师身上情况同样适应，经验丰富的调参手往往一发入魂，新手就是摸着石头过河，难以估计深浅。所以，大家都开始渐渐地意识到自动化调参的必要性，对于个人来说，可以节省大量的时间，去做更多更加有意义的事情(学习)。对公司来说，如果能够实现自动化超参数调整的话，就不必雇佣经验丰富的算法工程师来做相关工作，大大节省了人力成本。</p>
-<p>目前来讲，主流的自动调参算法有Grid Search(网格搜索)、Random Search(随机搜索)、Bayesian Optimization(贝叶斯优化)。随机搜索是最简单的调参算法，但是由于是随机的，往往效果不稳定，波动比较大。网格搜索需要人为定义搜索空间，并且对所有参数进行组合，仍然依赖经验，搜索的时间成本也高，甚至可能出现组合爆炸的现象。贝叶斯优化算法可以采用比较少的观测结果就能够得到一组比较好的超参数组合，因此，贝叶斯优化是目前最好的超参数调节算法(猜的)。</p>
-<h4 id="贝叶斯优化适应的场景"><a href="#贝叶斯优化适应的场景" class="headerlink" title="贝叶斯优化适应的场景"></a>贝叶斯优化适应的场景</h4><blockquote>
-<p>1.模型训练的时间和计算成本非常高。神经网络动辄几百MB的模型参数量。<br>2.优化的目标函数没有导数信息。非凸问题无法利用求导优化。</p>
-</blockquote>
-<h4 id="贝叶斯优化算法"><a href="#贝叶斯优化算法" class="headerlink" title="贝叶斯优化算法"></a>贝叶斯优化算法</h4><p>首先，我们需要定义我们的优化目标。假设我们需要优化的函数f(x)，我们的优化目标就是</p>
-<p>$$x*=argmax \space f(x)$$</p>
-<p>贝叶斯优化是一个序列优化问题。假设我们已经获得了t-1个贝叶斯优化的iteration，我们就获得了一组观察序列 $D_{t-1}$={$(x_1, y_1), (x_2, y_2), (x_3, y_3)…(x_{t-1}, y_{t-1})$} ，这里的x代表的就是我们模型的参数(可以理解为神经网络中的超参)。然后，我们需要根据高斯过程计算前t-1个点的后验分布概率选择第t组超参数$x_t$，不断迭代直到找到最优解。</p>
-<p>那么我们是根据什么去选择这个$x_t$的呢？这也是贝叶斯优化中一个核心问题：如何在每一个iteration里面选择最佳的$x_t$。这就引出了acquisition function的概念。</p>
-<h5 id="acquisition-function"><a href="#acquisition-function" class="headerlink" title="acquisition function"></a>acquisition function</h5><p>我们用函数$\alpha(x)$表示acquisition function:  $$x_t = arg max  \space \alpha_t(x)$$</p>
-<p>我们在设计acquisition function的时候最重要的一点就是要考虑exploration-exploitation tradeoff：我们在选择下一个点$x_t$的时候，既要去尝试我们之前没有尝试的点(exploration)，又要使得取得的点的f(x)的值尽可能大(exploitation)，我们可以分别利用高斯过程的posterior mean和posterior variance来表示exploitation和exploration。mean越大，越符合我们的优化目标，代表我们模型的效果越好，exploitation越大。variance越大，代表我们函数的uncertainty越大，我们就更加可能达到最优值。</p>
-<h4 id="贝叶斯优化的实例"><a href="#贝叶斯优化的实例" class="headerlink" title="贝叶斯优化的实例"></a>贝叶斯优化的实例</h4><p>1.在只有三个初始样本的情况下我们计算出每个点的均值和方差</p>
+            <p>论文阅读：<a href="https://arxiv.org/abs/2005.13243" target="_blank" rel="noopener">POLY-YOLO: HIGHER SPEED, MORE PRECISE DETECTION AND INSTANCE SEGMENTATION FOR YOLOV3</a></p>
+<h3 id="什么是Poly-YOLO"><a href="#什么是Poly-YOLO" class="headerlink" title="什么是Poly-YOLO"></a>什么是Poly-YOLO</h3><p>简言之，Poly-YOLO是YOLOv3的一个改进版本，产生的实际效果与Mask-RCNN相似，但是Poly-YOLO更快。文章作者声称Poly-YOLO相较于YOLOv3速度更快，同时mAP提升40%。Poly-YOLO的轻量级版本-Poly-YOLO lite，与YOLOv3具有相似的精度，但是模型大小仅为三分之一，而速度为两倍，因此更加适应于嵌入式设备。<a href="https://gitlab.com/irafm-ai/poly-yolo" target="_blank" rel="noopener">代码</a></p>
+<h3 id="YOLOv3中存在的问题"><a href="#YOLOv3中存在的问题" class="headerlink" title="YOLOv3中存在的问题"></a>YOLOv3中存在的问题</h3><p>本文从分析YOLOv3论文中存在的两个问题，进而进行改进。</p>
+<p>（问题1）标签重写(label rewriting)。在预处理阶段，经常出现label被另外一个label重写的情况，这样就会导致一些正样本没有标签，模型也就不会被训练去检测它们，因此会对性能产生很大影响。以YOLOv3为例，其有三个scale，分别对应检测大、中、小尺寸的物体，每个scale的feature map被划分为s*s的grid，如果两个ground truth的中心落在同一个scale中grid的一个cell，这样就会出现label rewriting的问题。实际上这是YOLOv1中出现的问题，YOLOv3中引入了anchor的概念，每个cell预测三个不同尺寸的anchor，原文应该表述为：如果两个ground truth的中心落在同一个scale中grid的一个cell，并且由同一个size的anchor负责预测，这样就会出现label writing的问题，详细可参考YOLOv3中Darknet YOLO网络层计算损失函数的<a href="https://github.com/cowarder/yolov3_voc/blob/c321b6b3bf6ab3f737ecf106ca3931b588e84adb/Darknet.py#L35" target="_blank" rel="noopener">过程</a></p>
+<p>（问题2）锚分布(anchor distribution)。YOLOv3对三个不同的scale的feature map分别设定了三个不同尺寸的anchor，高层特征anchor较大，感受野较大，负责预测大物体，底层特征anchor较小，感受野较小，负责预测小物体。每一个ground truth根据其尺寸选择对应的scale的anchor，但是这样有一个前提假设，就是anchor大小的分布需要符合正态分布，而对于大多数都是小物体的数据集，或者大多数都是大物体的数据集，所有的预测结果都会集中在其中的某一层，另外两层就会underused，</p>
+<h3 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h3><p>问题1:问题1可以通过增加feature map缩放系数s来解决，s增加意味着grid中cell数目的增加，这样的话两个ground truth落在同一个cell中的概率就会变得很小，理想情况下s=1，及每个像素点代表一个cell，但是考虑到计算量的问题，肯定不能取1，只能找一个小于1的值。</p>
+<p>问题2:可以采用两种策略解决，第一种是为三个尺度划分感受野，利用两个阈值分隔它们，然后利用k-means根据阈值计算聚类中心，缺点是将数据驱动问题转换为问题驱动问题，只能在固定的尺度上面检测对应的目标，而不是全尺度，这样会浪费网络。第二种是创建一种新的结构，只有一个输出，但是同时融合了三个尺度的特征，这样融合后的结果同时处理所有尺寸的anchor，这样anchor的尺寸仍然是数据驱动的。</p>
+<h3 id="Poly-YOLO结构"><a href="#Poly-YOLO结构" class="headerlink" title="Poly-YOLO结构"></a>Poly-YOLO结构</h3><p>原来的FPN结构被替换为hypercolumn结构，融合不同层次的特征，作者进一步改进，将hypercolumn结构改进为stairstep技术，标准的hypercolumn输入所有层的特征，将他们resize为同样大小进行融合。而stairstep首先将最小的upsample为次小的，两者进行融合为新的最小特征，重复过程，最终得到融合后的特征图。这样并没有增加计算负担，但是在精度上面却有所提高。</p>
 <center>
-<img src="/2019/12/10/bayes-optim/pic1.png" srcset="undefined">
+<img src="/2020/02/25/poly-yolo/stairstep.png" srcset="undefined" height="200">
+  <div>
+    Illustration of the standard hypercolumn scheme (left) and the hypercolumn with stairstep (right).
+  </div>
 </center>
 
-<p>图片中红色的点表示我们实际的观测值，蓝色的线表示真实数据分布，黑色虚线表示我们利用三个点和高斯过程得出的预测结果(后验概率分布)。可以看到中间的点均值和方差都相对来说比较大，也就对应了我们之前提到的exploration和exploitation之间的一个tradeoff。如何权衡exploration和exploitation取决于我们还要进行多少次iteration，如果我们只能再进行1个iteration，那就应该关注exploitation，选择均值大的点。如果我们还有1000次iteration可以进行，就可以关注exploration，去探索更多的参数，寻求全局最优的点。</p>
-<p>2.接下来在原来的图下面添加acquisition function函数曲线，acquisiton function有很多种，最简单的就是posterior mean和posterior variance之间的一个加权和，也就是<a href="https://arxiv.org/abs/0912.3995" target="_blank" rel="noopener">GP-UCB</a>方法，它的acquisition function形式是:</p>
+<p>Poly-YOLO于YOLOv3结构上面的对比：</p>
 <center>
-<img src="/2019/12/10/bayes-optim/equation.svg" srcset="undefined">
+<img src="/2020/02/25/poly-yolo/structure.png" srcset="undefined" height="300">
+  <div>
+    Comparison of YOLOv3 and Poly-YOLO architectures
+  </div>
 </center>
 
-<p>选择使得acquisition function值最大的对应参数，利用这个点对应的参数来训练模型，得到模型对应的f(x)值，样本数变成了4个。</p>
+<p>Poly-YOLO在原有的backbone上面也有所改进，将原来的Darknet53改进为SE-Darknet-53，取得了更高的精度，作者减少了backbone中filter的数目，因此Poly-YOLO相较于YOLOv3具有更好的速度，即便输出feature map是原有的四倍。</p>
+<h3 id="多边形边框"><a href="#多边形边框" class="headerlink" title="多边形边框"></a>多边形边框</h3><p>Poly-YOLO通过灵活定义一定数量的点来定义物体的多边形框，多边形框的点，顶点在归一化的极坐标空间中进行处理，这样使得网络不依赖于对象大小的一般形状进行训练。</p>
 <center>
-<img src="/2019/12/10/bayes-optim/pic2.png" srcset="undefined">
+<img src="/2020/02/25/poly-yolo/poly.png" srcset="undefined" height="200">
 </center>
 
-<p>3.重新计算超参数之间的后验概率分布和acquisition function</p>
-<center>
-<img src="/2019/12/10/bayes-optim/pic3.png" srcset="undefined">
-</center>
-
-<p>4.通过不断重复上述步骤，我们能够在样本很少的情况下模拟数据的真实分布(图中的黑色虚线)</p>
-<center>
-<img src="/2019/12/10/bayes-optim/pic4.png" srcset="undefined">
-</center>
-
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>本文分析了超参数优化中的贝叶斯方法，从贝叶斯方法的基本概念到具体流程进行了详细的阐述，贝叶斯优化方法中的高斯过程本文没有详细阐述，但是本文最后的链接中会有相关链接，感兴趣的可以进行延伸阅读。</p>
-<h4 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h4><p>为什么没有一种调参方法被大规模采用？</p>
-<p>1.最主要的原因还是时间成本太高，包括最近比较火的NAS，动辄几百个小时的训练时间，虽然实现了自动化，但是这样效率真的提高了吗？</p>
-<p>2.即便是实现了自动化调参，调出来的参数效果也不一定比人工经验设定的参数效果好，综合成本是否真的降低了？</p>
-<p><strong>参考资料</strong><br>1.<a href="https://zhuanlan.zhihu.com/p/76269142" target="_blank" rel="noopener">贝叶斯优化/Bayesian Optimization</a><br>2.<a href="https://zhuanlan.zhihu.com/p/29779000" target="_blank" rel="noopener">贝叶斯优化: 一种更好的超参数调优方式</a><br>3.<a href="https://krasserm.github.io/2018/03/19/gaussian-processes/" target="_blank" rel="noopener">Gaussian processes</a><br>4.<a href="https://www.jiqizhixin.com/articles/2019-02-12-3" target="_blank" rel="noopener">看得见的高斯过程：这是一份直观的入门解读</a><br>5.<a href="https://arxiv.org/abs/0912.3995" target="_blank" rel="noopener">Gaussian Process Optimization in the Bandit Setting: No Regret and Experimental Design</a><br>6.<a href="http://papers.nips.cc/paper/4522-practical-bayesian-optimization" target="_blank" rel="noopener">Practical Bayesian Optimization of Machine Learning Algorithms</a></p>
 
             <hr>
           </div>
@@ -208,7 +194,7 @@
               <span>
                 <i class="iconfont icon-tag"></i>
                 
-                  <a class="hover-with-bg" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0">深度学习</a>
+                  <a class="hover-with-bg" href="/tags/%E8%AE%BA%E6%96%87">论文</a>
                 
               </span>
             
@@ -350,7 +336,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "贝叶斯优化&nbsp;",
+        "Poly-YOLO&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
