@@ -134,6 +134,58 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/11/21/anchor/" target="_self">
+          <img src="/img/anchor.png" srcset="undefined" alt="目标检测中的Anchor" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/21/anchor/">
+        <p class="h4 index-header">目标检测中的Anchor</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">什么是Anchor？anchor机制是广泛应用于目标检测任务中的一种方法，anchor box指的是是一组预先定义好的不同长宽比的边界框，通过对这些不同长宽比的anchor进行微调，我们能够检测到对应不同尺寸的真实物体。
+
+
+目标检测中的anchor
+
+
+
+
+Anchor的作用是什么？考虑到图像中会出现不同尺寸(scale)，不同长宽比(aspect ratio)的物体，而我们神经网络的输出是一组同样scale的feature map和一组同样的weights，这样的情况下让其预测不同scale和aspect ratio的物体就相对来说比较困难。如图所示：
+
+
+图像中的多尺度物体
+
+
+Faster-RCNN中首先引入anchor的概念，论文中有这样一段话:
+
+In contrast to prevalent methods [8], [9], [1], [2] that use pyramids of images (Figure 1, a) or pyramids of filters (Figure 1, b), we introduce novel “anchor” boxes </div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-21&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/object%20detection">object detection</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2019/11/04/dl-recipe/" target="_self">
           <img src="/img/param-tune.jpeg" srcset="undefined" alt="翻译：A Recipe for Training Neural Networks" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -247,7 +299,7 @@
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -256,7 +308,7 @@
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
           <label data-error="x" data-success="v"
-                 for="local-search-input">keyword</label>
+                 for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>

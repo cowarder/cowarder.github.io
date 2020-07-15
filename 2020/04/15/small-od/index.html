@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="cowarder">
   <meta name="keywords" content="">
-  <title>Poly-YOLO ~ cowarder</title>
+  <title>小目标检测(Small Object Detection) ~ cowarder</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -111,7 +111,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Tuesday, February 25th 2020, 10:03 am
+                  Wednesday, April 15th 2020, 3:18 pm
                 </p>
               
 
@@ -120,7 +120,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.1k 字
+                    1.3k 字
                   </span>&nbsp;
                 
 
@@ -154,35 +154,59 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>论文阅读：<a href="https://arxiv.org/abs/2005.13243" target="_blank" rel="noopener">POLY-YOLO: HIGHER SPEED, MORE PRECISE DETECTION AND INSTANCE SEGMENTATION FOR YOLOV3</a></p>
-<h3 id="什么是Poly-YOLO"><a href="#什么是Poly-YOLO" class="headerlink" title="什么是Poly-YOLO"></a>什么是Poly-YOLO</h3><p>简言之，Poly-YOLO是YOLOv3的一个改进版本，产生的实际效果与Mask-RCNN相似，但是Poly-YOLO更快。文章作者声称Poly-YOLO相较于YOLOv3速度更快，同时mAP提升40%。Poly-YOLO的轻量级版本-Poly-YOLO lite，与YOLOv3具有相似的精度，但是模型大小仅为三分之一，而速度为两倍，因此更加适应于嵌入式设备。<a href="https://gitlab.com/irafm-ai/poly-yolo" target="_blank" rel="noopener">代码</a></p>
-<h3 id="YOLOv3中存在的问题"><a href="#YOLOv3中存在的问题" class="headerlink" title="YOLOv3中存在的问题"></a>YOLOv3中存在的问题</h3><p>本文从分析YOLOv3论文中存在的两个问题，进而进行改进。</p>
-<p>（问题1）标签重写(label rewriting)。在预处理阶段，经常出现label被另外一个label重写的情况，这样就会导致一些正样本没有标签，模型也就不会被训练去检测它们，因此会对性能产生很大影响。以YOLOv3为例，其有三个scale，分别对应检测大、中、小尺寸的物体，每个scale的feature map被划分为s*s的grid，如果两个ground truth的中心落在同一个scale中grid的一个cell，这样就会出现label rewriting的问题。实际上这是YOLOv1中出现的问题，YOLOv3中引入了anchor的概念，每个cell预测三个不同尺寸的anchor，原文应该表述为：如果两个ground truth的中心落在同一个scale中grid的一个cell，并且由同一个size的anchor负责预测，这样就会出现label writing的问题，详细可参考YOLOv3中Darknet YOLO网络层计算损失函数的<a href="https://github.com/cowarder/yolov3_voc/blob/c321b6b3bf6ab3f737ecf106ca3931b588e84adb/Darknet.py#L35" target="_blank" rel="noopener">过程</a></p>
-<p>（问题2）锚分布(anchor distribution)。YOLOv3对三个不同的scale的feature map分别设定了三个不同尺寸的anchor，高层特征anchor较大，感受野较大，负责预测大物体，底层特征anchor较小，感受野较小，负责预测小物体。每一个ground truth根据其尺寸选择对应的scale的anchor，但是这样有一个前提假设，就是anchor大小的分布需要符合正态分布，而对于大多数都是小物体的数据集，或者大多数都是大物体的数据集，所有的预测结果都会集中在其中的某一层，另外两层就会underused，</p>
-<h3 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h3><p>问题1:问题1可以通过增加feature map缩放系数s来解决，s增加意味着grid中cell数目的增加，这样的话两个ground truth落在同一个cell中的概率就会变得很小，理想情况下s=1，及每个像素点代表一个cell，但是考虑到计算量的问题，肯定不能取1，只能找一个小于1的值。</p>
-<p>问题2:可以采用两种策略解决，第一种是为三个尺度划分感受野，利用两个阈值分隔它们，然后利用k-means根据阈值计算聚类中心，缺点是将数据驱动问题转换为问题驱动问题，只能在固定的尺度上面检测对应的目标，而不是全尺度，这样会浪费网络。第二种是创建一种新的结构，只有一个输出，但是同时融合了三个尺度的特征，这样融合后的结果同时处理所有尺寸的anchor，这样anchor的尺寸仍然是数据驱动的。</p>
-<h3 id="Poly-YOLO结构"><a href="#Poly-YOLO结构" class="headerlink" title="Poly-YOLO结构"></a>Poly-YOLO结构</h3><p>原来的FPN结构被替换为hypercolumn结构，融合不同层次的特征，作者进一步改进，将hypercolumn结构改进为stairstep技术，标准的hypercolumn输入所有层的特征，将他们resize为同样大小进行融合。而stairstep首先将最小的upsample为次小的，两者进行融合为新的最小特征，重复过程，最终得到融合后的特征图。这样并没有增加计算负担，但是在精度上面却有所提高。</p>
+            <p>现今存在的通用目标检测方法大多数在一般大小的物体上面检测效果较好，但是针对小物体的检测效果较差。目前的检测方法基本基于深度学习，而神经网络是由逐层卷积网络组成的，我们以一个常用的分类神经网络举例。</p>
 <center>
-<img src="/2020/02/25/poly-yolo/stairstep.png" srcset="undefined" height="200">
+<img src="/2020/04/15/small-od/odline.png" srcset="undefined" height="300">
   <div>
-    Illustration of the standard hypercolumn scheme (left) and the hypercolumn with stairstep (right).
+    Generic image classification baseline.
   </div>
 </center>
 
-<p>Poly-YOLO于YOLOv3结构上面的对比：</p>
-<center>
-<img src="/2020/02/25/poly-yolo/structure.png" srcset="undefined" height="300">
-  <div>
-    Comparison of YOLOv3 and Poly-YOLO architectures
-  </div>
-</center>
+<p>网络中包含有一系列的卷积+pooling层，在检测网络中，如YOLO、SSD、Faster R-CNN等中也会大量使用这种类似结构，我们利用神经网络将600x600的输入转化为30x30的特征。但是这样的网络结果造成的一个非常直观的问题，如果在原始(600x600)图片中很小的物体，经过卷积映射为低维特征(30x30)之后，小物体特征几乎可以忽略不计，甚至完全消失，在训练过程中，网络在靠后的特征层中就失去了小物体的监督信息，因此就会造成检测性能的下降。</p>
+<p>本文旨在总结几种常见的解决小物体检测的方法，大体可以分为四类：多尺度特征学习、数据增强、采用训练策略、基于GAN的检测。</p>
+<h4 id="1-多尺度特征学习"><a href="#1-多尺度特征学习" class="headerlink" title="1.多尺度特征学习"></a>1.多尺度特征学习</h4><p>如何去处理特征尺度问题对于小物体检测十分重要，大体可以分为7类：特征图像金字塔、单尺度特征、金字塔特征层、整合特征、特征金字塔网络、特征融合和特征金字塔生成、多尺度融合模块。</p>
+<h5 id="特征图像金字塔"><a href="#特征图像金字塔" class="headerlink" title="特征图像金字塔"></a>特征图像金字塔</h5><center>
+<img src="/2020/04/15/small-od/a.png" srcset="undefined" height="230"></center>
 
-<p>Poly-YOLO在原有的backbone上面也有所改进，将原来的Darknet53改进为SE-Darknet-53，取得了更高的精度，作者减少了backbone中filter的数目，因此Poly-YOLO相较于YOLOv3具有更好的速度，即便输出feature map是原有的四倍。</p>
-<h3 id="多边形边框"><a href="#多边形边框" class="headerlink" title="多边形边框"></a>多边形边框</h3><p>Poly-YOLO通过灵活定义一定数量的点来定义物体的多边形框，多边形框的点，顶点在归一化的极坐标空间中进行处理，这样使得网络不依赖于对象大小的一般形状进行训练。</p>
-<center>
-<img src="/2020/02/25/poly-yolo/poly.png" srcset="undefined" height="200">
-</center>
+<p>将输入图片resize到不同尺度，在不同尺度上面进行训练，学习得到在几个不同尺度上面的检测器，利用不同的检测器对图片作出检测。</p>
+<h5 id="单尺度特征"><a href="#单尺度特征" class="headerlink" title="单尺度特征"></a>单尺度特征</h5><center>
+<img src="/2020/04/15/small-od/b.png" srcset="undefined" height="150"></center>
 
+<p>例如Faster RCNN等方法，只采用单尺度特征层进行检测，这样的话由于最后一层的感受野是固定的，因此实际上是忽略了对于小物体检测的关注。</p>
+<h5 id="金字塔特征图"><a href="#金字塔特征图" class="headerlink" title="金字塔特征图"></a>金字塔特征图</h5><p>对于特征图像金字塔的改进策略就是不是在不同尺度的图片上面进行检测，而是在图片的不同特征层上面进行检测，例如常见的SSD网络。</p>
+<center>
+<img src="/2020/04/15/small-od/c.png" srcset="undefined" height="150"></center>
+
+<h5 id="整合特征"><a href="#整合特征" class="headerlink" title="整合特征"></a>整合特征</h5><p>首先我们对图片提取不同层次的特征，然后将来自不同层次的特征映射进行一个融合，形成一个融合特征，然后在融合特征上面进行检测。</p>
+<center>
+<img src="/2020/04/15/small-od/d.png" srcset="undefined" height="200"></center>
+
+<h5 id="特征金字塔网络"><a href="#特征金字塔网络" class="headerlink" title="特征金字塔网络"></a>特征金字塔网络</h5><p>特征自底向上传播，然后自顶向下上采样，对应层进行融合，分别在不同的层作出预测。</p>
+<center>
+<img src="/2020/04/15/small-od/e.png" srcset="undefined" height="200"></center>
+
+<h5 id="特征融合和特征金字塔生成"><a href="#特征融合和特征金字塔生成" class="headerlink" title="特征融合和特征金字塔生成"></a>特征融合和特征金字塔生成</h5><p>首先将来自不同尺度的特征进行级连融合在一起生成特征图，然后利用生成的特征图产生一系列的金字塔特征，分别在每一层作出检测。</p>
+<center>
+<img src="/2020/04/15/small-od/f.png" srcset="undefined" height="200"></center>
+
+<h5 id="多尺度融合模块"><a href="#多尺度融合模块" class="headerlink" title="多尺度融合模块"></a>多尺度融合模块</h5><p>采用skip-connection将不同尺度特征进行融合。</p>
+<center>
+<img src="/2020/04/15/small-od/g.png" srcset="undefined" height="200"></center>
+
+<h4 id="2-数据增强"><a href="#2-数据增强" class="headerlink" title="2.数据增强"></a>2.数据增强</h4><p>采用例如flipping、cropping、rotating、contrasting等手段对原始图片进行变换，实际上是增加了数据的多样性，这对改进训练效果是十分有效的。特别来讲，将那些包含小物体的图片进行过采样，能够有效改善小物体检测的性能。</p>
+<p><a href="https://arxiv.org/abs/1902.07296" target="_blank" rel="noopener">Augmentation for small object detection</a></p>
+<h4 id="3-训练策略"><a href="#3-训练策略" class="headerlink" title="3.训练策略"></a>3.训练策略</h4><p><a href="https://arxiv.org/abs/1711.08189" target="_blank" rel="noopener">An Analysis of Scale Invariance in Object Detection - SNIP</a>一文针对小物体检测，在训练过程中进行了改进，SNIP是对多尺度训练的一种扩展。具体方法是</p>
+<p>1.选取三种图像分辨率训练得到的proposal。</p>
+<p>2.对于每个分辨率的图像，BP时只回传在对应尺度范围内的proposal梯度。</p>
+<p>3.这样保证了只使用一个网络，但是每次训练的物体的尺寸都是一致的。</p>
+<p>包括SNIP的改进<a href="https://arxiv.org/abs/1805.09300" target="_blank" rel="noopener">SNIPER</a>都是对多尺度训练作出的改进。</p>
+<h4 id="基于GAN的检测"><a href="#基于GAN的检测" class="headerlink" title="基于GAN的检测"></a>基于GAN的检测</h4><p><a href="https://arxiv.org/abs/1706.05274" target="_blank" rel="noopener">Perceptual GAN</a>中对生成器和判别器都进行了修改，使得生成器能够生成小目标的超分表达，判别器分为两个分枝，对抗分枝和感知分枝。对抗分枝用于区分生成的超分表达与大ground truth图片。感知分枝用于验证生成的表达对于检测精度的获益量。</p>
+<p><a href="https://openaccess.thecvf.com/content_ECCV_2018/papers/Yongqiang_Zhang_SOD-MTGAN_Small_Object_ECCV_2018_paper.pdf" target="_blank" rel="noopener">MTGAN</a>方法中采用GAN的思想，Generator重建低分辨率RoI图像至高分辨率，Discriminator是multi-task的，不仅仅知道G重建出更高质量的高分辨率RoI图像，并且基于重建后的高分辨率目标图像，同时完成bbox cls、reg的任务。</p>
+<h4 id="延伸文章"><a href="#延伸文章" class="headerlink" title="延伸文章"></a>延伸文章</h4><p><a href="https://arxiv.org/abs/1904.09730v1" target="_blank" rel="noopener">An Energy and GPU-Computation Efficient Backbone Network for Real-Time Object Detection</a></p>
+<p><a href="https://arxiv.org/abs/2003.09085v5" target="_blank" rel="noopener">Small-Object Detection in Remote Sensing Images with End-to-End Edge-Enhanced GAN and Object Detector Network</a></p>
+<p><a href="https://arxiv.org/abs/2005.11552v1" target="_blank" rel="noopener">Underwater object detection using Invert Multi-Class Adaboost with deep learning</a></p>
+<p><a href="https://arxiv.org/abs/1805.07009v3" target="_blank" rel="noopener">MDSSD: Multi-scale Deconvolutional Single Shot Detector for Small Objects</a></p>
+<p><a href="https://arxiv.org/abs/1709.05054v3" target="_blank" rel="noopener">Feature-Fused SSD: Fast Detection for Small Objects</a></p>
 
             <hr>
           </div>
@@ -194,7 +218,7 @@
               <span>
                 <i class="iconfont icon-tag"></i>
                 
-                  <a class="hover-with-bg" href="/tags/%E8%AE%BA%E6%96%87">论文</a>
+                  <a class="hover-with-bg" href="/tags/object%20detection">object detection</a>
                 
               </span>
             
@@ -336,7 +360,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Poly-YOLO&nbsp;",
+        "小目标检测(Small Object Detection)&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
