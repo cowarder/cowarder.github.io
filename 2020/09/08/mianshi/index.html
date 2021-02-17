@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="cowarder">
   <meta name="keywords" content="">
-  <title>Archive ~ cowarder</title>
+  <title>2020秋招常见视觉面试题整理 ~ cowarder</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -36,7 +36,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -96,7 +96,7 @@
 </nav>
 
     <div class="view intro-2" id="background"
-         style="background: url('/img/default.png')no-repeat center center;
+         style="background: url('/img/sub_main_page.jpg')no-repeat center center;
            background-size: cover;
            background-attachment: fixed;">
       <div class="full-bg-img">
@@ -106,6 +106,34 @@
               
             </span>
 
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Tuesday, September 8th 2020, 9:03 am
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    921 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      3 分钟
+                  </span>&nbsp;
+                
+
+                
+              </p>
             
           </div>
 
@@ -117,41 +145,137 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">18 posts in total.</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/02/25/poly-yolo/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Poly-YOLO</span>
-      <span style="float: right;">02-25</span>
-    </a>
-  
-    
-    <a href="/2020/02/11/cvpr2020/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">cvpr2020</span>
-      <span style="float: right;">02-11</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>2020秋招，牛客上面面试问到的问题整理，太过简单的没有记录，太偏的没有记录，主要涵盖深度学习、机器学习、目标检测</p>
+<p>1.介绍一下faster rcnn</p>
+<p>2.faster rcnn如何进行feature map选取的</p>
+<p>3.faster rcnn中的anchor作用，怎么进行不同box提取</p>
+<p>4.yolo和faster rcnn区别</p>
+<p>5.有哪些激活函数，有什么用，各自的特点，改进了什么？</p>
+<p>6.池化怎么进行反向传播</p>
+<p>7.介绍逻辑回归以及其损失函数，LR推倒</p>
+<p>8.如何解决类别不平衡问题</p>
+<p>9.ResNet的特点</p>
+<p>10.为什么使用1x1卷积？哪些情况下使用1x1卷积？</p>
+<p>11.SVM原理，具有哪些核函数，软间隔是怎么做的</p>
+<p>12.L1正则化和L2正则化区别，为什么L1能够产生稀疏性</p>
+<p>13.如何解决前景背景数量不均衡</p>
+<p>14.mobilenetv1和v2的区别</p>
+<p>15.训练过程中loss一直无法收敛，可能的情况</p>
+<p>16.为什么卷积核都是基数（padding角度）</p>
+<p>17.双线性插值</p>
+<p>18.inception如何减少计算量</p>
+<p>19.反卷积操作</p>
+<p>20.SSD里面的OHEM，正负样本为什么是1:3</p>
+<p>21.SSD缺点，特点，介绍</p>
+<p>22.FPN结构，FPN主要解决什么问题</p>
+<p>23.Inception和resnet区别</p>
+<p>24.细粒度分类用inception还是resnet好，类别不平衡用inception还是resnet好</p>
+<p>25.roi align和roi pooling区别</p>
+<p>26.介绍cascade rcnn</p>
+<p>27.shufflenet</p>
+<p>28.FCOS模型的思想</p>
+<p>29.怎么加快网络的收敛速度</p>
+<p>30.求cross entropy的值</p>
+<p>31.如何解决过拟合</p>
+<p>32.YOLOv3和SSD的致命缺点</p>
+<p>33.检测的框角度偏移如何解决</p>
+<p>34.SSD和Faster RCNN的本质区别</p>
+<p>35.遇见过梯度消失没有，常用框架是怎么判断梯度消失的</p>
+<p>36.PCA，SVD分解的区别与联系</p>
+<p>37.学习率衰减策略</p>
+<p>38.LR和SVM的联系和区别</p>
+<p>39.梯度消失和梯度爆炸出现的原因</p>
+<p>40.介绍一下BCE loss Dice loss， focal loss，triplet loss， center loss</p>
+<p>41.mAP计算</p>
+<p>42.空洞卷积</p>
+<p>43.yolo和SSD的区别</p>
+<p>44.kmeans和GMM区别与联系</p>
+<p>45.python装饰器，python迭代器和生成器</p>
+<p>46.AUC衡量模型的什么能力</p>
+<p>47.各种优化器性能比较</p>
+<p>48.ohem和focal loss的关系</p>
+<p>49.BN在训练期间和测试期间的区别</p>
+<p>50.感受野计算</p>
+<p>51.KKT条件</p>
+<p>52.python动态数组如何实现的</p>
+<p>53.anchor大小选取，长宽比选取</p>
+<p>54.为什么mobilenet、shufflenet在理论上面速度很快，但是工程上并没有特别大的提升</p>
+<p>55.为什么卷积核一般都是奇数</p>
+<p>56.倾斜边界框检测如何计算IOU值</p>
+<p>57.BN前向传播公式，注意train和infer的区别</p>
+<p>58.BN为什么能够加速模型收敛？为什么具有更好的泛化能力</p>
+<p>59.Relu，sigmoid，tanh函数公式，范围，导数公式，范围</p>
+<p>60.为什么采用小卷积核（使用3x3而不是5x5，7x7）</p>
+<p>61.upsample和pooling存在的问题</p>
+<p>62.python的深拷贝和浅拷贝</p>
+<p>63.AUC和F1-score</p>
+<p>64.softmax和sigmoid的区别</p>
+<p>65.NMS算法优化，性能优化</p>
+<p>66.smooth l1损失函数</p>
+<p>67.怎么消除漏检和误检</p>
+<p>68.特征相关性会对模型产生什么影响？如何解决</p>
+<p>69.如何解决梯度消失和梯度爆炸</p>
+<p>70.如何使用pytorch做模型压缩和模型蒸馏，分类和检测方向</p>
+<p>71.使用numpy写一个batchnorm层</p>
+<p>72.简要介绍一下yolo系列</p>
+<p>73.IOU loss，GIOU loss，DIOU loss</p>
+<p>74.简要介绍一下rcnn系列</p>
+<p>75.smooth l1特点</p>
+<p>76.常见优化器各自特点，SGD，Adam</p>
+<p>77.VGG网络及其改进</p>
 
-              </div>
-            </div>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0">深度学习</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -216,6 +340,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -256,7 +385,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Archive&nbsp;",
+        "2020秋招常见视觉面试题整理&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

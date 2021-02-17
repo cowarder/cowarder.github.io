@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="cowarder">
   <meta name="keywords" content="">
-  <title>Archive ~ cowarder</title>
+  <title>YOLOv4 ~ cowarder</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -36,7 +36,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -96,7 +96,7 @@
 </nav>
 
     <div class="view intro-2" id="background"
-         style="background: url('/img/default.png')no-repeat center center;
+         style="background: url('/img/sub_main_page.jpg')no-repeat center center;
            background-size: cover;
            background-attachment: fixed;">
       <div class="full-bg-img">
@@ -106,6 +106,34 @@
               
             </span>
 
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Thursday, August 20th 2020, 12:11 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    649 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      2 分钟
+                  </span>&nbsp;
+                
+
+                
+              </p>
             
           </div>
 
@@ -117,41 +145,75 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">18 posts in total.</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/02/25/poly-yolo/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Poly-YOLO</span>
-      <span style="float: right;">02-25</span>
-    </a>
-  
-    
-    <a href="/2020/02/11/cvpr2020/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">cvpr2020</span>
-      <span style="float: right;">02-11</span>
-    </a>
-  
-</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>YOLOv4: Optimal Speed and Accuracy of Object Detection.</p>
+<p>arxiv: <a href="https://arxiv.org/abs/2004.10934" target="_blank" rel="noopener">https://arxiv.org/abs/2004.10934</a></p>
+<p>github: <a href="https://github.com/AlexeyAB/darknet" target="_blank" rel="noopener">https://github.com/AlexeyAB/darknet</a></p>
+<p>第一版YOLO文章的发布，标志着基于深度学习的单阶段目标检测算法的开端，随后相继出现了YOLOv2，YOLOv3等家族系列文章。最近，YOLOv4正式发表，文章的主要内容是结合大量前人的工作，进行了大量的实验，并在此基础上面进行了一定的创新，在COCO数据集上面实现了43.5%的mAP，并且保持了65FPS的速度，实现了速度和精度的平衡</p>
+<p>文章中将前人在目标检测领域的工作大致分为两类：bag of freebies和bag of specials， 前者主要指的是在训练过程中应用的技巧，这种技巧不会显著增强模型测试阶段的速度和模型复杂度负担，只体现在训练阶段，主要就是数据增强操作。后者会稍微增加模型复杂度和时间开销，但是对精度会有更大的提升，例如一些后处理操作(NMS)</p>
+<p>本文主要对YOLOv4中提到的创新进行分析，并对其中集中常见的技巧进行介绍</p>
+<h3 id="Mosaic数据增强"><a href="#Mosaic数据增强" class="headerlink" title="Mosaic数据增强"></a>Mosaic数据增强</h3><p>mosaic数据增强参考了cutmix的方法，不同于一般的数据增强对单张图片进行操作，cutmix将两张图片进行拼接，成为一张图片，具体实现过程是，对图片A随机生成一个裁剪框B，裁剪掉A的相应位置，然后用图片B中的对应位置的ROI去填充A中的对应裁剪位置。对应的图片label是两张图片分别对应的label的线性组合。</p>
+<center>
+<img src="/2020/08/20/yolov4/cutmix.png" srcset="undefined" height="250">
+</center>
+
+<p>cutmix采用了两张图片，而本文提出的mosaic方法采用了四张图片，这样做的主要原因是，在目标检测领域，小目标一般要比中目标和打目标检测的难度要大，对应的AP值相对低一些，而且小目标图像分布并不均匀，有的图片中存在，有的并不存在，mosaic方法主要有两个优点：（1）丰富了数据集。随机使用四张图片，然后随机缩放再拼接，丰富了数据集，特别是随机缩放增加了很多小目标，能够获得更好的鲁棒性（2）减少GPU开销。相当于一张图片包含四张图片的信息，这样的话batch size就不需要太大，降低了对于GPU的需求，在一块GPU上面也能够训练</p>
+<center>
+<img src="/2020/08/20/yolov4/mosaic.png" srcset="undefined" height="300">
+</center>
 
 
-              </div>
-            </div>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/object%20detection">object detection</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -216,6 +278,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -256,7 +323,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Archive&nbsp;",
+        "YOLOv4&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

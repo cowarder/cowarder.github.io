@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="cowarder">
   <meta name="keywords" content="">
-  <title>Archive ~ cowarder</title>
+  <title>基于深度学习的视频分类 ~ cowarder</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -36,7 +36,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -96,7 +96,7 @@
 </nav>
 
     <div class="view intro-2" id="background"
-         style="background: url('/img/default.png')no-repeat center center;
+         style="background: url('/img/sub_main_page.jpg')no-repeat center center;
            background-size: cover;
            background-attachment: fixed;">
       <div class="full-bg-img">
@@ -106,6 +106,34 @@
               
             </span>
 
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Friday, July 17th 2020, 6:18 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    672 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      2 分钟
+                  </span>&nbsp;
+                
+
+                
+              </p>
             
           </div>
 
@@ -117,41 +145,80 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">18 posts in total.</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/02/25/poly-yolo/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Poly-YOLO</span>
-      <span style="float: right;">02-25</span>
-    </a>
-  
-    
-    <a href="/2020/02/11/cvpr2020/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">cvpr2020</span>
-      <span style="float: right;">02-11</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>利用深度学习进行图像分类发展到目前已经日趋成熟，在ImageNet数据集上面的准确率已经超过人类水平，但是视频分类仍然处在一个萌芽时期，视频分类技术并没有像二维图像分类那样成熟 </p>
+<h3 id="视频分类的难点"><a href="#视频分类的难点" class="headerlink" title="视频分类的难点"></a>视频分类的难点</h3><p>视频分类相较于图像分类，主要有两个难点： </p>
+<h5 id="1-如何有效利用时序信息"><a href="#1-如何有效利用时序信息" class="headerlink" title="1.如何有效利用时序信息"></a>1.如何有效利用时序信息</h5><blockquote>
+<p>深度学习利用卷积处理二维图像，能够有效利用图像中物体的位置、角度、色彩等信息，但是视频数据中会多出一维时间信息，而这一维中会蕴含大量有效信息，例如击球场景下，前一帧图像中击球动作发生，后一帧球轨迹改变，这里面就蕴含直接的因果关系，但这是时间维度上面的，传统的二维卷积没有办法学习和利用到这种信息</p>
+</blockquote>
+<h5 id="2-如何减少运算量"><a href="#2-如何减少运算量" class="headerlink" title="2.如何减少运算量"></a>2.如何减少运算量</h5><blockquote>
+<p>可以将视频视为在时间维度上面离散的二维图像，利用深度学习做视频分类最直接的方法就是利用3维卷积，相当于将原来的2维卷积核扩展为3维，这样看似简单的思想，带来的计算量的增加却是非常可怖的，因此如何减少视频分类任务中所需的计算量也是至关重要的一点</p>
+</blockquote>
+<h3 id="主流方法"><a href="#主流方法" class="headerlink" title="主流方法"></a>主流方法</h3><p>目前基于深度学习的视频分类任务主要有两个大的方向：</p>
+<h5 id="1-基于3D卷积的方法"><a href="#1-基于3D卷积的方法" class="headerlink" title="1.基于3D卷积的方法"></a>1.基于3D卷积的方法</h5><blockquote>
+<p>将原有的(a, b, c)大小的卷积核转换为(a, b, c, n)大小，这样能够利用时间维度信息，但是同时带来的是计算量的提升，同时精度也不是很高，因此针对于如何减少计算量和提升精度提出了一系列改进方法，例如18年cvpr的文章《ECO: Efficient convolutional Network For online video understanding》，首先提取离散帧图像，然后利用2D卷积对每一帧图像进行特征提取，然后将提取到的特征进行融合，最后利用一个3D卷积进行分类，相比于同时期的sota模型速度提升8-10倍</p>
+</blockquote>
+<center>
+<img src="/2020/07/17/video-class/3D.png" srcset="undefined">
+</center>
 
-              </div>
-            </div>
+<h5 id="2-CRNN"><a href="#2-CRNN" class="headerlink" title="2.CRNN"></a>2.CRNN</h5><blockquote>
+<p>CRNN实际上是CNN+RNN，利用encoder-decoder结构，采用CNN对视频数据进行编码，然后利用RNN进行时序图片信息的解码，具体来讲，采用2D卷积网络将一系列2D视频帧进行编码，得到对应的一维向量，RNN网络(一般采用LSTM)的输入是编码后的一维信息，</p>
+</blockquote>
+<center>
+<img src="/2020/07/17/video-class/crnn.png" srcset="undefined">
+</center>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0">深度学习</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -216,6 +283,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -256,7 +328,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Archive&nbsp;",
+        "基于深度学习的视频分类&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

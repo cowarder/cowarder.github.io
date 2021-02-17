@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en | zh-CN | zh-TW">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/leaf.jpeg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="cowarder">
+  <meta name="keywords" content="">
+  <title>机器学习与深度学习指北 ~ cowarder</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+  <link rel="stylesheet" href="/lib/prettify/github-v2.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>cowarder</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/sub_main_page.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Monday, September 28th 2020, 11:16 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    2.6k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      8 分钟
+                  </span>&nbsp;
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>这篇文章是我之前写给同实验室的师弟师妹们看的，没有外传过，如果机器学习基础不牢固，就直接搞深度学习，我觉得不太可取，但是问了问他们又没有一个明确的学习计划，为了能让他们尽量少走弯路，尽快搞定深度学习&amp;机器学习的基础，写了这篇文章。这篇文章主要是记录我的学习过程，主观性可能比较强，仅供参考，学不好本人概不负责(QAQ)</p>
+<h3 id="机器学习-amp-深度学习指北"><a href="#机器学习-amp-深度学习指北" class="headerlink" title="机器学习&amp;深度学习指北"></a>机器学习&amp;深度学习指北</h3><h4 id="前言"><a href="#前言" class="headerlink" title="前言:"></a>前言:</h4><p>本文将从作者学习经历出发，提炼出一条学习路线。网上的相关学习资料层出不穷，存在大量低质资源(各种教授、高级工程师出的 网课、书籍)，且存在很大程度上面的内容交叉，作者在学习的过程中也走过很多弯路，因 此本文的主要目的是让初学者对机器学习、深度学习迅速构建起一个知识脉络，避免走太多 的弯路，浪费宝贵时间。首先声明本文可能具有较大的主观性，因此内容仅做参考。</p>
+<p>首先提出两点误区，1)上来就搞深度学习。深度学习只是机器学习的一小部分，应该 是对机器学习有了一定的基础之后，再去研究深度学习，没有机器学习知识储备就去搞深度 学习是不可取的，很容易成为一个调参工程师。2)重理论，轻实践。很多人只看书，把书 里面的公式推一推，就以为自己已经掌握了这个知识点，其实不然，计算机领域还是代码为 先，实践是检验真理的唯一标准，写代码掌握和推公式掌握是完全两种不同的理解。</p>
+<h4 id="正文"><a href="#正文" class="headerlink" title="正文:"></a>正文:</h4><h5 id="1-机器学习"><a href="#1-机器学习" class="headerlink" title="1.机器学习:"></a>1.机器学习:</h5><p>网课首推的是 cs229，主讲人为吴恩达，吴恩达机器学习有两门课，一门是 08 年的 cs229，另外一门是 coursera 上面的机器学习，coursera 上面课程涵盖的内容甚至没有 cs229 的一半多，对于初学者太友好了，以至于学完了收获不大。cs229 在 2018 年进行了 重新的录制，08 版和 18 版在 bilibili 上面都有视频。这门课的讲义是课程的精华，仅仅是讲 义，价值就已经比很多机器学习课程高了。建议学习方法:看一节课，跟着他一起推导，视 频里出现的公式都搞懂，看完一节课之后去看这门课的讲义，进一步巩固。另外两个老师(林 轩田和李宏毅)的机器学习视频也都看过，但是首推的还是 cs229，虽然学习过程艰难，但 是收获会很大。(需要具备线性代数、微积分的理论基础)</p>
+<p>看视频相对于看书，知识获取的效率是要低很多的，但是对于初学者很友好，因此首先 推荐的是视频，当看完 cs229 之后，如果是将里面的每一个点都搞懂了，那么恭喜，你已 经对机器学习领域有了一个基本的了解，接下来就是实践。推荐《机器学习实战》这本书， 这本书对于常见的机器学习算法(LR、SVM、KNN、树回归等)提供了代码演示，这本书 同时提供了源代码以及演示的数据，且在每一章都提供了结果可视化代码，更加直观，利用 这本书，你能够学到如何从数据中构建一个模型，如何训练、验证、展示结果。建议学习方 法:首先看懂知识点，根据思路尝试自己去实现，实现不了看代码，再尝试实现，重复这个 过程之后如果仍然无法实现，照着代码逐行写入，尽量不要直接复制粘贴，这样收获微乎其 微。</p>
+<p>在学习《机器学习实战》的过程中可以进一步巩固理论知识，这里推荐的就是李航老师 的小蓝本《统计学习方法》，这本书一共有几百个公式，需要全部搞懂，是全部，每一个公 式你都需要推一遍，第一遍可能很困难，但是坚持下来，你的机器学习理论水平又会有比较 大的提升，推公式的意义不是为了跟别人谈及的时候显得自己很牛，而是帮助你更好地去理 解这个知识点。你能说出来算法的流程，这是外在的，而公式推导，是一种内在的东西。这 本书基本最少你得推个两遍。</p>
+<p>到这里，你的理论基础就比较好了，基本代码也会写一些，但是还是不够，建议去 kaggle 上面去做泰坦尼克和房价预测的项目，一个回归一个分类，竞赛提供给你数据，利用你学到 的各种算法尝试去解决这两个问题，kaggle 上面最重要的就是 notebooks，读别人的代码， 你可以学到:如何做数据分析、数据清洗、数据预处理、eda、构建模型、训练测试 pipeline 的搭建、训练结果可视化、模型集成，以及各种提高模型效果的 trick，这些在实际项目中 都是十分重要的，还可以发现很多有用的工具包。当然，如果你要去做一些能够拿钱的正式比赛也是可以的。 好了，机器学习学到这里已经比较好了，大多数场景下都是够用了，接下来就是学深度学习。</p>
+<h5 id="2-深度学习"><a href="#2-深度学习" class="headerlink" title="2.深度学习"></a>2.深度学习</h5><p>深度学习说到底其实没有什么太过神秘的东西，本质上就是卷积，其实就很简单。深度学习的视频就比较多了，其实水平也差不多，coursera 上面 deellearning.ai 的系列课程、 李飞飞的 cs231n，这些在 bilibili 上面都能找到，这两个我都看了，deeplearning.ai 很基础， 很友好，cs231n 更多是讲的计算机视觉里面的 deep learning，没涉及到 nlp 里面比如 rnn、 lstm 这些，后面我想巩固 rnn 这一块的是看了李宏毅深度学习课程里面的相关章节。总体 推荐还是 deeplearning.ai&gt;cs231n&gt;李宏毅。</p>
+<p>深度学习是一门实验性的学科，因此接下来我建议你去学习一个框架，目前主流的 pytorch、tensorflow、paddlepaddle、keras，pytorch 和 tensorflow 分别是在学术界和工 业界用的最多的两个框架，paddlepaddle 是百度的，keras 内核基于 tensorflow，但是接口 简化，更简单。研究生首推 pytorch，生态很好，各种 bug 一般都能找到解决方案，版本差 距不大，简单易用，tensorflow 不同版本之间差距太大，而且有的概念比较抽象，对于新手 不友好，而且目前开源的最新论文代码基本都是基于 pytorch 的。打开 pytorch 官网 -&gt;tutorials，这里有很多入门教程，首推 DEEP LEARNING WITH PYTORCH: A 60 MINUTE BLITZ，学完这个你就对 pytorch 构建训练 pipeline 有了了解，然后你再在这个目录下面找 自己感兴趣的内容去跑一遍，关键点检测、目标检测、文本分类、强化学习。跑个一两个， 恭喜，你就算是入门了 pytorch，就是这么简单。</p>
+<p>如果觉得还不够呢，就去复现一篇论文吧，比如可以复现经典的 GAN，WGAN，因为 GAN 思想很简单，复现所需要的代码很少，也比较有意思。这样能够让你的 pytorch 基础 进一步巩固。可以去 github 上面搜索 pytorch gan，参考别人的代码。</p>
+<h5 id="3-总结"><a href="#3-总结" class="headerlink" title="3.总结"></a>3.总结</h5><p>接下来你已经具备了机器学习和深度学习的基础，就可以根据自己的研究方向开始看论文了，你会发现论文中提到的机器学习、深度学习概念大多数你都了解，即便不了解去搜一 下也能看懂。很多新的内容都需要你去从论文中学习。接下来可以考虑运用自己学会的东西 做更多的实践，可以复现一两篇跟自己研究方向相关的经典论文，还可以去参加一些大型的 比赛，比如 kaggle、天池等。在复现论文、做比赛的过程中，你会遇到各种问题，然后需 要去阅读更多的论文，再将论文里面的内容转化为代码进行实验，这就是一种理论-代码不 断迭代加强的学习路线，收获更多，成长更快。</p>
+<h5 id="4-附录"><a href="#4-附录" class="headerlink" title="4.附录"></a>4.附录</h5><p>(1)《机器学习》(西瓜书)。西瓜书更多的是科普书籍，强调的是机器学习的一个广度，可以当作一个科普读物来看。课后题有的难度还是比较大的。 (2)《深度学习》(花书)。首先花书中文版翻译的不是很好，有很多概念类似于机翻，比较晦涩，不太适合阅读，如果想巩固深度学习的理论基础，还是看英文版对应的章节 就好，没有必要全看，遇见问题还是找对应的论文看比较好。</p>
+<p>(3)《Pattern Recognition and Machine Learning》(PRML)。经典巨著之一的 PRML，如果有时间还是建议从头到尾读一遍英文原版的，我只看了前半部分，收获同样很 多，不过这本书编著的时间比较早了，有的概念比较老，还是要有鉴别的去看。</p>
+<p>(4)《Elements Statistic Learning》，(ESL)，经典巨著之一 ESL，看了几章，跟PRML 里面内容有重叠，不过更多是从统计的角度来讲的。<br> (5)《百面机器学习》。由 hulu 工程师编写的一本书，对于常见的机器学习问题做了总结，虽然是应对面试的，但是里面的问题都是工业界常见的问题，我们在实验过程中也会 经常遇见，非常建议读一遍。</p>
+<p>多看论文，多写代码。</p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0">深度学习</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+  
+  <br>
+
+
+
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "机器学习与深度学习指北&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+</body>
+</html>
