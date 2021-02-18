@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="cowarder">
   <meta name="keywords" content="">
-  <title>cvpr2020 ~ cowarder</title>
+  <title>links ~ cowarder</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -36,7 +36,7 @@
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 100vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -96,7 +96,7 @@
 </nav>
 
     <div class="view intro-2" id="background"
-         style="background: url('/img/sub_main_page.jpg')no-repeat center center;
+         style="background: url('/img/main_page.jpg')no-repeat center center;
            background-size: cover;
            background-attachment: fixed;">
       <div class="full-bg-img">
@@ -107,36 +107,12 @@
             </span>
 
             
-              <br>
-              
-                <p class="mt-3">
-                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Tuesday, February 11th 2020, 6:15 pm
-                </p>
-              
-
-              <p>
-                
-                  
-                  &nbsp;<i class="far fa-chart-bar"></i>
-                  <span class="post-count">
-                    1.2k 字
-                  </span>&nbsp;
-                
-
-                
-                  
-                  &nbsp;<i class="far fa-clock"></i>
-                  <span class="post-count">
-                      4 分钟
-                  </span>&nbsp;
-                
-
-                
-              </p>
-            
           </div>
 
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
           
         </div>
       </div>
@@ -145,76 +121,18 @@
 
   <main>
     
-      
-
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="py-5 z-depth-3" id="board">
-        <div class="post-content mx-auto" id="post">
-          <div class="markdown-body">
-            <p>这篇文章主要对CVPR2020中涉及到的目标检测的文章做一个简短总结，提炼总体文章思路，以备查阅。</p>
-<p><a href="https://arxiv.org/abs/1908.01998" target="_blank" rel="noopener">《Few-Shot Object Detection with Attention-RPN and Multi-Relation Detector》</a></p>
-<p>小样本学习的文章。目标检测需要大量标注工作，利用少量标注样本训练模型得到更好的效果在一些任务上面更加需要。文章中主要有两点贡献，首先作者提出了一个新的网络（带有注意力机制的RPN和多关系检测器的小样本目标检测网络），在不用重新训练和微调的情况下检测新的物体，第二点贡献在于设计了一个新的数据集(FSOD)，其中包括1000个类别，每个类别只有很少的图片，利用这个数据集，模型相较于COCO数据集上面进行训练，取得了更好的效果。在few-shot learning任务中，我们一般将带有标签的图片称为support image，等待分割的图片称为query image，注意力机制RPN通过关注给定的支持类别来过滤掉其他类别的对象建议，然后多关系检测器将查询建议与支持图像进行匹配。</p>
-<p><a href="https://arxiv.org/abs/1912.02424" target="_blank" rel="noopener">《Bridging the Gap Between Anchor-based and Anchor-free Detection via Adaptive Training Sample Selection》</a></p>
-<p>论文中指出one-stage基于anchor的方法和center-based anchor free的方法之间检测性能的差异主要是来源于正负样本的选择，如果在实验过程中使用相同的正负样本，则两者之间的性能差异不会太大。基于此提出ATSS(Adaptive Training Sample Selection)方法，根据GT的相关统计特征选择合适的anchor box作为正样本，在不增加额外计算量的情况下大幅度提升模型性能。文中选取了anchor-based方法RetinaNet和anchor-free方法FCOS进行了对比，原本的RetinaNet性能要低于    FCOS，但是考虑到他们之间定义正负样本的差异性，RetinaNet使用IOU阈值来区分正负anchor box，处于中间的全部忽略。FCOS使用空间尺寸和尺寸限制来区分正负anchor point，首先需要在GT里面，然后对尺寸做了限制。通过交叉实验，发现在相同正负样本定义下的RetinaNat和FCOS性能几乎一样。</p>
-<p><a href="https://arxiv.org/abs/1912.05384" target="_blank" rel="noopener">《AugFPN: Improving Multi-scale Feature Learning for Object Detection》</a></p>
-<p>文章将Faster RCNN的FPN结构改成AugFPN，在ResNet50和Mobilenetv2上面都有所提升。FPN中，底层特征相对比较大，为了节省计算量通道数相对较少，而高层特征包含较多的语义特征，通道数比较多，在做不同层次的特征融合的时候，高层特征需要利用1x1卷积降低通道数，然后通过两倍上采样和首先在文章中分析了现有的FPN存在的三点缺陷：</p>
-<p>1.before feature fusion。FPN在进行特征融合之前，需要将高层特征利用卷积降低通道数，通道数相同后才能相加，但是不同stage学习到的特征感受野是不一样的，包含的语义信息也不同，直接相加会造成多尺度的表达能力</p>
-<p>2.Top-down feature fusion。将底层特征和高层特征进行融合的过程，虽然底层特征得到了来自高层特征的加强，但是高层特征通过1x1卷积降低通道数，势必造成信息的损失。</p>
-<p>3.After feature fusion。FPN中每个候选区域ROI都是根据起尺度来选择对应的特征层次的，最终每个ROI都只会对应一层特征，而那些被忽略的层也会对结果产生影响，但是信息直接被忽略掉了。</p>
-<ol>
-<li><p>针对上述问题，提出了三点对应的解决方案：</p>
-</li>
-</ol>
-<p>1.consistent supervision。将每个ROI都映射到所有的feature map上面得到对应的feature map，然后对这些feature map做分类和回归，得到损失，将这一损失和网络本身的损失做一个加权求和。</p>
-<p>2.Residual Feature Augmentation。FPN特征融合之前需要做1x1的降维，这会导致高层特征的信息缺失，直接加没有缺失的高层特征。</p>
-<p>3.Soft ROI Selection。FPN重的ROI是根据尺度大小选择对应的特征层，一般小的ROI对应底层特征，大的ROI对应高层特征，但是虽然某个ROI被分到某一层，但是其他特征层同样包含对应的特征信息，作者将ROI对应的所有特征层的特征都取出来，然后利用网络权重参数做一个加权。</p>
-
-            <hr>
-          </div>
-          <br>
-          <div>
-            <p>
-            
-            
-              <span>
-                <i class="iconfont icon-tag"></i>
+      <div class="container nopadding-md">
+        <div class="py-5 z-depth-3" id="board">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
                 
-                  <a class="hover-with-bg" href="/tags/object%20detection">object detection</a>
-                
-              </span>
-            
-            </p>
-            
-              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-            
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="d-none d-lg-block col-lg-2 toc-container">
-      
-  <div id="toc">
-    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
-    <div id="tocbot"></div>
-  </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- custom -->
-
-
-<!-- Comments -->
-<div class="col-lg-7 mx-auto nopadding-md">
-  <div class="container comments mx-auto" id="comments">
-    
-  </div>
-</div>
-
     
   </main>
 
@@ -279,11 +197,6 @@
 
 
 
-  
-    <script src="/lib/tocbot/tocbot.min.js" ></script>
-  
-  <script src="/js/post.js" ></script>
-
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -324,7 +237,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "cvpr2020&nbsp;",
+        "links&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
