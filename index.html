@@ -134,6 +134,52 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/10/05/pingan/" target="_self">
+          <img src="/img/pingan.jpg" srcset="undefined" alt="平安科技实习总结" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/10/05/pingan/">
+        <p class="h4 index-header">平安科技实习总结</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">今年7月份到9月份在平安科技(上海)实习了一段时间，岗位是人脸识别算法组算法工程师，主要负责采用深度学习进行视频流的唇语识别。平安科技不愧是保险公司，就是有钱，当时组里有四个实习生，我做唇语识别，另外三个人做GAN、声形同步、以及3D目标检测，平均每个人有一台8卡Tesla v100可以用，有充足计算资源自己折腾实验  
+当时我负责的研究内容是读验证码唇语识别，给定的数据是公司的内部数据，每个样本是一个短视频，里面显示的是不同的人读取数字，实习期间针对这个任务做了一系列的改进 。整体大致流程是：输入视频数据-&gt;提取音频-&gt;根据音频截取视频中间说话人的部分-&gt;从截取视频中抽取固定帧图像-&gt;训练  
+1.数据分析前期拿到数据首先做了初步的分析，数据比较脏，存在诸多问题：
+
+(1) 噪音较多。背景音比较嘈杂
+(2) 方言。导致同一验证码唇形变化不一致
+(3) 重复读。一个验证码有的人会读多次
+(4) 截断。并没有完整截取视频片段
+(5) 唇动不明显。这种情形更多是个人习惯导致
+
+噪音问题会导致我们在截取视频前后片段时的不准确，从而导致采样图片帧出现较大误差，如何从视频</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-10-05&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E5%AE%9E%E4%B9%A0">实习</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/09/28/mldl/" target="_self">
           <img src="/img/mldl.png" srcset="undefined" alt="机器学习与深度学习指北" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -515,44 +561,6 @@ YOLOv3中存在的问题本文从分析YOLOv3论文中存在的两个问题，�
           
             <a href="/tags/object%20detection">object detection</a>&nbsp;
           
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/01/28/mobile/" target="_self">
-          <img src="/img/mobilenet.png" srcset="undefined" alt="MobileNet" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/28/mobile/">
-        <p class="h4 index-header">MobileNet</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">卷积神经网络在计算机视觉领域已经得到了广泛应用，在各种视觉任务中都取得了比较好的效果。大趋势是通过不断增加网络深度、设计更加复杂的网络来提高模型精度。但是随着网络模型的增加，模型存储需要的内存以及运行需要的算力也在不断增加。在某些实际应用领域，例如嵌入式设备，这样庞大而复杂的网络是很难被应用的，一方面是模型过于庞大，面临内存不足的问题，而另外一方面，这些应用领域要求延迟低，而网络参数越多计算量越大，延迟就会越高。因此研究小而且高效的网络对工业界实际应用具有非常大的意义。
-考虑到硬件设备的限制，目前在网络研究方面主要分为两个方面，一是对于训练好的模型进行压缩，减少参数量。另外一种是直接设计一个小的模型进行训练。其目标在于在保证模型精度的情况下减少参数数目，同时提升模型精度。本文所做的改进属于后者。
-深度可分离卷积(depthwise seperable convolution)MobileNet中的基本组建是深度可分离卷积(depthwise seperable convolution)，首先我们需要分析一个传统的卷积操作。
-
- 
-
-
-假设我们有一个1212的输入特征图，通道数为3($D</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-28&nbsp;&nbsp;
-        
-        
         
       </div>
     </div>
