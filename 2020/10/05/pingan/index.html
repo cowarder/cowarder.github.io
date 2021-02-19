@@ -175,7 +175,7 @@
 <h4 id="5-唇部提取"><a href="#5-唇部提取" class="headerlink" title="5.唇部提取"></a>5.唇部提取</h4><p>因为不同视频场景不尽相同，因此视频帧图像无法直接用于唇语识别，需要做进一步提取   </p>
 <p>初始的思路是手动标注了大约1000张人脸图像，利用yolov3进行人脸(唇部)检测，标注的时候标注的是人脸下颌到鼻子之间的区域，并不包含全部人脸，且保证嘴巴在图片的正中心，训练后的模型切割效果良好  </p>
 <p>最后的方案是利用dlib68人脸关键点检测算法，检测鼻尖、下颌、左右嘴夹关键点，分别按照比例左右上下进行扩充，检测的效果很好，并且速度也较快  </p>
-<h4 id="6-模型选择"><a href="#6-模型选择" class="headerlink" title="6.模型选择"></a>6.模型选择</h4><h5 id="3D卷积模型"><a href="#3D卷积模型" class="headerlink" title="3D卷积模型"></a>3D卷积模型</h5><p>初期采用的是<a href="https://openaccess.thecvf.com/content_ECCV_2018/papers/Mohammadreza_Zolfaghari_ECO_Efficient_Convolutional_ECCV_2018_paper.pdf" target="_blank" rel="noopener">ECO: Efficient convolutional Network For online video understanding》</a>，这篇文章是3D卷积模型的代表作之一，也是我们首先尝试的模型，模型结构如下：</p>
+<h4 id="6-模型选择"><a href="#6-模型选择" class="headerlink" title="6.模型选择"></a>6.模型选择</h4><h5 id="3D卷积模型"><a href="#3D卷积模型" class="headerlink" title="3D卷积模型"></a>3D卷积模型</h5><p>初期采用的是<a href="https://openaccess.thecvf.com/content_ECCV_2018/papers/Mohammadreza_Zolfaghari_ECO_Efficient_Convolutional_ECCV_2018_paper.pdf" target="_blank" rel="noopener">《ECO: Efficient convolutional Network For online video understanding》</a>，这篇文章是3D卷积模型的代表作之一，也是我们首先尝试的模型，模型结构如下：</p>
 <center>
 <img src="/2020/10/05/pingan/eco.png" srcset="undefined">
 </center>
@@ -221,7 +221,7 @@
     <div class="d-none d-lg-block col-lg-2 toc-container">
       
   <div id="toc">
-    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
     <div id="tocbot"></div>
   </div>
 
@@ -254,7 +254,7 @@
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -263,7 +263,7 @@
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
           <label data-error="x" data-success="v"
-                 for="local-search-input">keyword</label>
+                 for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
