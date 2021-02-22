@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="cowarder">
   <meta name="keywords" content="">
-  <title>基于深度学习的视频分类 ~ cowarder</title>
+  <title>论文阅读《Temporal Shift Module for Efficient Video Understanding》 ~ cowarder</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -105,7 +105,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Friday, July 17th 2020, 6:18 pm
+                  Thursday, October 22nd 2020, 1:59 pm
                 </p>
               
 
@@ -114,7 +114,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    672 字
+                    844 字
                   </span>&nbsp;
                 
 
@@ -122,7 +122,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      2 分钟
+                      3 分钟
                   </span>&nbsp;
                 
 
@@ -148,28 +148,49 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>利用深度学习进行图像分类发展到目前已经日趋成熟，在ImageNet数据集上面的准确率已经超过人类水平，但是视频分类仍然处在一个萌芽时期，视频分类技术并没有像二维图像分类那样成熟 </p>
-<h3 id="视频分类的难点"><a href="#视频分类的难点" class="headerlink" title="视频分类的难点"></a>视频分类的难点</h3><p>视频分类相较于图像分类，主要有两个难点： </p>
-<h5 id="1-如何有效利用时序信息"><a href="#1-如何有效利用时序信息" class="headerlink" title="1.如何有效利用时序信息"></a>1.如何有效利用时序信息</h5><blockquote>
-<p>深度学习利用卷积处理二维图像，能够有效利用图像中物体的位置、角度、色彩等信息，但是视频数据中会多出一维时间信息，而这一维中会蕴含大量有效信息，例如击球场景下，前一帧图像中击球动作发生，后一帧球轨迹改变，这里面就蕴含直接的因果关系，但这是时间维度上面的，传统的二维卷积没有办法学习和利用到这种信息</p>
-</blockquote>
-<h5 id="2-如何减少运算量"><a href="#2-如何减少运算量" class="headerlink" title="2.如何减少运算量"></a>2.如何减少运算量</h5><blockquote>
-<p>可以将视频视为在时间维度上面离散的二维图像，利用深度学习做视频分类最直接的方法就是利用3维卷积，相当于将原来的2维卷积核扩展为3维，这样看似简单的思想，带来的计算量的增加却是非常可怖的，因此如何减少视频分类任务中所需的计算量也是至关重要的一点</p>
-</blockquote>
-<h3 id="主流方法"><a href="#主流方法" class="headerlink" title="主流方法"></a>主流方法</h3><p>目前基于深度学习的视频分类任务主要有两个大的方向：</p>
-<h5 id="1-基于3D卷积的方法"><a href="#1-基于3D卷积的方法" class="headerlink" title="1.基于3D卷积的方法"></a>1.基于3D卷积的方法</h5><blockquote>
-<p>将原有的(a, b, c)大小的卷积核转换为(a, b, c, n)大小，这样能够利用时间维度信息，但是同时带来的是计算量的提升，同时精度也不是很高，因此针对于如何减少计算量和提升精度提出了一系列改进方法，例如18年cvpr的文章《ECO: Efficient convolutional Network For online video understanding》，首先提取离散帧图像，然后利用2D卷积对每一帧图像进行特征提取，然后将提取到的特征进行融合，最后利用一个3D卷积进行分类，相比于同时期的sota模型速度提升8-10倍</p>
-</blockquote>
+            <h4 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h4><p>视频理解领域，高准确率和低计算成本的权衡一直是一个十分重要的问题。传统的2D卷积计算量很小，但是只能捕捉图像中的空间信息，无法捕捉帧与帧之间的时序信息。基于3D卷积的方法虽然效果很好，但是计算成本太高，实际部署困难。这篇文章中，我们提出了一种泛化性强、效率高的模块(Temporal Shift Module)，能够同时实现高效和高精度，能够实现3D卷积精度的基础上，仍然保持2D卷积的计算成本。TSM在时间维度上面移动了部分通道，便于在相邻帧图像之间交换信息。TSM模块可以插入2D卷积模型中，在不增加任何计算成本的条件下实现时间建模。我们还将TSM应用在在线任务中，实现了实时低延迟的在线视频识别和视频对象检测。TSM准确而有效，在Something-Something数据集榜单上面排行第一，在Galaxy Note8手机上面，实现了35ms低延迟的在线视频识别。代码可以在<a href="https://github.com/mit-han-lab/temporal-shift-module" target="_blank" rel="noopener">这里</a>找到  </p>
+<h4 id="TSM模块"><a href="#TSM模块" class="headerlink" title="TSM模块"></a>TSM模块</h4><p>TSM通过沿着时间维度移动特征图通道来执行有效的时间建模。相较于2D卷积，并没有增加计算量，但是TSM结构具有强大的时间建模能力。TSM能够有效支持在线和离线视频分类任务，双向TSM将过去的帧和未来的帧以及当前帧进行混合，适应于高吞吐量的离线视频识别。单向TSM将过去的帧与当前帧进行混合，适应于低延迟的在线视频识别 </p>
 <center>
-<img src="/2020/07/17/video-class/3D.png" srcset="undefined">
+<img src="/2020/10/22/tsm/tsm.png" srcset="undefined">
 </center>
 
-<h5 id="2-CRNN"><a href="#2-CRNN" class="headerlink" title="2.CRNN"></a>2.CRNN</h5><blockquote>
-<p>CRNN实际上是CNN+RNN，利用encoder-decoder结构，采用CNN对视频数据进行编码，然后利用RNN进行时序图片信息的解码，具体来讲，采用2D卷积网络将一系列2D视频帧进行编码，得到对应的一维向量，RNN网络(一般采用LSTM)的输入是编码后的一维信息，</p>
-</blockquote>
-<center>
-<img src="/2020/07/17/video-class/crnn.png" srcset="undefined">
-</center>
+
+<p>具体来讲，视频任务的每一层feature map我们可以将其视为是一个$R^{NxCxTxHxW}$矩阵，其中N代表batch size，C代表的是feature的通道数，T代表的是时间维度，H和W代表的是空间维度。传统的2D卷积沿着维度T独立应用在每一帧图像上，因此没有利用时间信息(图a所示)。相比下，TSM沿着时间维度同时向前向后移动channel(图b所示)，通过移动channel，相邻帧图像的信息与当前帧进行了混合。这种思想的出发点是：卷积运算包括位移和乘法累加，我们将时间维度偏移+-1，并将乘积从时间维度折叠到通道维度。为了实现在线视频理解，将来的帧不能与当前帧进行融合，因此提出了单向TSM(图c所示)  </p>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><pre><code class="python">class TemporalShift(nn.Module):
+    def __init__(self, net, n_segment=3, n_div=8, inplace=False):
+        super(TemporalShift, self).__init__()
+        self.net = net
+        self.n_segment = n_segment
+        self.fold_div = n_div
+        self.inplace = inplace
+        if inplace:
+            print(&#39;=&gt; Using in-place shift...&#39;)
+        print(&#39;=&gt; Using fold div: {}&#39;.format(self.fold_div))
+
+    def forward(self, x):
+        x = self.shift(x, self.n_segment, fold_div=self.fold_div, inplace=self.inplace)
+        return self.net(x)
+
+    @staticmethod
+    def shift(x, n_segment, fold_div=3, inplace=False):
+        nt, c, h, w = x.size()
+        n_batch = nt // n_segment
+        x = x.view(n_batch, n_segment, c, h, w)
+
+        fold = c // fold_div
+        if inplace:
+            # Due to some out of order error when performing parallel computing. 
+            # May need to write a CUDA kernel.
+            raise NotImplementedError  
+            # out = InplaceShift.apply(x, fold)
+        else:
+            out = torch.zeros_like(x)
+            out[:, :-1, :fold] = x[:, 1:, :fold]  # shift left
+            out[:, 1:, fold: 2 * fold] = x[:, :-1, fold: 2 * fold]  # shift right
+            out[:, :, 2 * fold:] = x[:, :, 2 * fold:]  # not shift
+
+        return out.view(nt, c, h, w)</code></pre>
+
             <hr>
           </div>
           <br>
@@ -180,7 +201,7 @@
               <span>
                 <i class="iconfont icon-tag"></i>
                 
-                  <a class="hover-with-bg" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0">深度学习</a>
+                  <a class="hover-with-bg" href="/tags/%E8%AE%BA%E6%96%87">论文</a>
                 
               </span>
             
@@ -322,7 +343,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "基于深度学习的视频分类&nbsp;",
+        "论文阅读《Temporal Shift Module for Efficient Video Understanding》&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

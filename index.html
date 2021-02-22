@@ -128,6 +128,43 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/10/22/tsm/" target="_self">
+          <img src="/img/tsm.png" srcset="undefined" alt="论文阅读《Temporal Shift Module for Efficient Video Understanding》" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/10/22/tsm/">
+        <p class="h4 index-header">论文阅读《Temporal Shift Module for Efficient Video Understanding》</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Abstract视频理解领域，高准确率和低计算成本的权衡一直是一个十分重要的问题。传统的2D卷积计算量很小，但是只能捕捉图像中的空间信息，无法捕捉帧与帧之间的时序信息。基于3D卷积的方法虽然效果很好，但是计算成本太高，实际部署困难。这篇文章中，我们提出了一种泛化性强、效率高的模块(Temporal Shift Module)，能够同时实现高效和高精度，能够实现3D卷积精度的基础上，仍然保持2D卷积的计算成本。TSM在时间维度上面移动了部分通道，便于在相邻帧图像之间交换信息。TSM模块可以插入2D卷积模型中，在不增加任何计算成本的条件下实现时间建模。我们还将TSM应用在在线任务中，实现了实时低延迟的在线视频识别和视频对象检测。TSM准确而有效，在Something-Something数据集榜单上面排行第一，在Galaxy Note8手机上面，实现了35ms低延迟的在线视频识别。代码可以在这里找到  
+TSM模块TSM通过沿着时间维度移动特征图通道来执行有效的时间建模。相较于2D卷积，并没有增加计算量，但是TSM结构具有强大的时间建模能力。TSM能够有效支持在线和离线视频分类任务，双向TS</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-10-22&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E8%AE%BA%E6%96%87">论文</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/10/05/pingan/" target="_self">
           <img src="/img/pingan.jpg" srcset="undefined" alt="平安科技实习总结" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -521,45 +558,6 @@ YOLOv3中存在的问题本文从分析YOLOv3论文中存在的两个问题，�
     </div>
   </div>
 
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/02/11/cvpr2020/" target="_self">
-          <img src="/img/cvpr2020.png" srcset="undefined" alt="cvpr2020" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/11/cvpr2020/">
-        <p class="h4 index-header">cvpr2020</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">这篇文章主要对CVPR2020中涉及到的目标检测的文章做一个简短总结，提炼总体文章思路，以备查阅。
-《Few-Shot Object Detection with Attention-RPN and Multi-Relation Detector》
-小样本学习的文章。目标检测需要大量标注工作，利用少量标注样本训练模型得到更好的效果在一些任务上面更加需要。文章中主要有两点贡献，首先作者提出了一个新的网络（带有注意力机制的RPN和多关系检测器的小样本目标检测网络），在不用重新训练和微调的情况下检测新的物体，第二点贡献在于设计了一个新的数据集(FSOD)，其中包括1000个类别，每个类别只有很少的图片，利用这个数据集，模型相较于COCO数据集上面进行训练，取得了更好的效果。在few-shot learning任务中，我们一般将带有标签的图片称为support image，等待分割的图片称为query image，注意力机制RPN通过关注给定的支持类别来过滤掉其他类别的对象建议，然后多关系检测器将查询建议与支持图像进行匹配。
-《Bridging the Gap Between Anchor-b</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-11&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/object%20detection">object detection</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="index posts navigation">
@@ -596,7 +594,7 @@ YOLOv3中存在的问题本文从分析YOLOv3论文中存在的两个问题，�
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -605,7 +603,7 @@ YOLOv3中存在的问题本文从分析YOLOv3论文中存在的两个问题，�
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
           <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
+                 for="local-search-input">keyword</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
