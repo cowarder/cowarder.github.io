@@ -114,7 +114,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    844 字
+                    1.1k 字
                   </span>&nbsp;
                 
 
@@ -122,7 +122,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      3 分钟
+                      4 分钟
                   </span>&nbsp;
                 
 
@@ -155,7 +155,12 @@
 </center>
 
 
-<p>具体来讲，视频任务的每一层feature map我们可以将其视为是一个$R^{NxCxTxHxW}$矩阵，其中N代表batch size，C代表的是feature的通道数，T代表的是时间维度，H和W代表的是空间维度。传统的2D卷积沿着维度T独立应用在每一帧图像上，因此没有利用时间信息(图a所示)。相比下，TSM沿着时间维度同时向前向后移动channel(图b所示)，通过移动channel，相邻帧图像的信息与当前帧进行了混合。这种思想的出发点是：卷积运算包括位移和乘法累加，我们将时间维度偏移+-1，并将乘积从时间维度折叠到通道维度。为了实现在线视频理解，将来的帧不能与当前帧进行融合，因此提出了单向TSM(图c所示)  </p>
+<p>具体来讲，视频任务的每一层feature map我们可以将其视为是一个$R^{NxCxTxHxW}$矩阵，其中N代表batch size，C代表的是feature的通道数，T代表的是时间维度，H和W代表的是空间维度。传统的2D卷积沿着维度T独立应用在每一帧图像上，因此没有利用时间信息(图a所示)。相比下，TSM沿着时间维度同时向前向后移动channel(图b所示)，通过移动channel，相邻帧图像的信息与当前帧进行了混合。这种思想的出发点是：卷积运算包括位移和乘法累加，我们将时间维度偏移+-1，并将乘积从时间维度折叠到通道维度。为了实现在线视频理解，将来的帧不能与当前帧进行融合，因此提出了单向TSM(图c所示)   </p>
+<p>考虑一个简单的卷积操作，这里为了简化，采用1维卷积，kernel size设置为3。假设卷积的权重是$W=(w_1, w_2, w_3)$，输入是向量$X$，卷积操作可以表示为$Y=Conv(W, X)$，分解$Y_i = w_1X_{i-1}+w_2X_i+w_3X_{i+1}$，我们可以将卷积操作分解为两步：位移(shift)以及乘法累加(multiply-accumulate)，我们利用-1, 0, +1位移$X$，然后利用$w_1, w_2, w_3$做乘积，累加之后得到对应的$Y$。shift操作表示为:</p>
+<p>$$X_{i}^{-1}=X_{i-1}, X_i^0=X_i, X_i^{+1}=X_{i+1}$$</p>
+<p>乘法累加操作表示为</p>
+<p>$$Y=w_1X^{-1}+w_2X^0+w_3X^{+1}$$</p>
+<p>第一步shift操作可以在没有任何乘法的条件下实现，第二步的乘法累加计算量更大，TSM模块将乘法累加操作融合到了接下来的2D卷积中去，因此相较于原来的2D卷积操作，并没有造成任何额外的计算损失</p>
 <h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><pre><code class="python">class TemporalShift(nn.Module):
     def __init__(self, net, n_segment=3, n_div=8, inplace=False):
         super(TemporalShift, self).__init__()
