@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en | zh-CN | zh-TW">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/leaf.jpeg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="cowarder">
+  <meta name="keywords" content="">
+  <title>3D目标检测算法调研 ~ cowarder</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+  <link rel="stylesheet" href="/lib/prettify/github-v2.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>cowarder</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/sub_main_page.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Monday, December 7th 2020, 5:03 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    1.8k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      6 分钟
+                  </span>&nbsp;
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>刚刚来到百度实习，方向是3D目标检测，前期工作是做算法调研，撰写本篇博客略作记录  </p>
+<p>目前，2D目标检测算法已经发展的比较成熟，但是在无人驾驶、机器人、增强现实的应用场景下，普通的2D检测并不能提供感知环境所需要的全部信息，2D检测仅能提供目标物体在二维图片中的位置和对应类别的置信度，但是在真实的三维世界中，物体都是有三维形状的，大部分应用都需要有目标物体的长宽高还有偏转角度等信息。目前的3D目标检测正处于高速发展时期，目前主要是综合利用单目相机、双目相机、多线激光雷达来进行3D目标检测，从成本上来讲，激光雷达&gt;双目相机&gt;单目相机，从目前的准确率上来讲，激光雷达&gt;双目相机&gt;单目相机。但是随着激光雷达的不断产业化发展，成本在不断降低，目前也出现了一些使用单目相机加线数较少的激光雷达进行综合使用的技术方案  </p>
+<p>因为在百度实习所做的方向是基于激光点云数据的3D目标检测，因此主要对基于点云的方法进行探讨。从点云数据表示的角度来讲，我们可以将现有的主流检测方法分为两类：一种是voxel-based的方法(将不规则的点云数据转换为规则数据)，另外一种就是point-based的方法(直接在原始的点云数据上面处理)。前者的代表算法有voxelnet、second、pointpillars等，后者的代表性算法有pointnet、pointnet++、pv-rcnn等算法</p>
+<h3 id="voxel-based"><a href="#voxel-based" class="headerlink" title="voxel-based"></a>voxel-based</h3><h4 id="VoxelNet"><a href="#VoxelNet" class="headerlink" title="VoxelNet"></a>VoxelNet</h4><p>voxelnet是基于voxel的方法的开山之作，将三维点云划分为一定数量的voxel，经过点的随机采样和归一化，对每一个非空voxel使用若干个VFE(Voxel Feature Encoding)层进行局部特征提取，得到voxel-wise feature，然后经过3D Convolutional Middle Layers进一步抽象特征(增大感受野并学习几何空间表示)，最后使用RPN(Region Proposal Network)对物体进行分类检测和位置回归。VoxelNet整个pipeline如下图所示</p>
+<center>
+<img src="/2020/12/07/3d-detection/voxelnet.png" srcset="undefined" , height="200">
+</center>
+
+<p>其中，RPN网络结构如图</p>
+<center>
+<img src="/2020/12/07/3d-detection/rpn.png" srcset="undefined" , height="150">
+</center>
+
+<p>voxelnet做出了非常大的突破，对如何规格化利用点云信息作出了贡献，但是voxelnet中采用了3D卷积，导致其运算量很大，占用内存过多，因此，second模型被提出</p>
+<h4 id="Second"><a href="#Second" class="headerlink" title="Second"></a>Second</h4><p>second网络在结构上面并没有太大的创新，主要是采用了稀疏卷积来代替传统的3D卷积，大大提高了网络的计算速度，减少了内存的占用</p>
+<center>
+<img src="/2020/12/07/3d-detection/second.png" srcset="undefined" , height="150">
+</center>
+
+<h4 id="稀疏卷积"><a href="#稀疏卷积" class="headerlink" title="稀疏卷积"></a>稀疏卷积</h4><p>传统的卷积操作，随着网络层的不断加深，会破坏原有数据的稀疏性，原本稀疏的数据会随着网络层不断加深逐渐变得平滑，如下图所示</p>
+<center>
+<img src="/2020/12/07/3d-detection/spconv1.png" srcset="undefined" , height="80">
+</center>
+
+<p>而稀疏卷积在运算过程中只关注中心点区域，也就是只关注激活区域本身，并且不会造成数据稀疏性的损失，同时大大减少了计算中的运算量，稀疏卷积效果如图所示</p>
+<center>
+<img src="/2020/12/07/3d-detection/spconv2.png" srcset="undefined" , height="80">
+</center>
+
+<h4 id="PointPillars"><a href="#PointPillars" class="headerlink" title="PointPillars"></a>PointPillars</h4><p>pointpillars也是基于voxel的一篇文章，也是目前基于点云的3D目标检测算法中最快的一个，该算法提出一种新的特征编码网络，在体素的垂直列上面不做切割，在鸟瞰图下，将点云数据编码为稀疏的伪图像，利用2D卷积的目标检测算法进行特征提取和检测，从而移除了3D卷积的计算负担</p>
+<center>
+<img src="/2020/12/07/3d-detection/pillars.png" srcset="undefined" , height="200">
+</center>
+
+<h3 id="point-based"><a href="#point-based" class="headerlink" title="point-based"></a>point-based</h3><h4 id="PointNet"><a href="#PointNet" class="headerlink" title="PointNet"></a>PointNet</h4><p>PointNet是直接在点云数据上面提取特征的第一篇文章，是直接处理点云数据方法的开端，整体思想非常简单直观：输入为所有无序的点云坐标，经过一系列的mlp(multi-layer perceptron)对所有点进行特征编码，每个点最终用一个特征向量来表示，然后综合所有点生成一个全局特征向量，再将全局特征向量与每个点的特征向量进行融合。整体思想非常简单，甚至比CNN的结构都要简单，但却是一篇开创性的工作。PointNet整体结构如下图所示</p>
+<center>
+<img src="/2020/12/07/3d-detection/pointnet.png" srcset="undefined" , height="200">
+</center>
+
+<h4 id="PointNet-1"><a href="#PointNet-1" class="headerlink" title="PointNet++"></a>PointNet++</h4><p>从PointNet的描述中我们可以看到，网络利用了每个点的特征以及全局特征，但是并没有像CNN那样利用局部特征，因此PointNet++在PointNet的基础上面，提出了SA(Set Abstraction)操作，充分利用了数据中的局部信息，set abstraction操作分为三层  </p>
+<blockquote>
+<p>1.Sampling layer: 对输入点进行采样，选取出若干个中心点，采用FPS(Farthest Point Sampling)方法</p>
+<p>2.Grouping layer: 利用上一步获得的中心点将点集划分为若干个区域</p>
+<p>3.Pointnet layer: 对每个区域进行编码，转换为特征向量</p>
+</blockquote>
+<center>
+<img src="/2020/12/07/3d-detection/sa.png" srcset="undefined" , height="200">
+</center>
+
+<h4 id="PV-RCNN"><a href="#PV-RCNN" class="headerlink" title="PV-RCNN"></a>PV-RCNN</h4><p>set abstraction在原始点云数据上面做，保留了准确的位置信息，通过自定义的球半径，感受野更加灵活。稀疏卷积在voxel方法上面使用，速度往往更快，产生的proposal往往质量更高。PV-RCNN综合利用了这两种特征提取方法，在精度上面取得了很大的进步  </p>
+<center>
+<img src="/2020/12/07/3d-detection/pvrcnn.png" srcset="undefined" , height="250">
+</center>
+
+<p>上图为pvrcnn模型整体结构，本文的主要贡献可以分为三点</p>
+<blockquote>
+<p>1.提出了Voxel Set Abstraction操作，将Sparse Convolution主干网络中多个scale的sparse voxel及其特征投影回原始3D空间，然后将少量的keypoint (从点云中sample而来) 作为球中心，在每个scale上去聚合周围的voxel-wise的特征。这个过程实际上结合了point-based和voxel-based两种点云特征提取的结构，同时将整个场景的multi-scale的信息聚合到了少量的关键点特征中，以便下一步的RoI-pooling</p>
+<p>2.提出了Predicted Keypoint Weighting模块，通过从3D标注框中获取的免费点云分割标注，来更加凸显前景关键点的特征，削弱背景关键点的特征</p>
+<p>3.设计了更强的点云3D RoI Pooling操作，也就是提出的RoI-grid Pooling: 与前面不同，在每个RoI里面均匀的sample一些grid point，然后将grid point当做球中心，去聚合周围的keypoint的特征。这样做的好处有两个: (1) 球半径灵活，甚至可以包括proposal框外围的关键点，从而获取更多有效特征。(2) 球互相覆盖，每个keypoint可以被多个grid point使用，从而得到更紧密的RoI特征表达。另一方面，这其实也是另一个point (keypoint)与voxel (grid point)特征交互的过程</p>
+<center>
+<img src="/2020/12/07/3d-detection/roi.png" srcset="undefined" , height="200">
+</center>
+</blockquote>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p>1.<a href="https://arxiv.org/abs/1711.06396" target="_blank" rel="noopener">VoxelNet: End-to-End Learning for Point Cloud Based 3D Object Detection</a></p>
+<p>2.<a href="https://www.mdpi.com/1424-8220/18/10/3337" target="_blank" rel="noopener">SECOND: Sparsely Embedded Convolutional Detection</a></p>
+<p>3.<a href="https://arxiv.org/abs/1711.10275" target="_blank" rel="noopener">3D Semantic Segmentation with Submanifold Sparse Convolutional Networks</a></p>
+<p>4.<a href="https://arxiv.org/abs/1812.05784" target="_blank" rel="noopener">PointPillars: Fast Encoders for Object Detection from Point Clouds</a></p>
+<p>5.<a href="https://arxiv.org/abs/1612.00593" target="_blank" rel="noopener">PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation</a></p>
+<p>6.<a href="https://arxiv.org/abs/1706.02413" target="_blank" rel="noopener">PointNet++: Deep Hierarchical Feature Learning on Point Sets in a Metric Space</a></p>
+<p>7.<a href="https://arxiv.org/abs/1912.13192" target="_blank" rel="noopener">PV-RCNN: Point-Voxel Feature Set Abstraction for 3D Object Detection</a></p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E5%AE%9E%E4%B9%A0">实习</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+  
+  <br>
+
+
+
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "3D目标检测算法调研&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+</body>
+</html>

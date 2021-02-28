@@ -128,6 +128,44 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/12/07/3d-detection/" target="_self">
+          <img src="/img/pcd.png" srcset="undefined" alt="3D目标检测算法调研" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/12/07/3d-detection/">
+        <p class="h4 index-header">3D目标检测算法调研</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">刚刚来到百度实习，方向是3D目标检测，前期工作是做算法调研，撰写本篇博客略作记录  
+目前，2D目标检测算法已经发展的比较成熟，但是在无人驾驶、机器人、增强现实的应用场景下，普通的2D检测并不能提供感知环境所需要的全部信息，2D检测仅能提供目标物体在二维图片中的位置和对应类别的置信度，但是在真实的三维世界中，物体都是有三维形状的，大部分应用都需要有目标物体的长宽高还有偏转角度等信息。目前的3D目标检测正处于高速发展时期，目前主要是综合利用单目相机、双目相机、多线激光雷达来进行3D目标检测，从成本上来讲，激光雷达&gt;双目相机&gt;单目相机，从目前的准确率上来讲，激光雷达&gt;双目相机&gt;单目相机。但是随着激光雷达的不断产业化发展，成本在不断降低，目前也出现了一些使用单目相机加线数较少的激光雷达进行综合使用的技术方案  
+因为在百度实习所做的方向是基于激光点云数据的3D目标检测，因此主要对基于点云的方法进行探讨。从点云数据表示的角度来讲，我们可以将现有的主流检测方法分为两类：一种是voxel-based的方法(将不规则的点云数据转换为规则数据)，另外一种就是point-base</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-12-07&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E5%AE%9E%E4%B9%A0">实习</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/10/22/tsm/" target="_self">
           <img src="/img/tsm.png" srcset="undefined" alt="论文阅读《Temporal Shift Module for Efficient Video Understanding》" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -519,50 +557,11 @@ Interval Covariate Shift在Batch Normalization出现之前，训练一个层数�
     </div>
   </div>
 
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/02/25/poly-yolo/" target="_self">
-          <img src="/img/poly.jpeg" srcset="undefined" alt="Poly-YOLO" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/25/poly-yolo/">
-        <p class="h4 index-header">Poly-YOLO</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">论文阅读：POLY-YOLO: HIGHER SPEED, MORE PRECISE DETECTION AND INSTANCE SEGMENTATION FOR YOLOV3
-什么是Poly-YOLO简言之，Poly-YOLO是YOLOv3的一个改进版本，产生的实际效果与Mask-RCNN相似，但是Poly-YOLO更快。文章作者声称Poly-YOLO相较于YOLOv3速度更快，同时mAP提升40%。Poly-YOLO的轻量级版本-Poly-YOLO lite，与YOLOv3具有相似的精度，但是模型大小仅为三分之一，而速度为两倍，因此更加适应于嵌入式设备。代码
-YOLOv3中存在的问题本文从分析YOLOv3论文中存在的两个问题，进而进行改进。
-（问题1）标签重写(label rewriting)。在预处理阶段，经常出现label被另外一个label重写的情况，这样就会导致一些正样本没有标签，模型也就不会被训练去检测它们，因此会对性能产生很大影响。以YOLOv3为例，其有三个scale，分别对应检测大、中、小尺寸的物体，每个scale的feature map被划分为s*s的grid，</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-25&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E8%AE%BA%E6%96%87">论文</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="index posts navigation">
     <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-double-right"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-double-right"></i></a>
     </span>
   </nav>
   

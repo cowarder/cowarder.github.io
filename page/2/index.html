@@ -128,6 +128,45 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/02/25/poly-yolo/" target="_self">
+          <img src="/img/poly.jpeg" srcset="undefined" alt="Poly-YOLO" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/25/poly-yolo/">
+        <p class="h4 index-header">Poly-YOLO</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">论文阅读：POLY-YOLO: HIGHER SPEED, MORE PRECISE DETECTION AND INSTANCE SEGMENTATION FOR YOLOV3
+什么是Poly-YOLO简言之，Poly-YOLO是YOLOv3的一个改进版本，产生的实际效果与Mask-RCNN相似，但是Poly-YOLO更快。文章作者声称Poly-YOLO相较于YOLOv3速度更快，同时mAP提升40%。Poly-YOLO的轻量级版本-Poly-YOLO lite，与YOLOv3具有相似的精度，但是模型大小仅为三分之一，而速度为两倍，因此更加适应于嵌入式设备。代码
+YOLOv3中存在的问题本文从分析YOLOv3论文中存在的两个问题，进而进行改进。
+（问题1）标签重写(label rewriting)。在预处理阶段，经常出现label被另外一个label重写的情况，这样就会导致一些正样本没有标签，模型也就不会被训练去检测它们，因此会对性能产生很大影响。以YOLOv3为例，其有三个scale，分别对应检测大、中、小尺寸的物体，每个scale的feature map被划分为s*s的grid，</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-25&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E8%AE%BA%E6%96%87">论文</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/02/11/cvpr2020/" target="_self">
           <img src="/img/cvpr2020.png" srcset="undefined" alt="cvpr2020" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -523,53 +562,11 @@ In contrast to prevalent methods [8], [9], [1], [2] that use pyramids of images 
     </div>
   </div>
 
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2019/10/29/Gradient-Accumulation/" target="_self">
-          <img src="/img/gradient.jpeg" srcset="undefined" alt="梯度累加(Gradient Accumulation)" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/10/29/Gradient-Accumulation/">
-        <p class="h4 index-header">梯度累加(Gradient Accumulation)</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">&emsp;  我们在训练神经网络的时候，超参数batch size的大小会对最终的模型效果产生很大的影响。一定条件下，batch size设置的越大，模型就会越稳定。batch size的值通常设置在 8-32 之间，但是当我们做一些计算量需求大的任务(例如语义分割、GAN等)或者输入图片尺寸太大的时候，我们的batch size往往只能设置为2或者4，否则就会出现 “CUDA OUT OF MEMORY” 的不可抗力报错。  
-&emsp;  贫穷是促进人类进步的阶梯，如何在有限的计算资源的条件下，训练时采用更大的batch size呢？这就是梯度累加(Gradient Accumulation)技术了。  
-&emsp; 我们以Pytorch为例，一个神经网络的训练过程通常如下：
-    for i, (inputs, labels) in enumerate(trainloader):
-
-        optimizer.zero_grad()                   # 梯度清零
-        outputs = net(inputs)            </div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-29&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/pytorch">pytorch</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="index posts navigation">
     <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-double-right"></i></a>
     </span>
   </nav>
   
