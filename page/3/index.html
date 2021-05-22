@@ -128,6 +128,45 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2019/11/04/dl-recipe/" target="_self">
+          <img src="/img/param-tune.jpeg" srcset="undefined" alt="翻译：A Recipe for Training Neural Networks" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/04/dl-recipe/">
+        <p class="h4 index-header">翻译：A Recipe for Training Neural Networks</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">原文链接：A Recipe for Training Neural Networks
+引言&emsp; 几周之前我发了一条推特“最常见的神经网络错误”，其中列出了几条在训练神经网络过程中常见的陷阱。这条推特比我预想的得到了更多的关注。很明显，很多人都亲身经历过”我们的网络能够work”与”我们的网络实现了state of the art的效果”之间的巨大性能差异。
+&emsp; 所以我觉得如果将这条推特通过博客的形式来延伸一下应该很有趣。但是我并不打算列举出那些常见的错误，我想更加深层次的探讨一下如何去避免这些错误（或者迅速修正他们）。
+方法1.熟悉你的数据&emsp; 构建神经网络的第一步不是去写代码，而是充分的观察你的数据，这一步至关重要。我通常喜欢花费大量时间（小时为单位）来浏览数据样本，从而了解他们的分布规律并寻找数据中可能存在的模式。幸运的是，人类的大脑是非常擅长做这类工作的。通过浏览样本，可能这次我发现数据中包含重复样本，下一次我就能发现损坏的图像/标签。同时我还会寻找数据中的不平衡和偏差问题。通常，我会按照自己的方法将数据分类，这暗示了我们最终要探索的各种数据中的结构。例</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-04&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0">深度学习</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2019/10/29/Gradient-Accumulation/" target="_self">
           <img src="/img/gradient.jpeg" srcset="undefined" alt="梯度累加(Gradient Accumulation)" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -202,7 +241,7 @@
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
         <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -211,7 +250,7 @@
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
           <label data-error="x" data-success="v"
-                 for="local-search-input">keyword</label>
+                 for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>

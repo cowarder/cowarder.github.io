@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="cowarder">
   <meta name="keywords" content="">
-  <title>目标检测中的Anchor ~ cowarder</title>
+  <title>docker简介及随手查 ~ cowarder</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -105,7 +105,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Thursday, November 21st 2019, 9:49 pm
+                  Monday, February 22nd 2021, 3:33 pm
                 </p>
               
 
@@ -114,7 +114,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1k 字
+                    1.2k 字
                   </span>&nbsp;
                 
 
@@ -148,63 +148,50 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <h1 id="什么是Anchor？"><a href="#什么是Anchor？" class="headerlink" title="什么是Anchor？"></a>什么是Anchor？</h1><p>anchor机制是广泛应用于目标检测任务中的一种方法，anchor box指的是是一组预先定义好的不同长宽比的边界框，通过对这些不同长宽比的anchor进行微调，我们能够检测到对应不同尺寸的真实物体。</p>
-<center>
-<img src="/2019/11/21/anchor/anchor.png" srcset="undefined" width="200" height="200" alt="目标检测中的anchor">
-目标检测中的anchor
-</center>
-
-
-
-<h1 id="Anchor的作用是什么？"><a href="#Anchor的作用是什么？" class="headerlink" title="Anchor的作用是什么？"></a>Anchor的作用是什么？</h1><p>考虑到图像中会出现不同尺寸(scale)，不同长宽比(aspect ratio)的物体，而我们神经网络的输出是一组同样scale的feature map和一组同样的weights，这样的情况下让其预测不同scale和aspect ratio的物体就相对来说比较困难。如图所示：</p>
-<center>
-<img src="/2019/11/21/anchor/multiscale.jpg" srcset="undefined">
-图像中的多尺度物体
-</center>
-
-<p><a href="http://papers.nips.cc/paper/5638-faster-r-cnn-towards-real-time-object-detection-with-region-proposal-networks.pdf" target="_blank" rel="noopener">Faster-RCNN</a>中首先引入anchor的概念，论文中有这样一段话:</p>
+            <h3 id="环境配置问题"><a href="#环境配置问题" class="headerlink" title="环境配置问题"></a>环境配置问题</h3><p>程序员经常可以听到的一句话是：“代码明明在我电脑上面能跑的啊，怎么到你这就不行了？肯定是你电脑问题（不是）”。听上去是一个调侃，其实确实是经常遇见的问题，而这个问题出现的本质原因是由环境配置引起的。代码运行需要依赖于环境，比如操作系统的设置，各种库和组件的配置，可能还涉及到很多的环境变量，而这些东西都是定制化的，当我们换一台机器的时候，就需要重新再配置一次，可以预见，这个过程需要做许多重复性的工作，耗费大量精力，那么自然就可以想到，我们在拷贝一份代码或者运行一个软件的时候，能否同时将原市的环境也囊括进来？</p>
+<h3 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h3><p>虚拟机是带着环境安装的一种解决方案。虚拟机是一种在操作系统里面运行的操作系统，对于底层系统来讲，虚拟机是一个普通文件，但是虚拟机会占用更多的资源，独占一部分内存和硬盘空间，虚拟机运行的时候，其他程序无法使用这些资源，即便是虚拟机里面的程序需要占用的内存很少，但是虚拟机仍然需要很大一部分资源才能够运行。而且虚拟机是操作系统级别的，启动起来非常慢。</p>
+<h3 id="Linux容器"><a href="#Linux容器" class="headerlink" title="Linux容器"></a>Linux容器</h3><p>由于虚拟机存在的诸多问题，Linux发展了另外一种虚拟化技术：linux容器。linux容器不是一个完整的操作系统，可以将其视为是一种对于进程的隔离。对容器里面的进程而言，各种资源都是虚拟的，实现了与底层系统的隔离。</p>
+<h4 id="启动迅速"><a href="#启动迅速" class="headerlink" title="启动迅速"></a>启动迅速</h4><p>容器里面的应用，就是底层系统的一个进程，不是虚拟机内部的进程，启动容器相当于启动一个进程，而不是启动一个操作系统，相较于虚拟机，它的启动更快。</p>
+<h4 id="占用资源少"><a href="#占用资源少" class="headerlink" title="占用资源少"></a>占用资源少</h4><p>容器只会占用需要的资源，不会占用那些没有用到的资源，虚拟机是操作系统级别的，需要占用所有资源，多个容器之间可以共享资源，但是虚拟机都是独享的。</p>
+<h4 id="体积小"><a href="#体积小" class="headerlink" title="体积小"></a>体积小</h4><p>容器只需要包含用到的组件，而虚拟机是整个操作系统的打包，所以容器要比虚拟机文件小的多</p>
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><p>docker是linux容器的一种封装，给用户提供简单易用的容器使用接口。docker将应用程序与该程序的依赖，打包在一个文件里面，通过运行这个文件，就会生成一个虚拟容器，程序在这个容器里面运行，就像是在真实的物理及上面运行一样。docker的接口相当简单，用户可以非常方便的创建和使用容器，把自己的应用放入容器，容器还可以进行版本管理、复制、分享、更新，就像是普通的代码一样</p>
+<h3 id="Docker常见命令"><a href="#Docker常见命令" class="headerlink" title="Docker常见命令"></a>Docker常见命令</h3><p>docker把应用程序及其依赖，打包在image文件里。只有通过这个文件，才能够生成Docker容器。image文件可以看作是容器的模板。Docker根据image文件生成容器的实例。同一个image，可以生成多个同时运行的容器实例。  </p>
+<p>列出所有image文件</p>
 <blockquote>
-<p>In contrast to prevalent methods [8], [9], [1], [2] that use pyramids of images (Figure 1, a) or pyramids of filters (Figure 1, b), we introduce novel “anchor” boxes that serve as <strong>references at multiple scales and aspect ratios</strong>. Our scheme can be thought of as a pyramid of regression references (Figure 1, c), which avoids enumerating images or filters of multiple scales or aspect ratios. This model performs well when trained and tested using single-scale images and thus benefits running speed.</p>
+<p>docker image ls</p>
 </blockquote>
-<p>也就是说，anchor的作用在于解决图像中物体scale和aspect ratio变化范围大的问题，之前的解决方法是pyramids of images 或者 pyramids of filters，但是前者耗费的时间太多，而后者是传统的CV的方法，当时对于CNN还没有一种一种对应的pyramids of filters的方案(真正得到CNN的方法是2016年提出的FPN，pyramids of features)</p>
-<p>anchor的方法同时还解决了另外一个问题。我们在做检测的时候，如果两个ground truth预测框之间的overlap过大，它们会落到同一个cell中，这样就会导致ground truth被过滤掉。如下图所示：</p>
-<center>
-<img src="/2019/11/21/anchor/overlap.jpeg" srcset="undefined">
-同一个cell中gt box出现overlap的情况
-</center>
-
-<p>而如果采用的anchor方法，一个cell中不同的anchor负责去预测不同scale和aspect ratio的物体，即便是有多个框会预测到同一个cell，也不会导致ground truth丢失的情况出现。</p>
-<p><strong>总结来说，anchor机制解决了两个问题：(1) 不同scale和aspect ratio物体预测难度大，利用anchor将scale和aspect ratio空间划分为几个子空间，降低了问题难度  (2) 解决了gt box与gt box之间overlap过大导致gt box丢失的问题。</strong></p>
-<h1 id="Anchor的选取"><a href="#Anchor的选取" class="headerlink" title="Anchor的选取"></a>Anchor的选取</h1><p>anchor的大小是在我们进行模型训练之前就已经确定的了，那么是如何确定的呢？  </p>
-<p>我们以Pascal VOC 2007数据集为例，采用的方法是k-means聚类，根据VOC 2007数据集中图片的长度和宽度进行聚类，这里需要注意的问题是，我们采用的是Yolov3模型，Yolov3模型采用的输入图像的size 是416*416的，因此在做聚类之前就需要将图片和对应的label做等比例的resize，然后再进行聚类，获取anchor。  </p>
-<p>聚类代码：</p>
-<pre><code class="python">class kMean_parse:
-    def __init__(self,path_txt):
-        self.path = path_txt
-        self.km = KMeans(n_clusters=9,init=&quot;k-means++&quot;,n_init=10,max_iter=3000000,tol=1e-3,random_state=0)
-        self._load_data()
-
-    def _load_data (self):
-        self.data = np.loadtxt(self.path)
-
-    def parse_data (self):
-        self.y_k = self.km.fit_predict(self.data)
-        print(self.km.cluster_centers_)
-
-    def plot_data (self):
-        plt.scatter(self.data[self.y_k == 0, 0], self.data[self.y_k == 0, 1], s=50, c=&quot;orange&quot;, marker=&quot;o&quot;, label=&quot;cluster 1&quot;)
-        plt.scatter(self.data[self.y_k == 1, 0], self.data[self.y_k == 1, 1], s=50, c=&quot;green&quot;, marker=&quot;s&quot;, label=&quot;cluster 2&quot;)
-        plt.scatter(self.data[self.y_k == 2, 0], self.data[self.y_k == 2, 1], s=50, c=&quot;blue&quot;, marker=&quot;^&quot;, label=&quot;cluster 3&quot;)
-        plt.scatter(self.data[self.y_k == 3, 0], self.data[self.y_k == 3, 1], s=50, c=&quot;gray&quot;, marker=&quot;*&quot;,label=&quot;cluster 4&quot;)
-        plt.scatter(self.data[self.y_k == 4, 0], self.data[self.y_k == 4, 1], s=50, c=&quot;yellow&quot;, marker=&quot;d&quot;,label=&quot;cluster 5&quot;)
-       # draw the centers
-        plt.scatter(self.km.cluster_centers_[:, 0], self.km.cluster_centers_[:, 1], s=250, marker=&quot;*&quot;, c=&quot;red&quot;, label=&quot;cluster center&quot;)
-        plt.legend()
-        plt.grid()
-        plt.show()</code></pre>
-<p>完整的代码可以参考<a href="https://github.com/cowarder/yolov3_voc/blob/master/k-means.py" target="_blank" rel="noopener">这里</a></p>
-<p><strong>参考资料</strong></p>
-<p>1.<a href="https://www.mathworks.com/help/vision/ug/anchor-boxes-for-object-detection.html" target="_blank" rel="noopener">Anchor Boxes for Object Detection</a><br>2.<a href="https://towardsdatascience.com/neural-networks-intuitions-5-anchors-and-object-detection-fc9b12120830" target="_blank" rel="noopener">Neural Networks Intuitions: 5. Anchors and Object Detection</a><br>3.<a href="https://zhuanlan.zhihu.com/p/49995236" target="_blank" rel="noopener">史上最详细的Yolov3边框预测分析</a><br>4.<a href="https://zhuanlan.zhihu.com/p/73024408" target="_blank" rel="noopener">Why anchor?</a></p>
+<p>删除image文件</p>
+<blockquote>
+<p>docker image rm [imagename]</p>
+</blockquote>
+<p>image文件是通用的，一台机器的image文件拷贝到另外一台机器后同样可以使用。为了共享方便，image文件制作完成后，可以上传到网上的仓库：<a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub</a>。</p>
+<p>将image仓库抓取到本地</p>
+<blockquote>
+<p>docker image pull library/hello-world</p>
+</blockquote>
+<p>上述命令中library/hello-world代表的是image文件在仓库中的位置，其中library是image文件所在的组，hello-world代表的是image文件的名字，Docker官方提供的image文件都在library组里面  </p>
+<p>运行image文件</p>
+<blockquote>
+<p>docker container run hello-world</p>
+</blockquote>
+<p>dock er container run命令会根据image文件，生成一个正在运行的容器实例，docker container run具有自动抓取的功能，如果在本地没有发现指定的image文件，就会从仓库自动抓取</p>
+<p>终止container运行</p>
+<blockquote>
+<p>docker container kill [containerid]</p>
+</blockquote>
+<p>image文件生成的容器实例，本身也是一个文件，称为容器文件。也就是说，一旦容器生成，就会同时存在image文件和容器文件，而且关闭容器不会删除容器文件，只是容器停止运行而已。</p>
+<p>列出正在运行的容器</p>
+<blockquote>
+<p>docker container ls</p>
+</blockquote>
+<p>列出所有的容器</p>
+<blockquote>
+<p>docker container ls –all</p>
+</blockquote>
+<p>删除容器</p>
+<blockquote>
+<p>docker container rm [containerid]</p>
+</blockquote>
 
             <hr>
           </div>
@@ -216,7 +203,7 @@
               <span>
                 <i class="iconfont icon-tag"></i>
                 
-                  <a class="hover-with-bg" href="/tags/object%20detection">object detection</a>
+                  <a class="hover-with-bg" href="/tags/docker">docker</a>
                 
               </span>
             
@@ -358,7 +345,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "目标检测中的Anchor&nbsp;",
+        "docker简介及随手查&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
