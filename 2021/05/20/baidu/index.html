@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="cowarder">
   <meta name="keywords" content="">
-  <title>基于深度学习的视频分类 ~ cowarder</title>
+  <title>百度实习总结 ~ cowarder</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -105,7 +105,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Friday, July 17th 2020, 6:18 pm
+                  Thursday, May 20th 2021, 3:21 pm
                 </p>
               
 
@@ -114,7 +114,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    672 字
+                    1k 字
                   </span>&nbsp;
                 
 
@@ -122,7 +122,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      2 分钟
+                      3 分钟
                   </span>&nbsp;
                 
 
@@ -148,28 +148,15 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>利用深度学习进行图像分类发展到目前已经日趋成熟，在ImageNet数据集上面的准确率已经超过人类水平，但是视频分类仍然处在一个萌芽时期，视频分类技术并没有像二维图像分类那样成熟 </p>
-<h3 id="视频分类的难点"><a href="#视频分类的难点" class="headerlink" title="视频分类的难点"></a>视频分类的难点</h3><p>视频分类相较于图像分类，主要有两个难点： </p>
-<h5 id="1-如何有效利用时序信息"><a href="#1-如何有效利用时序信息" class="headerlink" title="1.如何有效利用时序信息"></a>1.如何有效利用时序信息</h5><blockquote>
-<p>深度学习利用卷积处理二维图像，能够有效利用图像中物体的位置、角度、色彩等信息，但是视频数据中会多出一维时间信息，而这一维中会蕴含大量有效信息，例如击球场景下，前一帧图像中击球动作发生，后一帧球轨迹改变，这里面就蕴含直接的因果关系，但这是时间维度上面的，传统的二维卷积没有办法学习和利用到这种信息</p>
-</blockquote>
-<h5 id="2-如何减少运算量"><a href="#2-如何减少运算量" class="headerlink" title="2.如何减少运算量"></a>2.如何减少运算量</h5><blockquote>
-<p>可以将视频视为在时间维度上面离散的二维图像，利用深度学习做视频分类最直接的方法就是利用3维卷积，相当于将原来的2维卷积核扩展为3维，这样看似简单的思想，带来的计算量的增加却是非常可怖的，因此如何减少视频分类任务中所需的计算量也是至关重要的一点</p>
-</blockquote>
-<h3 id="主流方法"><a href="#主流方法" class="headerlink" title="主流方法"></a>主流方法</h3><p>目前基于深度学习的视频分类任务主要有两个大的方向：</p>
-<h5 id="1-基于3D卷积的方法"><a href="#1-基于3D卷积的方法" class="headerlink" title="1.基于3D卷积的方法"></a>1.基于3D卷积的方法</h5><blockquote>
-<p>将原有的(a, b, c)大小的卷积核转换为(a, b, c, n)大小，这样能够利用时间维度信息，但是同时带来的是计算量的提升，同时精度也不是很高，因此针对于如何减少计算量和提升精度提出了一系列改进方法，例如18年cvpr的文章《ECO: Efficient convolutional Network For online video understanding》，首先提取离散帧图像，然后利用2D卷积对每一帧图像进行特征提取，然后将提取到的特征进行融合，最后利用一个3D卷积进行分类，相比于同时期的sota模型速度提升8-10倍</p>
-</blockquote>
-<center>
-<img src="/2020/07/17/video-class/3D.png" srcset="undefined">
-</center>
+            <p>其实百度的实习在3月份就已经离职了，当时因为个人发生了一些事情，离职的比较匆忙，三月份以来人也在北京，所以没有抽出来时间对这段实习经历做一个总结，今天抽出来时间对这段经历做一个简单的总结回顾</p>
+<h4 id="百度是一家技术公司"><a href="#百度是一家技术公司" class="headerlink" title="百度是一家技术公司"></a>百度是一家技术公司</h4><p>在百度的实习最大的感受就是百度真的是很多人在踏踏实实的搞技术，有什么技术问题都可以第一时间找相关负责的人来帮忙解决。实习期间恰逢百度宣布造车，正好我在实习期间做的工作就是自动驾驶相关的内容，真的感觉很有成就感。以人工智能为例，自动驾驶Apollo、paddlepaddle、智能音箱这些相关领域都得到了不同程度发展，百度在人工智能领域布局多年，是有着打造一套完整的人工智能生态体系的野心的，单就人工智能的发展来讲，百度是国内我最看好的一家企业</p>
+<h4 id="实习期间感受"><a href="#实习期间感受" class="headerlink" title="实习期间感受"></a>实习期间感受</h4><p>在百度写了很多代码。在百度主要工作是做3D点云目标检测，因为之前也没有接触过这个，去了前半个月是做调研，后面就开始直接上手了，主要工作可以分为两块：工程向和算法向。工程向的工作是制作一个pipeline，将数据和模型分离成独立的模块，数据块的工作是保证格式的统一，模型块的工作包括模型训练、模型测试、模型推断，工程向最终需要兼容不同的数据以及模型，所以占了实习期间工作的大部分精力。算法向主要是针对现有的一些3D目标检测中的问题提出改进，包括小目标检测以及类别不平衡问题  </p>
+<p>另外一个体验就是百度开会特别多。基本我们每天都在开会，前期周三站会，周五周会，后面发展成了每天早上站会，而且我们每天都要写日报总结当天的工作内容，其实并不是每天都能够有产出的，这样就会导致每天的日报就像是小学生日记，记录一些流水性的工作，重复性比较强，这是一个弊端，但是也是有它的利处在的，这种日报形式的存在会push你去每天做出点东西，自我驱动能力还是有一定成长的  </p>
+<p>在实习期间掌握了很多额外的技能，比如在学校用不到的docker、slurm多机多卡训练啊，这些工具的使用也是蛮有趣的，而且看着自己做的项目实际上线投入使用，成就感也是非常强烈的  </p>
+<p>在百度同样认识了一些有趣的人，交了朋友</p>
+<h4 id="对未来的规划"><a href="#对未来的规划" class="headerlink" title="对未来的规划"></a>对未来的规划</h4><p>我好像一直都在“变”。硕士期间已经实习了两家公司了，马上五月末要去杭州支付宝实习，做直播相关业务，这几段实习做的东西都不一样，而且跟自己在学校学的又不一样。我觉得变的原因一方面在于不知道自己喜欢什么，自从进入计算机领域以来，我好像没有把什么东西做差过，拿到手一个任务，调研-实现-优化，都能一步步达到预期的效果，什么都能做好，但是没有那种“啊 这个东西有意思，我剩下几年就要做这个了”的感觉，没有找到真正特别喜欢的东西。另一方面原因我希望自己成为一个generalist，而不是一个specialist，我乐于去学习新的技术，接触新的领域，听别人讲新奇的玩意  </p>
+<p>希望即将到来的支付宝的实习能够让我的前路更加清晰一些，能让我更加了解自己一些吧</p>
 
-<h5 id="2-CRNN"><a href="#2-CRNN" class="headerlink" title="2.CRNN"></a>2.CRNN</h5><blockquote>
-<p>CRNN实际上是CNN+RNN，利用encoder-decoder结构，采用CNN对视频数据进行编码，然后利用RNN进行时序图片信息的解码，具体来讲，采用2D卷积网络将一系列2D视频帧进行编码，得到对应的一维向量，RNN网络(一般采用LSTM)的输入是编码后的一维信息，</p>
-</blockquote>
-<center>
-<img src="/2020/07/17/video-class/crnn.png" srcset="undefined">
-</center>
             <hr>
           </div>
           <br>
@@ -180,7 +167,7 @@
               <span>
                 <i class="iconfont icon-tag"></i>
                 
-                  <a class="hover-with-bg" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0">深度学习</a>
+                  <a class="hover-with-bg" href="/tags/%E5%AE%9E%E4%B9%A0">实习</a>
                 
               </span>
             
@@ -322,7 +309,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "基于深度学习的视频分类&nbsp;",
+        "百度实习总结&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
